@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="include" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -22,6 +23,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -32,6 +34,12 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="include/Game.h" />
+		<Unit filename="include/NPC.h" />
+		<Unit filename="include/Room.h" />
+		<Unit filename="src/Game.cpp" />
+		<Unit filename="src/NPC.cpp" />
+		<Unit filename="src/Room.cpp" />
 		<Unit filename="src/main.cpp" />
 		<Extensions>
 			<envvars />
