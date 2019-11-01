@@ -41,10 +41,9 @@ int main() {
     std::cin >> inputChar;
     clearScreen();
 
+    game.movePlayer(inputChar);
 
-    //std::cout << inputChar << std::endl;
     game.draw(std::cout);
-  break;
   }
   return 0;
 }
