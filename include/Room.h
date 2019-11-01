@@ -8,9 +8,9 @@ class Room
 {
   public:
     Room();
-    Room(const std::string desc);
+    Room(std::string desc);
     std::string getDescription();
-    std::string setDescription();
+    void setDescription(std::string desc);
     virtual ~Room();
 
   protected:
