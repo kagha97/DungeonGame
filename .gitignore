@@ -41,7 +41,6 @@ obj/
 
 # Docs
 docs/
-documentation/
 
 # Coverage
 *.gc*
