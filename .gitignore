@@ -1,3 +1,7 @@
+*
+!/**/
+!*.*
+
 # Prerequisites
 *.d
 
@@ -45,6 +49,3 @@ docs/
 # Coverage
 *.gc*
 *.coverage
-
-
-
