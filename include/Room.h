@@ -15,6 +15,8 @@ class Room
     void setDescription(std::string desc);
     void addConnection(Room* r);
 
+    bool locked;
+
     virtual ~Room();
 
   protected:
