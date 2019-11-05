@@ -47,25 +47,40 @@ Game::Game(int roomCount) {
 
   // lock rooms
   for (int i = 0; i < roomCount; i++) {
-    if (i == 4) {
-      rooms[i].locked = true;
-    }
+
   }
 }
 
 void Game::movePlayer(char dir) {
   int moveInt = 0;
+  int mapWidth = sqrt(rooms.size());
   switch (std::toupper(dir)) {
   case 'U' :
-    moveInt = -(sqrt(rooms.size()));
+    if (currentRoom < mapWidth) {
+      std::cout << "You cannot go that way." << std::endl;
+      break;
+    }
+    moveInt = -mapWidth;
     break;
   case 'D' :
-    moveInt = sqrt(rooms.size());
+    if (currentRoom + mapWidth >= rooms.size() ) {
+      std::cout << "You cannot go that way." << std::endl;
+      break;
+    }
+    moveInt = mapWidth;
     break;
   case 'L' :
+    if (currentRoom % mapWidth == 0 ) {
+      std::cout << "You cannot go that way." << std::endl;
+      break;
+    }
     moveInt = -1;
     break;
   case 'R' :
+    if ((currentRoom + 1) % mapWidth == 0 ) {
+      std::cout << "You cannot go that way." << std::endl;
+      break;
+    }
     moveInt = 1;
     break;
   default :
