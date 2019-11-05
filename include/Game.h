@@ -20,7 +20,6 @@ class Game
 
   private:
     std::vector<Room> rooms;
-    std::vector<std::vector<int>> roomLinks;
 };
 
 #endif // GAME_H

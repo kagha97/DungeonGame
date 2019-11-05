@@ -12,7 +12,7 @@ int main() {
   std::cout << "Options:" << std::endl;
   std::cout << "Press L to load a save" << std::endl;
   std::cout << "Press N to start a new game" << std::endl;
-  Game game(10);
+  Game game(64);
   bool getStart = true;
   while (getStart) {
     char inputChar;
