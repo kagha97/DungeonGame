@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <string>
+#include "NPC.h"
+#include "Item.h"
 
 
 class Room
@@ -11,9 +13,11 @@ class Room
     Room();
     Room(std::string desc);
     std::string getDescription();
-    std::vector<Room*> doors;
     void setDescription(std::string desc);
-    void addConnection(Room* r);
+    void addNPC(NPC npc);
+    void addItem(Item item);
+    void interact(int npcIndex);
+    void pickUpItem(int itemIndex);
 
     bool locked;
 
@@ -22,6 +26,8 @@ class Room
   protected:
 
   private:
+    std::vector<Item> items;
+    std::vector<NPC> npcs;
     std::string description;
 };
 

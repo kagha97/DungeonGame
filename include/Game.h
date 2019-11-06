@@ -14,6 +14,8 @@ class Game
     static Player player;
     void draw(std::ostream& os);
     void movePlayer(char dir);
+    std::string getOptionsString();
+
     virtual ~Game();
 
   protected:

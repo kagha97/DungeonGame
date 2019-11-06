@@ -18,7 +18,7 @@ void Game::draw(std::ostream& os) {
     if (currentRoom == i) {
       std::cout << '[' << "P" << ']';
     } else {
-      std::cout << '[' << i << ']';
+      std::cout << '[' << " " << ']';
     }
     tmpNewLine++;
     if (tmpNewLine == sqrt(roomCount)) {
@@ -26,8 +26,19 @@ void Game::draw(std::ostream& os) {
       tmpNewLine=0;
     }
   }
-
+std::cout << getOptionsString() << std::endl;
+std::cout << "Enter Option: ";
 }
+
+std::string Game::getOptionsString()
+{
+  std::stringstream ss;
+
+  ss << "Enter U, D, L, or R to move north, south, west, or east." << std::endl;
+
+  return ss.str();
+}
+
 
 Game::Game(std::string filePath) {
 
@@ -37,6 +48,9 @@ Game::Game(int roomCount) {
   double sr = sqrt(roomCount);
   if ((sr - floor(sr)) != 0) {
     throw room_count_not_square_error("The number of rooms must be a square number");
+  }
+  if(roomCount > 25) {
+    throw room_count_too_large_error("Cannot have more than 25 rooms");
   }
 
 
@@ -51,10 +65,15 @@ Game::Game(int roomCount) {
     rooms.push_back(newRoom);
 
   }
+  rooms[0].setDescription("fancy room");
+  Item item("Treasure", Treasure, 9001);
+  rooms[0].addItem(item);
 
   // lock rooms
   for (int i = 0; i < roomCount; i++) {
-
+    if(i == 12 || i == 20 || i == 5 || i == 25){
+      rooms[i].locked = true;
+    }
   }
 }
 
