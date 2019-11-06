@@ -1,8 +1,13 @@
 #include "NPC.h"
+#include <string>
 
-NPC::NPC()
+NPC::NPC(std::string n){
+  name = n;
+}
+
+void NPC::addItem(Item i)
 {
-  //ctor
+  inventory.push_back(i);
 }
 
 NPC::~NPC()
