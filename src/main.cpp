@@ -8,16 +8,17 @@ void clearScreen() {
 
 int main() {
   std::cout << "Welcome to Dungeon Game!" << std::endl;
-  std::cout << "Developed by Fafnir Studios LTD. All rights reserved." << std::endl << std::endl;
+  std::cout << "Developed by Fafnir Studios LTD. All rights reserved." <<
+            std::endl << std::endl;
   std::cout << "Options:" << std::endl;
   std::cout << "Press L to load a save" << std::endl;
   std::cout << "Press N to start a new game" << std::endl;
-  Game game(64);
+  Game game(9);
   bool getStart = true;
   while (getStart) {
     char inputChar;
     std::cin >> inputChar;
-
+    clearScreen();
     switch (std::toupper(inputChar)) {
     case 'L' :
       getStart = false;
@@ -35,6 +36,8 @@ int main() {
     }
 
   }
+
+  game.draw(std::cout);
 
   while (true) {
     char inputChar;
