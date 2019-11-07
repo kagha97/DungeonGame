@@ -5,6 +5,7 @@
 #include <vector>
 #include <math.h>
 
+
 void Game::draw(std::ostream& os) {
 
   int roomCount = rooms.size();
@@ -26,15 +27,16 @@ void Game::draw(std::ostream& os) {
       tmpNewLine=0;
     }
   }
-std::cout << getOptionsString() << std::endl;
-std::cout << "Enter Option: ";
+  std::cout << getOptionsString() << std::endl;
+  std::cout << player.getStatsString() << std::endl;
+  std::cout << "Enter Option: ";
 }
 
-std::string Game::getOptionsString()
-{
+std::string Game::getOptionsString() {
   std::stringstream ss;
 
-  ss << "Enter U, D, L, or R to move north, south, west, or east." << std::endl;
+  ss << "Enter " << UP << " , " << DOWN << " , " << LEFT << " , " << RIGHT <<
+     " to move north, south, west, or east." << std::endl;
 
   return ss.str();
 }
@@ -49,7 +51,7 @@ Game::Game(int roomCount) {
   if ((sr - floor(sr)) != 0) {
     throw room_count_not_square_error("The number of rooms must be a square number");
   }
-  if(roomCount > 25) {
+  if (roomCount > 25) {
     throw room_count_too_large_error("Cannot have more than 25 rooms");
   }
 
@@ -71,7 +73,7 @@ Game::Game(int roomCount) {
 
   // lock rooms
   for (int i = 0; i < roomCount; i++) {
-    if(i == 12 || i == 20 || i == 5 || i == 25){
+    if (i == 12 || i == 20 || i == 5 || i == 25) {
       rooms[i].locked = true;
     }
   }
@@ -83,7 +85,7 @@ void Game::movePlayer(char dir) {
   bool moved = false;
   std::string dirString;
   switch (std::toupper(dir)) {
-  case 'U' :
+  case UP :
     if (currentRoom < mapWidth) {
       std::cout << "You cannot go that way." << std::endl;
       break;
@@ -92,7 +94,7 @@ void Game::movePlayer(char dir) {
     moveInt = -mapWidth;
     moved = true;
     break;
-  case 'D' :
+  case DOWN :
     if (currentRoom + mapWidth >= rooms.size() ) {
       std::cout << "You cannot go that way." << std::endl;
       break;
@@ -101,7 +103,7 @@ void Game::movePlayer(char dir) {
     moveInt = mapWidth;
     moved = true;
     break;
-  case 'L' :
+  case LEFT :
     if (currentRoom % mapWidth == 0 ) {
       std::cout << "You cannot go that way." << std::endl;
       break;
@@ -110,7 +112,7 @@ void Game::movePlayer(char dir) {
     moveInt = -1;
     moved = true;
     break;
-  case 'R' :
+  case RIGHT :
     if ((currentRoom + 1) % mapWidth == 0 ) {
       std::cout << "You cannot go that way." << std::endl;
       break;
@@ -127,6 +129,7 @@ void Game::movePlayer(char dir) {
     if (!rooms[currentRoom + moveInt].locked) {
       currentRoom += moveInt;
       std::cout << "You move " << dirString << '.' << std::endl;
+      player.increaseHunger();
     } else {
       std::cout << "That room is locked" << std::endl;
     }

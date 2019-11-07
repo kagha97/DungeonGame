@@ -4,6 +4,7 @@
 #include <string>
 #include "Room.h"
 #include "Player.h"
+#include "GameConstants.h"
 
 class Game
 {
@@ -11,7 +12,7 @@ class Game
     Game(int roomCount);
     Game(std::string filePath);
     int currentRoom;
-    static Player player;
+    Player player;
     void draw(std::ostream& os);
     void movePlayer(char dir);
     std::string getOptionsString();

@@ -3,6 +3,8 @@
 #include <vector>
 #include "Item.h"
 #include "ItemType.h"
+#include "string"
+#include  <sstream>
 
 class Player
 {
@@ -11,12 +13,14 @@ class Player
     virtual ~Player();
     void addItem(Item i);
     bool consumeItem (ItemType t);
-
+    std::string getStatsString();
+    void increaseHunger();
+    bool dead = false;
   protected:
 
   private:
     int health = 100;
-    int hunger = 100;
+    int hunger = 0;
     std::vector<Item> inventory;
 };
 
