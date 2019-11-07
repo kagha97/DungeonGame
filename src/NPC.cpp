@@ -1,5 +1,4 @@
 #include "NPC.h"
-#include <string>
 
 NPC::NPC(std::string n){
   name = n;

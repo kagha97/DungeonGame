@@ -1,6 +1,4 @@
 #include "Room.h"
-#include <string>
-#include <sstream>
 
 Room::Room(int roomId, std::string desc) {
   description = desc;

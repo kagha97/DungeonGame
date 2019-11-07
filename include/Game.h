@@ -2,9 +2,13 @@
 #define GAME_H
 #include <vector>
 #include <string>
+#include <iostream>
+#include <sstream>
+#include <math.h>
 #include "Room.h"
 #include "Player.h"
 #include "GameConstants.h"
+#include "Exceptions.h"
 
 class Game
 {

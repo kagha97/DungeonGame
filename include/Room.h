@@ -6,6 +6,8 @@
 #include "NPC.h"
 #include "Item.h"
 #include "GameObject.h"
+#include <string>
+#include <sstream>
 
 class Room : public GameObject
 {

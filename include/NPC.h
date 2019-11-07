@@ -2,7 +2,7 @@
 #define NPC_H
 #include "Item.h"
 #include <vector>
-
+#include <string>
 
 class NPC
 {

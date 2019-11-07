@@ -1,5 +1,4 @@
 #include "Player.h"
-#include "ItemType.h"
 
 Player::Player() {
 

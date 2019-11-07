@@ -1,10 +1,4 @@
 #include "Game.h"
-#include "Exceptions.h"
-#include "GameConstants.h"
-#include <iostream>
-#include <sstream>
-#include <vector>
-#include <math.h>
 
 void Game::draw(std::ostream& os) {
 
