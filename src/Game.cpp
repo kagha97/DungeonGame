@@ -30,6 +30,7 @@ void Game::draw(std::ostream& os) {
   }
   std::cout << getOptionsString() << std::endl;
   std::cout << player.getStatsString() << std::endl;
+  std::cout << player.getInventory() << std::endl;
   std::cout << "Enter Option: ";
 }
 
@@ -38,6 +39,7 @@ std::string Game::getOptionsString() {
 
   ss << "Enter " << UP << " , " << DOWN << " , " << LEFT << " , " << RIGHT <<
      " to move north, south, west, or east." << std::endl;
+  ss << "Enter " << PICK << " to pick up items in the room, if there are any.";
 
   return ss.str();
 }
@@ -123,6 +125,7 @@ void Game::movePlayer(char dir) {
     if (!rooms[currentRoom + moveInt].locked) {
       player.moveTo(currentRoom + moveInt);
       std::cout << "You move " << dirString << '.' << std::endl;
+      std::cout << "ROOM: " << currentRoom + moveInt << std::endl;
       player.increaseHunger();
     } else {
       std::cout << "That room is locked" << std::endl;
@@ -130,6 +133,26 @@ void Game::movePlayer(char dir) {
   }
 }
 
+void Game::otherRoomOptions(char op)
+{
+  int currentRoom = player.getCurrentRoom();
+  std::vector<Item> items = rooms[currentRoom].getItems();
+  switch (std::toupper(op)) {
+  case PICK:
+    if (items.size() > 0) {
+      for (int i = 0; i < items.size(); i++) {
+        player.addItem(items[i]);
+      }
+      rooms[currentRoom].removeAllItems();
+      std::cout << "You loot the room." << std::endl;
+        break;
+    }
+  default :
+
+    break;
+
+}
+}
 
 
 Game::~Game() {

@@ -65,6 +65,18 @@ std::string Player::getStatsString() {
   return ss.str();
 }
 
+int Player::getInventory()
+{
+  std::stringstream ss;
+  ss << "Inventory:" << std::endl;
+  for (int i = 0; i < inventory.size(); i++) {
+        ss << inventory[i].name << std::endl;
+    }
+
+  return inventory.size();
+}
+
+
 Player::~Player() {
   //dtor
 }

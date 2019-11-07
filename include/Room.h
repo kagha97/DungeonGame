@@ -18,6 +18,8 @@ class Room
     void addItem(Item item);
     void interact(int npcIndex);
     void pickUpItem(int itemIndex);
+    std::vector<Item> getItems();
+    void removeAllItems ();
 
     bool locked;
 

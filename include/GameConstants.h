@@ -10,6 +10,9 @@ const char RIGHT = 'R';
 const char NEWGAME = 'N';
 const char LOADGAME = 'L';
 
+//Other room options
+const char PICK = 'P';
+
 
 const int ROOMCOUNT = 25;
 

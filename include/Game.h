@@ -14,6 +14,7 @@ class Game
     Player player;
     void draw(std::ostream& os);
     void movePlayer(char dir);
+    void otherRoomOptions (char op);
     std::string getOptionsString();
 
     virtual ~Game();

@@ -18,6 +18,7 @@ class Player
     bool dead = false;
     void moveTo(int i);
     int getCurrentRoom();
+    int getInventory();
   protected:
 
   private:
