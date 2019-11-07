@@ -11,7 +11,7 @@ void Game::draw(std::ostream& os) {
   int roomCount = rooms.size();
   if (roomCount < 1)
     return;
-
+  int currentRoom = player.getCurrentRoom();
   std::cout << rooms[currentRoom].getDescription() << std::endl;
 
   int tmpNewLine = 0;
@@ -55,9 +55,6 @@ Game::Game(int roomCount) {
     throw room_count_too_large_error("Cannot have more than 25 rooms");
   }
 
-
-  currentRoom = 0;
-
   // Create rooms
   for (int i = 0; i < roomCount; i++) {
     std::stringstream ss;
@@ -81,6 +78,7 @@ Game::Game(int roomCount) {
 
 void Game::movePlayer(char dir) {
   int moveInt = 0;
+  int currentRoom = player.getCurrentRoom();
   int mapWidth = sqrt(rooms.size());
   bool moved = false;
   std::string dirString;
@@ -127,7 +125,7 @@ void Game::movePlayer(char dir) {
   }
   if (moved) {
     if (!rooms[currentRoom + moveInt].locked) {
-      currentRoom += moveInt;
+      player.moveTo(currentRoom + moveInt);
       std::cout << "You move " << dirString << '.' << std::endl;
       player.increaseHunger();
     } else {

@@ -5,6 +5,16 @@ Player::Player() {
 
 }
 
+void Player::moveTo(int i)
+{
+  currentRoom = i;
+}
+
+int Player::getCurrentRoom()
+{
+  return currentRoom;
+}
+
 void Player::addItem(Item i) {
   inventory.push_back(i);
 }

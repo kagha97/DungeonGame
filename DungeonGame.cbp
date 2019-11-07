@@ -47,7 +47,7 @@
 		<Unit filename="src/NPC.cpp" />
 		<Unit filename="src/Player.cpp" />
 		<Unit filename="src/Room.cpp" />
-		<Unit filename="src/main.cpp" />
+		<Unit filename="src/game/main.cpp" />
 		<Extensions>
 			<envvars />
 			<code_completion />

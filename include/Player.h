@@ -16,11 +16,14 @@ class Player
     std::string getStatsString();
     void increaseHunger();
     bool dead = false;
+    void moveTo(int i);
+    int getCurrentRoom();
   protected:
 
   private:
     int health = 100;
     int hunger = 0;
+    int currentRoom = 0;
     std::vector<Item> inventory;
 };
 

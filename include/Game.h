@@ -11,7 +11,6 @@ class Game
   public:
     Game(int roomCount);
     Game(std::string filePath);
-    int currentRoom;
     Player player;
     void draw(std::ostream& os);
     void movePlayer(char dir);
