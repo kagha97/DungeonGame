@@ -2,8 +2,9 @@
 #include <string>
 #include <sstream>
 
-Room::Room(std::string desc) {
+Room::Room(int roomId, std::string desc) {
   description = desc;
+  id = roomId;
 }
 
 std::string Room::getDescription() {
@@ -56,12 +57,20 @@ void Room::removeAllItems()
   items.clear();
 }
 
+bool Room::tryKey(Item i)
+{
+  if(i.type == Key && i.value == id) {
+    locked = false;
+    return true;
+  }
+  return false;
+}
 
 
 
 
-Room::Room() {
-  //ctor
+Room::Room(int roomId) {
+  id = roomId;
 }
 
 Room::~Room() {

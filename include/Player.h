@@ -12,13 +12,14 @@ class Player
     Player();
     virtual ~Player();
     void addItem(Item i);
-    bool consumeItem (ItemType t);
+    bool consumeItem (Item it);
     std::string getStatsString();
     void increaseHunger();
     bool dead = false;
     void moveTo(int i);
     int getCurrentRoom();
-    int getInventory();
+    std::string showInventory();
+    std::vector<Item> getInventory();
   protected:
 
   private:

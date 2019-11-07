@@ -33,10 +33,9 @@ void Player::increaseHunger() {
 }
 
 
-bool Player::consumeItem(ItemType t) {
+bool Player::consumeItem(Item it) {
   for (int i = 0; i < inventory.size(); i++) {
-    if (inventory[i].type == t) {
-      switch (t) {
+      switch (it.type) {
       case Potion:
       case Food:
         inventory.erase(inventory.begin() + i);
@@ -48,10 +47,11 @@ bool Player::consumeItem(ItemType t) {
       case Weapon:
         break;
       case Key:
+        if(inventory[i] == it) {
+
         inventory.erase(inventory.begin() + i);
         return true;
-      }
-
+        }
     }
   }
   return false;
@@ -65,7 +65,7 @@ std::string Player::getStatsString() {
   return ss.str();
 }
 
-int Player::getInventory()
+std::string Player::showInventory()
 {
   std::stringstream ss;
   ss << "Inventory:" << std::endl;
@@ -73,9 +73,13 @@ int Player::getInventory()
         ss << inventory[i].name << std::endl;
     }
 
-  return inventory.size();
+  return ss.str();
 }
 
+std::vector<Item> Player::getInventory()
+{
+  return inventory;
+}
 
 Player::~Player() {
   //dtor

@@ -2,13 +2,14 @@
 #define ITEM_H
 #include <string>
 #include "ItemType.h"
+#include "GameObject.h"
 
 
-class Item
+class Item : public GameObject
 {
   public:
     ItemType type;
-    Item(std::string n, ItemType t, int val);
+    Item(int itemId, std::string n, ItemType t, int val);
     virtual ~Item();
     std::string name;
     int value;

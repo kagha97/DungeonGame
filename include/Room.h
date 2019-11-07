@@ -5,13 +5,13 @@
 #include <string>
 #include "NPC.h"
 #include "Item.h"
+#include "GameObject.h"
 
-
-class Room
+class Room : public GameObject
 {
   public:
-    Room();
-    Room(std::string desc);
+    Room(int roomId);
+    Room(int roomId, std::string desc);
     std::string getDescription();
     void setDescription(std::string desc);
     void addNPC(NPC npc);
@@ -20,7 +20,7 @@ class Room
     void pickUpItem(int itemIndex);
     std::vector<Item> getItems();
     void removeAllItems ();
-
+    bool tryKey(Item i);
     bool locked;
 
     virtual ~Room();

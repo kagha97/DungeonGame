@@ -1,7 +1,8 @@
 #ifndef GAMECONSTANTS_H
 #define GAMECONSTANTS_H
 #include <string>
-
+#include <map>
+#include "Item.h"
 //Controls
 const char UP = 'U';
 const char DOWN = 'D';
@@ -48,14 +49,14 @@ const std::string ROOMDESC[ROOMCOUNT] = {
 const int KEYCOUNT = 4;
 // Decide which rooms to lock
 const int LOCKED[KEYCOUNT] = {5, 12, 20, 24};
-// Keys to unlock rooms
-// Room 5 first, then 25 and 20. 12 is in the centre of the map, so it'll be the last room.
-const Item KEYS[KEYCOUNT] = {
-  Item("Rusty Key", Key, 5),
-  Item("Iron Key", Key, 24),
-  Item("Shiny Key", Key, 20),
-  Item("Gold Key", Key, 12)
+
+// Map containing our items and their locations
+const std::map<Item, int> ITEMS = {
+  {Item(101, "Rusty Key", Key, 5), 23},
+  {Item(102, "Iron Key", Key, 24), 5},
+  {Item(103, "Shiny Key", Key, 20), 24},
+  {Item(104, "Gold Key", Key, 12), 20}
 };
-const int KEYLOCATIONS[KEYCOUNT] = {23, 5, 24, 20};
+
 
 #endif // GAMECONSTANTS_H

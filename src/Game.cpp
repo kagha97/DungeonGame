@@ -6,7 +6,6 @@
 #include <vector>
 #include <math.h>
 
-
 void Game::draw(std::ostream& os) {
 
   int roomCount = rooms.size();
@@ -30,7 +29,7 @@ void Game::draw(std::ostream& os) {
   }
   std::cout << getOptionsString() << std::endl;
   std::cout << player.getStatsString() << std::endl;
-  std::cout << player.getInventory() << std::endl;
+  std::cout << player.showInventory() << std::endl;
   std::cout << "Enter Option: ";
 }
 
@@ -61,8 +60,7 @@ Game::Game(int roomCount) {
   // Create rooms
   for (int i = 0; i < roomCount; i++) {
 
-    Room newRoom(ROOMDESC[i]);
-
+    Room newRoom(i, ROOMDESC[i]);
     rooms.push_back(newRoom);
 
   }
@@ -70,8 +68,13 @@ Game::Game(int roomCount) {
   // lock rooms & place keys
   for (int i = 0; i < KEYCOUNT; i++) {
     rooms[LOCKED[i]].locked = true;
-    rooms[KEYLOCATIONS[i]].addItem(KEYS[i]);
+    //rooms[KEYLOCATIONS[i]].addItem(KEYS[i]);
   }
+
+  for (auto const& x : ITEMS) {
+    rooms[x.second].addItem(x.first);
+  }
+
 }
 
 void Game::movePlayer(char dir) {
@@ -122,10 +125,20 @@ void Game::movePlayer(char dir) {
     break;
   }
   if (moved) {
-    if (!rooms[currentRoom + moveInt].locked) {
-      player.moveTo(currentRoom + moveInt);
+    int roomIndex = currentRoom + moveInt;
+
+    if (rooms[roomIndex].locked) {
+      for (Item it : player.getInventory()) {
+        if (rooms[roomIndex].tryKey(it)) {
+          std::cout << "You use " << it.name << " to unlock the room." << std::endl;
+          player.consumeItem(it);
+        }
+      }
+    }
+    if (!rooms[roomIndex].locked) {
+      player.moveTo(roomIndex);
       std::cout << "You move " << dirString << '.' << std::endl;
-      std::cout << "ROOM: " << currentRoom + moveInt << std::endl;
+      //std::cout << "ROOM: " << roomIndex << std::endl;
       player.increaseHunger();
     } else {
       std::cout << "That room is locked" << std::endl;
@@ -133,8 +146,7 @@ void Game::movePlayer(char dir) {
   }
 }
 
-void Game::otherRoomOptions(char op)
-{
+void Game::otherRoomOptions(char op) {
   int currentRoom = player.getCurrentRoom();
   std::vector<Item> items = rooms[currentRoom].getItems();
   switch (std::toupper(op)) {
@@ -145,13 +157,13 @@ void Game::otherRoomOptions(char op)
       }
       rooms[currentRoom].removeAllItems();
       std::cout << "You loot the room." << std::endl;
-        break;
+      break;
     }
   default :
 
     break;
 
-}
+  }
 }
 
 
