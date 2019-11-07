@@ -1,4 +1,4 @@
-PROJECT_DIR = 2-Fafnir
+PROJECT_DIR = 
 PROGRAM_TEST = testDungeonGame
 PROGRAM_GAME = DungeonGame
 
@@ -51,7 +51,6 @@ $(PROGRAM_GAME): $(GAME_SRC_DIR) $(SRC_DIR)
 	$(GAME_SRC_DIR)/*.cpp $(SRC_DIR)/*.cpp
 
 compile: $(PROGRAM_GAME)
-	$(PROGRAM_GAME)
 
 test: $(PROGRAM_TEST)
 	$(PROGRAM_TEST)
