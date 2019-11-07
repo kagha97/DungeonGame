@@ -59,14 +59,13 @@ Game::Game(int roomCount) {
 
   }
 
-  // lock rooms & place keys
-  for (int i = 0; i < KEYCOUNT; i++) {
-    rooms[LOCKED[i]].locked = true;
-    //rooms[KEYLOCATIONS[i]].addItem(KEYS[i]);
-  }
 
   for (auto const& x : ITEMS) {
     rooms[x.second].addItem(x.first);
+    if (x.first.type == Key) {
+      // If the item is a key, lock the room corresponding to its value
+      rooms[x.first.value].locked = true;
+    }
   }
 
 }

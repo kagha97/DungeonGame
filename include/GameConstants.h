@@ -46,10 +46,6 @@ const std::string ROOMDESC[ROOMCOUNT] = {
   ""
 };
 
-const int KEYCOUNT = 4;
-// Decide which rooms to lock
-const int LOCKED[KEYCOUNT] = {5, 12, 20, 24};
-
 // Map containing our items and their locations
 const std::map<Item, int> ITEMS = {
   {Item(101, "Rusty Key", Key, 5), 23},
