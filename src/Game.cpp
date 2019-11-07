@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Exceptions.h"
+#include "GameConstants.h"
 #include <iostream>
 #include <sstream>
 #include <vector>
@@ -57,22 +58,17 @@ Game::Game(int roomCount) {
 
   // Create rooms
   for (int i = 0; i < roomCount; i++) {
-    std::stringstream ss;
-    ss << "Room" << i;
-    Room newRoom(ss.str());
+
+    Room newRoom(ROOMDESC[i]);
 
     rooms.push_back(newRoom);
 
   }
-  rooms[0].setDescription("fancy room");
-  Item item("Treasure", Treasure, 9001);
-  rooms[0].addItem(item);
 
-  // lock rooms
-  for (int i = 0; i < roomCount; i++) {
-    if (i == 12 || i == 20 || i == 5 || i == 25) {
-      rooms[i].locked = true;
-    }
+  // lock rooms & place keys
+  for (int i = 0; i < KEYCOUNT; i++) {
+    rooms[LOCKED[i]].locked = true;
+    rooms[KEYLOCATIONS[i]].addItem(KEYS[i]);
   }
 }
 
