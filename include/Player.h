@@ -15,8 +15,9 @@ class Player
     virtual ~Player();
     void addItem(Item i);
     bool consumeItem (Item it);
+    bool consumeItem (int it);
     std::string getStatsString();
-    void increaseHunger();
+    void updateValues();
     bool dead = false;
     void moveTo(int i);
     int getCurrentRoom();

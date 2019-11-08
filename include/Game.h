@@ -9,7 +9,7 @@
 #include "Player.h"
 #include "GameConstants.h"
 #include "Exceptions.h"
-//#include "GameState.h"
+#include "GameState.h"
 
 class Game
 {
@@ -18,8 +18,9 @@ class Game
     Game(std::string filePath);
     Player player;
     void draw(std::ostream& os);
-    void movePlayer(char dir);
-    void otherRoomOptions (char op);
+    void getInput(std::istream& inStr);
+    //void movePlayer(char dir);
+    //void otherRoomOptions (char op);
     std::string getOptionsString();
     void inventoryScreen();
     virtual ~Game();
@@ -27,7 +28,12 @@ class Game
   protected:
 
   private:
-    //State state
+    State state = Play;
+    void movePlayer(char dir);
+    void lootRoom();
+    void drawPlay(std::ostream& os);
+    void drawInventory(std::ostream& os);
+    void drawInventorySubMenu(std::ostream& os);
     std::vector<Room> rooms;
 };
 

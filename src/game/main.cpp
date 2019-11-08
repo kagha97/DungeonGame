@@ -5,7 +5,7 @@
 #include "Player.h"
 
 void gameOver(Player p) {
-  std::cout << "YOU DIED";
+  std::cout << "YOU DIED" << std::endl;
 }
 
 void clearScreen() {
@@ -46,12 +46,10 @@ int main() {
   game->draw(std::cout);
 
   while (true) {
-    char inputChar;
-    std::cin >> inputChar;
+    game->getInput(std::cin);
     clearScreen();
-
-    game->movePlayer(inputChar);
-    game->otherRoomOptions(inputChar);
+    //game->movePlayer(inputChar);
+    //game->otherRoomOptions(inputChar);
     if(game->player.dead){
         gameOver(game->player);
       break;

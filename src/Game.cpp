@@ -1,7 +1,20 @@
 #include "Game.h"
 
 void Game::draw(std::ostream& os) {
+  switch (state) {
+  case Play:
+    drawPlay(os);
+    break;
+  case Inventory:
+    drawInventory(os);
+    break;
+  case ItemUse:
+    drawInventorySubMenu(os);
+    break;
+  }
+}
 
+void Game::drawPlay(std::ostream& os) {
   int roomCount = rooms.size();
   if (roomCount < 1)
     return;
@@ -24,6 +37,30 @@ void Game::draw(std::ostream& os) {
   std::cout << getOptionsString() << std::endl;
   std::cout << player.getStatsString() << std::endl;
   std::cout << "Enter Option: ";
+}
+
+void Game::drawInventory(std::ostream& os) {
+  os << player.showInventory() << std::endl;
+  char opt = ' ';
+  int number = -1;
+  os << "Enter " << USE << " to use an item, " << EXAMINE <<
+     " to examine the item, and " << DROP << " to drop an item." << std::endl;
+  os << "Enter Option: ";
+}
+
+void Game::drawInventorySubMenu(std::ostream& os) {
+  drawInventory(os);
+  switch (state) {
+  case ItemUse:
+    os << "Which item do you want to use?" << std::endl;
+    break;
+  case ItemDrop:
+    os << "Which item do you want to drop?" << std::endl;
+    break;
+  case ItemExamine:
+    std::cout << "Which item do you want to examine?" << std::endl;
+    break;
+  }
 }
 
 std::string Game::getOptionsString() {
@@ -67,6 +104,76 @@ Game::Game(int roomCount) {
     }
   }
 
+}
+
+void Game::getInput(std::istream& inStr) {
+
+  int inInt;
+  char inChar;
+
+  switch (state) {
+  case MainMenu:
+  case Play:
+  case Inventory:
+    inStr >> inChar;
+    inChar = std::toupper(inChar);
+    break;
+  case ItemUse:
+  case ItemDrop:
+  case ItemExamine:
+    inStr >> inInt;
+    break;
+  }
+
+  switch (state) {
+  case MainMenu:
+  case Play:
+    switch (inChar) {
+    case INVENTORY:
+      state = Inventory;
+      break;
+    case UP:
+    case DOWN:
+    case LEFT:
+    case RIGHT:
+      movePlayer(inChar);
+      break;
+    case PICK:
+      lootRoom();
+      break;
+    }
+    break;
+  case Inventory:
+    switch (inChar) {
+    case USE:
+      state = ItemUse;
+      break;
+    case DROP:
+      state = ItemDrop;
+      break;
+    case EXAMINE:
+      state = ItemExamine;
+      break;
+    case EXIT:
+      state = Play;
+      break;
+    }
+    break;
+  case ItemUse:
+    player.consumeItem(inInt - 1);
+    state = Inventory;
+    break;
+  case ItemDrop:
+    //player.dropItem(inInt - 1);
+    state = Inventory;
+    break;
+  case ItemExamine:
+    //player.examineItem(inInt - 1);
+    state = Inventory;
+    break;
+  }
+  inStr.clear();
+  player.updateValues();
 }
 
 void Game::movePlayer(char dir) {
@@ -113,8 +220,8 @@ void Game::movePlayer(char dir) {
     moved = true;
     break;
   default :
-
-    break;
+    return;
+    //break;
   }
   if (moved) {
     int roomIndex = currentRoom + moveInt;
@@ -131,75 +238,88 @@ void Game::movePlayer(char dir) {
       player.moveTo(roomIndex);
       std::cout << "You move " << dirString << '.' << std::endl;
       //std::cout << "ROOM: " << roomIndex << std::endl;
-      player.increaseHunger();
     } else {
       std::cout << "That room is locked" << std::endl;
     }
   }
 }
 
-void Game::otherRoomOptions(char op) {
+void Game::lootRoom() {
   int currentRoom = player.getCurrentRoom();
   std::vector<Item> items = rooms[currentRoom].getItems();
-  switch (std::toupper(op)) {
-  case PICK:
-    if (items.size() > 0) {
-      for (int i = 0; i < items.size(); i++) {
-        player.addItem(items[i]);
-      }
-      rooms[currentRoom].removeAllItems();
-      std::cout << "You loot the room." << std::endl;
-      break;
+  if (items.size() > 0) {
+    for (int i = 0; i < items.size(); i++) {
+      player.addItem(items[i]);
     }
-  case INVENTORY :
-    inventoryScreen();
-    //draw(std::cout);
-    break;
-  default :
-
-    break;
-
+    rooms[currentRoom].removeAllItems();
+    std::cout << "You loot the room." << std::endl;
   }
 }
 
 
 
-void Game::inventoryScreen() {
-  while (true) {
-    std::cout << player.showInventory() << std::endl;
-    char opt = ' ';
-    int number = -1;
-    std::cout << "Enter " << USE << " to use an item, " << EXAMINE << " to examine the item, and " << DROP << " to drop an item." << std::endl;
-    std::cout << "Enter Option: " << std::endl;
-    std::cin >> opt;
+//void Game::otherRoomOptions(char op) {
+//  int currentRoom = player.getCurrentRoom();
+//  std::vector<Item> items = rooms[currentRoom].getItems();
+//  switch (std::toupper(op)) {
+//  case PICK:
+//    if (items.size() > 0) {
+//      for (int i = 0; i < items.size(); i++) {
+//        player.addItem(items[i]);
+//      }
+//      rooms[currentRoom].removeAllItems();
+//      std::cout << "You loot the room." << std::endl;
+//      break;
+//    }
+//  case INVENTORY :
+//    inventoryScreen();
+//    //draw(std::cout);
+//    break;
+//  default :
+//
+//    break;
+//
+//  }
+//}
 
-    switch (std::toupper(opt)) {
-    case USE:
-      std::cout << "Which item do you want to use?" << std::endl;
-      std::cin >> number;
-      if(!player.consumeItem(player.getInventory()[number - 1])) {
-        std::cin.clear();
-      return;
-      }
-      break;
-    case DROP:
-      std::cout << "Which item do you want to drop?" << std::endl;
-      std::cin >> number;
-      break;
-    case EXAMINE:
-     std::cout << "Which item do you want to examine?" << std::endl;
-      std::cin >> number;
-      break;
-    case EXIT:
-      std::cin.clear();
-      return;
-      break;
-    default :
-      std::cin.clear();
-      break;
-    }
-  }
-}
+
+
+//void Game::inventoryScreen() {
+//  while (true) {
+//    std::cout << player.showInventory() << std::endl;
+//    char opt = ' ';
+//    int number = -1;
+//    std::cout << "Enter " << USE << " to use an item, " << EXAMINE << " to examine the item, and " << DROP << " to drop an item." << std::endl;
+//    std::cout << "Enter Option: " << std::endl;
+//    std::cin >> opt;
+//
+//    switch (std::toupper(opt)) {
+//    case USE:
+//      std::cout << "Which item do you want to use?" << std::endl;
+//      std::cin >> number;
+//      if(!player.consumeItem(player.getInventory()[number - 1])) {
+//        std::cin.clear();
+//      return;
+//      }
+//      break;
+//    case DROP:
+//      std::cout << "Which item do you want to drop?" << std::endl;
+//      std::cin >> number;
+//      break;
+//    case EXAMINE:
+//     std::cout << "Which item do you want to examine?" << std::endl;
+//      std::cin >> number;
+//      break;
+//    case EXIT:
+//      std::cin.clear();
+//      return;
+//      break;
+//    default :
+//      std::cin.clear();
+//      break;
+//    }
+//  }
+//}
 
 Game::~Game() {
 
