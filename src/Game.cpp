@@ -23,7 +23,6 @@ void Game::draw(std::ostream& os) {
   }
   std::cout << getOptionsString() << std::endl;
   std::cout << player.getStatsString() << std::endl;
-  std::cout << player.showInventory() << std::endl;
   std::cout << "Enter Option: ";
 }
 
@@ -152,6 +151,9 @@ void Game::otherRoomOptions(char op) {
       std::cout << "You loot the room." << std::endl;
       break;
     }
+  case INVENTORY :
+    inventoryScreen();
+    break;
   default :
 
     break;
@@ -159,6 +161,34 @@ void Game::otherRoomOptions(char op) {
   }
 }
 
+
+
+void Game::inventoryScreen() {
+  while (true) {
+    player.showInventory();
+    char opt = ' ';
+    int number = -1;
+    std::cin >> opt >> number;
+
+    switch (std::toupper(opt)) {
+    case USE:
+        player.consumeItem(player.getInventory()[number - 1]);
+      break;
+    case DROP:
+      break;
+    case EXAMINE:
+      break;
+    case EXIT:
+      std::cin.clear();
+      std::cin.ignore(10000, '\n')
+      return;
+      break;
+    default :
+      return;
+      break;
+    }
+  }
+}
 
 Game::~Game() {
 

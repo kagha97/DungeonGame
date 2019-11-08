@@ -10,6 +10,13 @@ const char LEFT = 'L';
 const char RIGHT = 'R';
 const char NEWGAME = 'N';
 const char LOADGAME = 'L';
+const char INVENTORY = 'I';
+
+//Inventory Commands
+const char USE = 'U';
+const char DROP = 'D';
+const char EXAMINE = 'E';
+const char EXIT = 'X';
 
 //Other room options
 const char PICK = 'P';
@@ -51,7 +58,17 @@ const std::map<Item, int> ITEMS = {
   {Item(101, "Rusty Key", Key, 5), 23},
   {Item(102, "Iron Key", Key, 24), 5},
   {Item(103, "Shiny Key", Key, 20), 24},
-  {Item(104, "Gold Key", Key, 12), 20}
+  {Item(104, "Gold Key", Key, 12), 20},
+
+  {Item(201, "Red Potion", Potion, 15), 2},
+  {Item(202, "Suspicious Potion", Potion, -12), 2},
+
+  {Item(301, "Burger", Food, 25), 2},
+  {Item(302, "Spider", Food, 3), 2},
+  {Item(303, "Shark Fin Pizza", Food, 50), 2},
+  {Item(304, "Rotten Apple", Food, -10), 2},
+  {Item(305, "Duck", Food, 100), 2}
+
 };
 
 

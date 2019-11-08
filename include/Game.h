@@ -20,7 +20,7 @@ class Game
     void movePlayer(char dir);
     void otherRoomOptions (char op);
     std::string getOptionsString();
-
+    void inventoryScreen();
     virtual ~Game();
 
   protected:

@@ -69,7 +69,7 @@ std::string Player::showInventory()
   std::stringstream ss;
   ss << "Inventory:" << std::endl;
   for (int i = 0; i < inventory.size(); i++) {
-        ss << inventory[i].name << std::endl;
+        ss << i+1 << ". " << inventory[i].name << std::endl;
     }
 
   return ss.str();

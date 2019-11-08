@@ -38,6 +38,7 @@
 		<Unit filename="include/Game.h" />
 		<Unit filename="include/GameConstants.h" />
 		<Unit filename="include/GameObject.h" />
+		<Unit filename="include/GameState.h" />
 		<Unit filename="include/Item.h" />
 		<Unit filename="include/ItemType.h" />
 		<Unit filename="include/NPC.h" />
