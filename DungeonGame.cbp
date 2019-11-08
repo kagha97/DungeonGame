@@ -34,15 +34,23 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="include/Exceptions.h" />
 		<Unit filename="include/Game.h" />
+		<Unit filename="include/GameConstants.h" />
+		<Unit filename="include/GameObject.h" />
+		<Unit filename="include/GameState.h" />
+		<Unit filename="include/Item.h" />
+		<Unit filename="include/ItemType.h" />
 		<Unit filename="include/NPC.h" />
 		<Unit filename="include/Player.h" />
 		<Unit filename="include/Room.h" />
 		<Unit filename="src/Game.cpp" />
+		<Unit filename="src/GameObject.cpp" />
+		<Unit filename="src/Item.cpp" />
 		<Unit filename="src/NPC.cpp" />
 		<Unit filename="src/Player.cpp" />
 		<Unit filename="src/Room.cpp" />
-		<Unit filename="src/main.cpp" />
+		<Unit filename="src/game/main.cpp" />
 		<Extensions>
 			<envvars />
 			<code_completion />

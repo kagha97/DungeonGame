@@ -2,25 +2,39 @@
 #define GAME_H
 #include <vector>
 #include <string>
+#include <iostream>
+#include <sstream>
+#include <math.h>
 #include "Room.h"
 #include "Player.h"
+#include "GameConstants.h"
+#include "Exceptions.h"
+#include "GameState.h"
 
 class Game
 {
   public:
     Game(int roomCount);
     Game(std::string filePath);
-    int currentRoom;
-    static Player player;
+    Player player;
     void draw(std::ostream& os);
-    void movePlayer(char dir);
+    void getInput(std::istream& inStr);
+    //void movePlayer(char dir);
+    //void otherRoomOptions (char op);
+    std::string getOptionsString();
+    void inventoryScreen();
     virtual ~Game();
 
   protected:
 
   private:
+    State state = Play;
+    void movePlayer(char dir);
+    void lootRoom();
+    void drawPlay(std::ostream& os);
+    void drawInventory(std::ostream& os);
+    void drawInventorySubMenu(std::ostream& os);
     std::vector<Room> rooms;
-    std::vector<std::vector<int>> roomLinks;
 };
 
 #endif // GAME_H
