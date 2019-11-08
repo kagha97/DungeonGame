@@ -1,3 +1,7 @@
+*
+!/**/
+!*.*
+
 # Prerequisites
 *.d
 
@@ -40,12 +44,8 @@ obj/
 *.bak
 
 # Docs
-docs/
-documentation/
+docs/code
 
 # Coverage
 *.gc*
 *.coverage
-
-
-

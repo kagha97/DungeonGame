@@ -34,6 +34,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="include/ActionRecord.h" />
 		<Unit filename="include/Exceptions.h" />
 		<Unit filename="include/Game.h" />
 		<Unit filename="include/GameConstants.h" />
@@ -44,6 +45,7 @@
 		<Unit filename="include/NPC.h" />
 		<Unit filename="include/Player.h" />
 		<Unit filename="include/Room.h" />
+		<Unit filename="src/ActionRecord.cpp" />
 		<Unit filename="src/Game.cpp" />
 		<Unit filename="src/GameObject.cpp" />
 		<Unit filename="src/Item.cpp" />

@@ -4,10 +4,10 @@
 #include <vector>
 #include <string>
 
-class NPC
+class NPC : public GameObject
 {
   public:
-    NPC(std::string n);
+    NPC(int npcID, std::string n);
     bool hostile;
     virtual ~NPC();
     void addItem(Item i);

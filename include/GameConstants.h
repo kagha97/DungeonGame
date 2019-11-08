@@ -3,6 +3,7 @@
 #include <string>
 #include <map>
 #include "Item.h"
+#include "NPC.h"
 //Controls
 const char UP = 'U';
 const char DOWN = 'D';
@@ -20,12 +21,15 @@ const char EXIT = 'X';
 
 //Other room options
 const char PICK = 'P';
+const char NPCINTERACT = 'T';
 
 
 const int ROOMCOUNT = 25;
 const int MAXHEALTH = 99;
 const int MAXHUNGER = 99;
 
+// Action Record
+const int MAXRECORDS = 5;
 
 //TODO: Move these to external text file. Possibly in json format.
 const std::string ROOMDESC[ROOMCOUNT] = {
@@ -57,23 +61,33 @@ const std::string ROOMDESC[ROOMCOUNT] = {
 };
 
 // Map containing our items and their locations
-const std::map<Item, int> ITEMS = {
-  {Item(101, "Rusty Key", Key, 5), 23},
-  {Item(102, "Iron Key", Key, 24), 5},
-  {Item(103, "Shiny Key", Key, 20), 24},
-  {Item(104, "Gold Key", Key, 12), 20},
+const std::map<Item, std::vector<int>> ITEMS = {
+  //Keys
+  {Item(100, "Rusty Key", "I wonder if this will unlock a door.", Key, 5), {23}},
+  {Item(101, "Iron Key", "I should try eating this.", Key, 24), {5}},
+  {Item(102, "Shiny Key", "I wonder if this will unlock a door.", Key, 20), {24}},
+  {Item(103, "Gold Key", "I wonder what this tastes like.", Key, 12), {20}},
 
-  {Item(201, "Red Potion", Potion, 15), 2},
-  {Item(202, "Suspicious Potion", Potion, -10), 2},
+  //Potions
+  {Item(200, "Red Potion", "heals health.", Potion, 15), {2}},
+  {Item(201, "Suspicious Potion", "hmm I should try drinking this.", Potion, -10), {2}},
 
-
-  {Item(301, "Burger", Food, 25), 2},
-  {Item(302, "Spider", Food, 3), 2},
-  {Item(303, "Shark Fin Pizza", Food, 50), 2},
-  {Item(304, "Rotten Apple", Food, -10), 2},
-  {Item(305, "Duck", Food, 100), 2}
+  //Food
+  {Item(300, "Burger", "A yummy burger I just found in a dungeon. Sounds good.", Food, 25), {2}},
+  {Item(301, "Spider", "Looks tasty.", Food, 3), {2}},
+  {Item(302, "Shark Fin Pizza", "Pizza with Shark Fin", Food, 50), {2}},
+  {Item(303, "Rotten Apple", "Smells gross. I should eat it.", Food, -10), {2}},
+  {Item(304, "Duck", "This is duck.", Food, 100), {2}}
 
 };
+
+
+// Map containing our NPCs and their locations
+const std::map<NPC, std::vector<int>> NPCS = {
+  {NPC(100, "Wise Old Man"), {2}}
+};
+
+
 
 
 #endif // GAMECONSTANTS_H

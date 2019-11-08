@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <fstream>
 #include <sstream>
 #include <math.h>
 #include "Room.h"
@@ -10,6 +11,7 @@
 #include "GameConstants.h"
 #include "Exceptions.h"
 #include "GameState.h"
+#include "ActionRecord.h"
 
 class Game
 {
@@ -19,8 +21,7 @@ class Game
     Player player;
     void draw(std::ostream& os);
     void getInput(std::istream& inStr);
-    //void movePlayer(char dir);
-    //void otherRoomOptions (char op);
+    void show_ascii(std::string loc);
     std::string getOptionsString();
     void inventoryScreen();
     virtual ~Game();
