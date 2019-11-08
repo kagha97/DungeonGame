@@ -8,7 +8,6 @@ build:
     only:
       - Dev
 
-
 test:
    stage: test
    script:
