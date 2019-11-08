@@ -51,7 +51,12 @@
 		<Unit filename="src/Player.cpp" />
 		<Unit filename="src/Room.cpp" />
 		<Unit filename="src/game/main.cpp" />
-		<Unit filename="test/main.cpp" />
+		<Unit filename="test/TestPlayer.cpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="test/main.cpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Extensions>
 			<envvars />
 			<code_completion />
