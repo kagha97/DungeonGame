@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "GameConstants.h"
 #include "Exceptions.h"
+#include <fstream>
 //#include "GameState.h"
 
 class Game
@@ -22,6 +23,7 @@ class Game
     void otherRoomOptions (char op);
     std::string getOptionsString();
     void inventoryScreen();
+    void show_ascii(std::string location);
     virtual ~Game();
 
   protected:

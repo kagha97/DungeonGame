@@ -1,5 +1,4 @@
 #include "Game.h"
-
 void Game::draw(std::ostream& os) {
 
   int roomCount = rooms.size();
@@ -31,7 +30,8 @@ std::string Game::getOptionsString() {
 
   ss << "Enter " << UP << " , " << DOWN << " , " << LEFT << " , " << RIGHT <<
      " to move north, south, west, or east." << std::endl;
-  ss << "Enter " << PICK << " to pick up items in the room, if there are any.";
+  ss << "Enter " << PICK << " to pick up items in the room, if there are any." << std::endl;
+  ss << "Enter " << NPCINTERACT << " to see list of NPCS in the room." << std::endl;
 
   return ss.str();
 }
@@ -60,11 +60,20 @@ Game::Game(int roomCount) {
 
 
   for (auto const& x : ITEMS) {
-    rooms[x.second].addItem(x.first);
+      for (int i : x.second) {
+        rooms[i].addItem(x.first);
+      }
     if (x.first.type == Key) {
       // If the item is a key, lock the room corresponding to its value
       rooms[x.first.value].locked = true;
     }
+  }
+
+  //add npc to room
+  for (auto const& x : NPCS) {
+     for (int i : x.second) {
+        rooms[i].addNPC(x.first);
+      }
   }
 
 }
@@ -155,6 +164,14 @@ void Game::otherRoomOptions(char op) {
     inventoryScreen();
     //draw(std::cout);
     break;
+  case NPCINTERACT :
+    if (rooms[currentRoom].getItems().size() != 0) {
+
+    } else {
+      std::cout << "There are no NPC's in this room." << std::endl;
+    }
+    //draw(std::cout);
+    break;
   default :
 
     break;
@@ -189,6 +206,7 @@ void Game::inventoryScreen() {
     case EXAMINE:
      std::cout << "Which item do you want to examine?" << std::endl;
       std::cin >> number;
+      std::cout << player.getInventory()[number - 1].examine << std::endl;
       break;
     case EXIT:
       std::cin.clear();
@@ -199,6 +217,20 @@ void Game::inventoryScreen() {
       break;
     }
   }
+}
+
+void Game::show_ascii(std::string loc)
+{
+    std::ifstream open (loc);
+    std::string out;
+    if(open.is_open())
+    {
+        while(open.eof() == false)
+        {
+            getline(open, out);
+            std::cout << out << std::endl;
+        }
+    }
 }
 
 Game::~Game() {

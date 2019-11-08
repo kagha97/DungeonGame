@@ -9,10 +9,11 @@ class Item : public GameObject
 {
   public:
     ItemType type;
-    Item(int itemId, std::string n, ItemType t, int val);
+    Item(int itemId, std::string n, std::string exam, ItemType t, int val);
     virtual ~Item();
     std::string name;
     int value;
+    std::string examine;
 
   protected:
 

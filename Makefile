@@ -76,7 +76,7 @@ style: $(SRC_DIR) $(TEST_DIR) $(SRC_INCLUDE)
 	$(STYLE_CHECK) $(SRC_INCLUDE)/* $(SRC_DIR)/* $(TEST_DIR)/*
 
 docs: $(SRC_INCLUDE)
-	doxygen $(DOXY_DIR)/doxyfile
+	doxygen doxyfile
 
 play: $(PROGRAM_GAME)
 	./$(PROGRAM_GAME)

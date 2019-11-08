@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "GameConstants.h"
 #include "Player.h"
+#include <fstream>
 
 void gameOver(Player p) {
   std::cout << "YOU DIED";
@@ -12,14 +13,15 @@ void clearScreen() {
   std::cout << std::string( 100, '\n' );
 }
 
+
 int main() {
+  Game* game;
   std::cout << "Welcome to Dungeon Game!" << std::endl;
   std::cout << "Developed by Fafnir Studios LTD. All rights reserved." <<
             std::endl << std::endl;
   std::cout << "Options:" << std::endl;
   std::cout << "Press " << LOADGAME << " to load a save" << std::endl;
   std::cout << "Press " << NEWGAME << " to start a new game" << std::endl;
-  Game* game;
   bool getStart = true;
   while (getStart) {
     char inputChar;
@@ -58,8 +60,6 @@ int main() {
     }
     game->draw(std::cout);
   }
-
-
 
 
   return 0;
