@@ -9,7 +9,7 @@
 #include <string>
 #include <sstream>
 
-class Room : public GameObject
+class Room
 {
   public:
     Room(int roomId);
@@ -33,6 +33,7 @@ class Room : public GameObject
     std::vector<Item> items;
     std::vector<NPC> npcs;
     std::string description;
+    int id;
 };
 
 #endif // ROOM_H

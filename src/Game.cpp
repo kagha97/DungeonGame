@@ -98,20 +98,20 @@ Game::Game(int roomCount) {
   }
 
 
-  for (auto const& x : ITEMS) {
+  for (auto const& x : ITEMLOCATIONS) {
       for (int i : x.second) {
-        rooms[i].addItem(x.first);
+        rooms[i].addItem(ITEMS.at(x.first));
       }
-    if (x.first.type == Key) {
-      // If the item is a key, lock the room corresponding to its value
-      rooms[x.first.value].locked = true;
+    if (ITEMS.find(x.first)->second.type == Key) {
+       //If the item is a key, lock the room corresponding to its value
+     rooms[ITEMS.find(x.first)->second.value].locked = true;
     }
   }
 
   //add npc to room
-  for (auto const& x : NPCS) {
+  for (auto const& x : NPCLOCATIONS) {
      for (int i : x.second) {
-        rooms[i].addNPC(x.first);
+        rooms[i].addNPC(NPCS.at(x.first));
       }
   }
 
