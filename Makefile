@@ -1,4 +1,4 @@
-PROJECT_DIR = 
+PROJECT_DIR = Fafnir
 PROGRAM_TEST = testDungeonGame
 PROGRAM_GAME = DungeonGame
 
@@ -11,6 +11,7 @@ SRC_DIR = src
 GAME_SRC_DIR = src/game
 
 TEST_DIR = test
+
 
 SRC_INCLUDE = include
 INCLUDE = -I $(SRC_INCLUDE)
@@ -35,7 +36,7 @@ all: tests memory coverage docs static style
 
 .PHONY: clean
 clean:
-	rm -rf *~ $(SRC)/*.o $(TEST_DIR)/$(TEST_OUTPUT_FILE) \
+	rm -rf *~ $(SRC)/*.o $(TEST_DIR)/$(PROGRAM_TEST) \
 	*.gcov *.gcda *.gcno *.orig ???*/*.orig \
 	*.bak ???*/*.bak $(PROGRAM_GAME) \
 	???*/*~ ???*/???*/*~ $(COVERAGE_RESULTS) \
@@ -67,7 +68,7 @@ coverage: $(PROGRAM_TEST)
 	#Generate the HTML reports
 	genhtml $(COVERAGE_RESULTS) --output-directory $(COVERAGE_DIR)
 	#Remove all of the generated files from gcov
-	rm -f *.gcda *.gcno
+	rm -f *.gc*
 
 static: $(SRC_DIR) $(TEST_DIR)
 	$(STATIC_ANALYSIS) --verbose --enable=all $(SRC_DIR) $(TEST_DIR) $(SRC_INCLUDE) --suppress=missingInclude

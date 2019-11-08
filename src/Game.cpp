@@ -1,9 +1,11 @@
 #include "Game.h"
 
 void Game::draw(std::ostream& os) {
+  int cr = player.getCurrentRoom();
   switch (GlobalState) {
   case Play:
     drawPlay(os);
+    os << rooms[cr].getDescription() << std::endl;
     os << ActionRecord::getRecords() << std::endl;
     break;
   case Inventory:
@@ -13,8 +15,9 @@ void Game::draw(std::ostream& os) {
   case ItemUse:
   case ItemDrop:
   case ItemExamine:
-  case InteractNPC:
     drawInventorySubMenu(os);
+    break;
+  case InteractNPC:
     break;
   default:
     break;
@@ -28,7 +31,7 @@ void Game::drawPlay(std::ostream& os) {
   if (roomCount < 1)
     return;
   int currentRoom = player.getCurrentRoom();
-  os << rooms[currentRoom].getDescription() << std::endl;
+  //ActionRecord::addRecord(rooms[currentRoom].getDescription());
 
   int tmpNewLine = 0;
   for (int i = 0; i < roomCount; i++) {
@@ -75,8 +78,10 @@ std::string Game::getOptionsString() {
 
   ss << "Enter " << UP << " , " << DOWN << " , " << LEFT << " , " << RIGHT <<
      " to move north, south, west, or east." << std::endl;
-  ss << "Enter " << PICK << " to pick up items in the room, if there are any." << std::endl;
-  ss << "Enter " << NPCINTERACT << " to see list of NPCS in the room." << std::endl;
+  ss << "Enter " << PICK << " to pick up items in the room, if there are any." <<
+     std::endl;
+  ss << "Enter " << NPCINTERACT << " to see list of NPCS in the room." <<
+     std::endl;
 
   return ss.str();
 }
@@ -107,20 +112,20 @@ Game::Game(int roomCount) {
 
 
   for (auto const& x : ITEMLOCATIONS) {
-      for (int i : x.second) {
-        rooms[i].addItem(ITEMS.at(x.first));
-      }
+    for (int i : x.second) {
+      rooms[i].addItem(ITEMS.at(x.first));
+    }
     if (ITEMS.find(x.first)->second.type == Key) {
-       //If the item is a key, lock the room corresponding to its value
-     rooms[ITEMS.find(x.first)->second.value].locked = true;
+      //If the item is a key, lock the room corresponding to its value
+      rooms[ITEMS.find(x.first)->second.value].locked = true;
     }
   }
 
   //add npc to room
   for (auto const& x : NPCLOCATIONS) {
-     for (int i : x.second) {
-        rooms[i].addNPC(NPCS.at(x.first));
-      }
+    for (int i : x.second) {
+      rooms[i].addNPC(NPCS.at(x.first));
+    }
   }
 
 }
@@ -205,7 +210,7 @@ void Game::movePlayer(char dir) {
   switch (std::toupper(dir)) {
   case UP :
     if (currentRoom < mapWidth) {
-        ActionRecord::addRecord("You cannot go that way.");
+      ActionRecord::addRecord("You cannot go that way.");
       break;
     }
     dirString = "north";
@@ -278,18 +283,15 @@ void Game::lootRoom() {
 
 
 
-void Game::show_ascii(std::string loc)
-{
-    std::ifstream open(loc);
-    std::string out;
-    if(open.is_open())
-    {
-        while(open.eof() == false)
-        {
-            getline(open, out);
-            std::cout << out << std::endl;
-        }
+void Game::show_ascii(std::string loc) {
+  std::ifstream open(loc);
+  std::string out;
+  if (open.is_open()) {
+    while (open.eof() == false) {
+      getline(open, out);
+      std::cout << out << std::endl;
     }
+  }
 }
 
 Game::~Game() {

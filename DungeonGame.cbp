@@ -38,7 +38,6 @@
 		<Unit filename="include/Exceptions.h" />
 		<Unit filename="include/Game.h" />
 		<Unit filename="include/GameConstants.h" />
-		<Unit filename="include/GameObject.h" />
 		<Unit filename="include/GameState.h" />
 		<Unit filename="include/Item.h" />
 		<Unit filename="include/ItemType.h" />
@@ -47,12 +46,12 @@
 		<Unit filename="include/Room.h" />
 		<Unit filename="src/ActionRecord.cpp" />
 		<Unit filename="src/Game.cpp" />
-		<Unit filename="src/GameObject.cpp" />
 		<Unit filename="src/Item.cpp" />
 		<Unit filename="src/NPC.cpp" />
 		<Unit filename="src/Player.cpp" />
 		<Unit filename="src/Room.cpp" />
 		<Unit filename="src/game/main.cpp" />
+		<Unit filename="test/main.cpp" />
 		<Extensions>
 			<envvars />
 			<code_completion />

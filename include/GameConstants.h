@@ -27,6 +27,8 @@ const char NPCINTERACT = 'T';
 const int ROOMCOUNT = 25;
 const int MAXHEALTH = 99;
 const int MAXHUNGER = 99;
+const int HUNGERGAIN = 3;
+const int HEALTHLOSS = 10;
 
 // Action Record
 const int MAXRECORDS = 5;

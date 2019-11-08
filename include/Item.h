@@ -2,8 +2,6 @@
 #define ITEM_H
 #include <string>
 #include "ItemType.h"
-#include "GameObject.h"
-
 
 class Item
 {
@@ -14,6 +12,8 @@ class Item
     std::string name;
     int value;
     std::string examine;
+
+    bool operator==(const Item& it) const;
 
   protected:
 

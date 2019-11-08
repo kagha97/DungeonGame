@@ -49,3 +49,7 @@ docs/code
 # Coverage
 *.gc*
 *.coverage
+coverage/
+html/
+latex/
+

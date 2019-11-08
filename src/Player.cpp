@@ -18,9 +18,9 @@ void Player::addItem(Item i) {
 
 void Player::updateValues() {
   if (hunger < MAXHUNGER) {
-    hunger ++;
+    hunger += HUNGERGAIN;
   } else {
-    health -=10;
+    health -= HEALTHLOSS;
     ActionRecord::addRecord("You are hungry. You need to find food or you will die!");
   }
 
