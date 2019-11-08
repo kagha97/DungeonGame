@@ -44,7 +44,7 @@ obj/
 *.bak
 
 # Docs
-docs/
+docs/code
 
 # Coverage
 *.gc*

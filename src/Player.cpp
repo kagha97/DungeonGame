@@ -21,8 +21,7 @@ void Player::updateValues() {
     hunger ++;
   } else {
     health -=10;
-    std::cout << "You are hungry. You need to find food or you will die!" <<
-              std::endl;
+    ActionRecord::addRecord("You are hungry. You need to find food or you will die!");
   }
 
   if (health < 1) {
@@ -34,54 +33,46 @@ void Player::updateValues() {
 
 bool Player::consumeItem(Item it) {
   for (int i = 0; i < inventory.size(); i++) {
+    std::string valStr = std::to_string(it.value);
     switch (it.type) {
     case Food:
       inventory.erase(inventory.begin() + i);
-
       if (hunger - it.value >= 0) {
         hunger -= inventory[i].value;
-        std::cout << "You eat the " << it.name << ". It reduces your hunger by " <<
-                  inventory[i].value << "." << std::endl;
+        ActionRecord::addRecord("You eat the " + it.name + ". It reduces your hunger by " + valStr + ".");
       } else {
         hunger = 0;
-        std::cout << "You eat the " << it.name << ". You are full." << std::endl;
+        ActionRecord::addRecord("You eat the " + it.name + ". You are full.");
       }
-
 
     case Potion:
       inventory.erase(inventory.begin() + i);
 
       if (health + it.value <= MAXHEALTH) {
-        health += inventory[i].value;
+        health += it.value;
         if (it.value < 0) {
-          std::cout << "You drink the " << it.name <<
-                    ". It tastes like garbage and it hurts you! " << inventory[i].value <<
-                    " health." << std::endl;
+          ActionRecord::addRecord("You drink the " + it.name + ". It tastes like garbage and it hurts you! " + valStr + " health.");
         } else {
-          std::cout << "You drink the " << it.name << ". It refills " <<
-                    inventory[i].value << " health." << std::endl;
+
+          ActionRecord::addRecord("You drink the " + it.name + ". It refills " + valStr + " health.");
         }
 
       } else {
         health = MAXHEALTH;
-        std::cout << "You drink the " << it.name << ". You are fully healed." <<
-                  std::endl;
+        ActionRecord::addRecord("You drink the " + it.name + ". You are fully healed.");
       }
 
       return true;
     case Treasure:
-      std::cout << "You attempt to eat the " << it.name << ". You choke and die." <<
-                std::endl;
+      ActionRecord::addRecord("You attempt to eat the " + it.name + ". You choke and die.");
       dead = true;
       return false;
     case Weapon:
-      std::cout << "You attempt to eat the " << it.name << ". You choke and die." <<
-                std::endl;
+      ActionRecord::addRecord("You attempt to eat the " + it.name + ". You choke and die.");
       dead = true;
       return false;
     case Key:
-      std::cout << "You attempt to eat the " << it.name << ". You choke and die." <<
-                std::endl;
+      ActionRecord::addRecord("You attempt to eat the " + it.name + ". You choke and die.");
       dead = true;
       return false;
     }
@@ -90,64 +81,8 @@ bool Player::consumeItem(Item it) {
   return false;
 }
 bool Player::consumeItem(int i) {
-  switch (inventory[i].type) {
-  case Food:
-    inventory.erase(inventory.begin() + i);
-
-    if (hunger - inventory[i].value >= 0) {
-      hunger -= inventory[i].value;
-      std::cout << "You eat the " << inventory[i].name <<
-                ". It reduces your hunger by " <<
-                inventory[i].value << "." << std::endl;
-    } else {
-      hunger = 0;
-      std::cout << "You eat the " << inventory[i].name << ". You are full." <<
-                std::endl;
-    }
-
-  return true;
-  case Potion:
-    inventory.erase(inventory.begin() + i);
-
-    if (health + inventory[i].value <= MAXHEALTH) {
-      health += inventory[i].value;
-      if (inventory[i].value < 0) {
-        std::cout << "You drink the " << inventory[i].name <<
-                  ". It tastes like garbage and it hurts you! " << inventory[i].value <<
-                  " health." << std::endl;
-      } else {
-        std::cout << "You drink the " << inventory[i].name << ". It refills " <<
-                  inventory[i].value << " health." << std::endl;
-      }
-
-    } else {
-      health = MAXHEALTH;
-      std::cout << "You drink the " << inventory[i].name << ". You are fully healed."
-                <<
-                std::endl;
-    }
-
-    return true;
-  case Treasure:
-    std::cout << "You attempt to eat the " << inventory[i].name <<
-              ". You choke and die." <<
-              std::endl;
-    dead = true;
-    return false;
-  case Weapon:
-    std::cout << "You attempt to eat the " << inventory[i].name <<
-              ". You choke and die." <<
-              std::endl;
-    dead = true;
-    return false;
-  case Key:
-    std::cout << "You attempt to eat the " << inventory[i].name <<
-              ". You choke and die." <<
-              std::endl;
-    dead = true;
-    return false;
-  }
-  return true;
+  Item it = inventory[i];
+  return consumeItem(it);
 }
 
 

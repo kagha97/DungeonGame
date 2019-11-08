@@ -1,7 +1,8 @@
 #include "NPC.h"
 
-NPC::NPC(std::string n){
+NPC::NPC(int npcID, std::string n){
   name = n;
+  id = npcID;
 }
 
 void NPC::addItem(Item i)
