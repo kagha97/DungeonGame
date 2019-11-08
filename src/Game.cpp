@@ -173,7 +173,6 @@ void Game::getInput(std::istream& inStr) {
     break;
   }
   inStr.clear();
-  player.updateValues();
 }
 
 void Game::movePlayer(char dir) {
@@ -242,6 +241,7 @@ void Game::movePlayer(char dir) {
       std::cout << "That room is locked" << std::endl;
     }
   }
+  player.updateValues();
 }
 
 void Game::lootRoom() {
