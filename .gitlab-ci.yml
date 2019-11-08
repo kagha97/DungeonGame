@@ -2,8 +2,6 @@ build:
    stage: build
    only:
     - Dev
-  except:
-    - master
    script:
       - make DungeonGame
    artifacts:
