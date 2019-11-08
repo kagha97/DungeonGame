@@ -40,7 +40,7 @@ obj/
 *.bak
 
 # Docs
-docs/
+docs/code
 documentation/
 
 # Coverage
