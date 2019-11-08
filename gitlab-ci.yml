@@ -5,6 +5,9 @@ build:
    artifacts:
       paths:
          - DungeonGame
+    only:
+    - Dev
+
 
 test:
    stage: test
