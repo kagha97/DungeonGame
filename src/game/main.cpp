@@ -52,11 +52,11 @@ int main() {
 
     game->movePlayer(inputChar);
     game->otherRoomOptions(inputChar);
-    game->draw(std::cout);
     if(game->player.dead){
         gameOver(game->player);
       break;
     }
+    game->draw(std::cout);
   }
 
 

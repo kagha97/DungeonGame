@@ -153,6 +153,7 @@ void Game::otherRoomOptions(char op) {
     }
   case INVENTORY :
     inventoryScreen();
+    //draw(std::cout);
     break;
   default :
 
@@ -165,26 +166,36 @@ void Game::otherRoomOptions(char op) {
 
 void Game::inventoryScreen() {
   while (true) {
-    player.showInventory();
+    std::cout << player.showInventory() << std::endl;
     char opt = ' ';
     int number = -1;
-    std::cin >> opt >> number;
+    std::cout << "Enter " << USE << " to use an item, " << EXAMINE << " to examine the item, and " << DROP << " to drop an item." << std::endl;
+    std::cout << "Enter Option: " << std::endl;
+    std::cin >> opt;
 
     switch (std::toupper(opt)) {
     case USE:
-        player.consumeItem(player.getInventory()[number - 1]);
+      std::cout << "Which item do you want to use?" << std::endl;
+      std::cin >> number;
+      if(!player.consumeItem(player.getInventory()[number - 1])) {
+        std::cin.clear();
+      return;
+      }
       break;
     case DROP:
+      std::cout << "Which item do you want to drop?" << std::endl;
+      std::cin >> number;
       break;
     case EXAMINE:
+     std::cout << "Which item do you want to examine?" << std::endl;
+      std::cin >> number;
       break;
     case EXIT:
       std::cin.clear();
-      std::cin.ignore(10000, '\n')
       return;
       break;
     default :
-      return;
+      std::cin.clear();
       break;
     }
   }

@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "GameConstants.h"
 #include "Exceptions.h"
+//#include "GameState.h"
 
 class Game
 {
@@ -26,6 +27,7 @@ class Game
   protected:
 
   private:
+    //State state
     std::vector<Room> rooms;
 };
 

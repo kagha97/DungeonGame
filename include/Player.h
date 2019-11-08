@@ -5,6 +5,8 @@
 #include "ItemType.h"
 #include "string"
 #include  <sstream>
+#include "GameConstants.h"
+#include <iostream>
 
 class Player
 {
@@ -23,7 +25,7 @@ class Player
   protected:
 
   private:
-    int health = 100;
+    int health = MAXHEALTH;
     int hunger = 0;
     int currentRoom = 0;
     std::vector<Item> inventory;

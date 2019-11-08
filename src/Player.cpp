@@ -19,13 +19,14 @@ void Player::addItem(Item i) {
 }
 
 void Player::increaseHunger() {
-  if (hunger < 100) {
+  if (hunger < MAXHUNGER) {
     hunger ++;
   } else {
     health -=10;
+    std::cout << "You are hungry. You need to find food or you will die!" << std::endl;
   }
 
-  if(health < 0) {
+  if(health < 1) {
     dead = true;
   }
 
@@ -35,24 +36,56 @@ void Player::increaseHunger() {
 bool Player::consumeItem(Item it) {
   for (int i = 0; i < inventory.size(); i++) {
       switch (it.type) {
-      case Potion:
       case Food:
         inventory.erase(inventory.begin() + i);
-        health += inventory[i].value;
+
+        if (hunger - it.value >= 0) {
+          hunger -= inventory[i].value;
+          std::cout << "You eat the " << it.name << ". It reduces your hunger by " << inventory[i].value << "." << std::endl;
+        }
+        else
+        {
+          hunger = 0;
+          std::cout << "You eat the " << it.name << ". You are full." << std::endl;
+        }
+
+
+      case Potion:
+        inventory.erase(inventory.begin() + i);
+
+        if (health + it.value <= MAXHEALTH) {
+          health += inventory[i].value;
+          if(it.value < 0) {
+            std::cout << "You drink the " << it.name << ". It tastes like garbage and it hurts you! " << inventory[i].value << " health." << std::endl;
+          }
+          else
+          {
+            std::cout << "You drink the " << it.name << ". It refills " << inventory[i].value << " health." << std::endl;
+          }
+
+        }
+        else
+        {
+          health = MAXHEALTH;
+          std::cout << "You drink the " << it.name << ". You are fully healed." << std::endl;
+        }
+
         return true;
       case Treasure:
-
-        break;
+        std::cout << "You attempt to eat the " << it.name << ". You choke and die." << std::endl;
+        dead = true;
+        return false;
       case Weapon:
-        break;
+        std::cout << "You attempt to eat the " << it.name << ". You choke and die." << std::endl;
+        dead = true;
+        return false;
       case Key:
-        if(inventory[i] == it) {
-
-        inventory.erase(inventory.begin() + i);
-        return true;
+        std::cout << "You attempt to eat the " << it.name << ". You choke and die." << std::endl;
+        dead = true;
+        return false;
         }
     }
-  }
+
   return false;
 }
 

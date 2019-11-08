@@ -23,6 +23,9 @@ const char PICK = 'P';
 
 
 const int ROOMCOUNT = 25;
+const int MAXHEALTH = 99;
+const int MAXHUNGER = 99;
+
 
 //TODO: Move these to external text file. Possibly in json format.
 const std::string ROOMDESC[ROOMCOUNT] = {
@@ -61,7 +64,8 @@ const std::map<Item, int> ITEMS = {
   {Item(104, "Gold Key", Key, 12), 20},
 
   {Item(201, "Red Potion", Potion, 15), 2},
-  {Item(202, "Suspicious Potion", Potion, -12), 2},
+  {Item(202, "Suspicious Potion", Potion, -10), 2},
+
 
   {Item(301, "Burger", Food, 25), 2},
   {Item(302, "Spider", Food, 3), 2},
