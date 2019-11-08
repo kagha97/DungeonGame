@@ -17,6 +17,8 @@ class Player
     void addItem(Item i);
     bool consumeItem (Item it);
     bool consumeItem (int it);
+    bool removeItem (Item it);
+    bool removeItem (int it);
     std::string getStatsString();
     void updateValues();
     bool dead = false;

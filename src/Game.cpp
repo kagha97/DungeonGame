@@ -1,19 +1,25 @@
 #include "Game.h"
 
 void Game::draw(std::ostream& os) {
-  switch (state) {
+  switch (GlobalState) {
   case Play:
     drawPlay(os);
+    os << ActionRecord::getRecords() << std::endl;
     break;
   case Inventory:
     drawInventory(os);
+    os << ActionRecord::getLatest() << std::endl;
     break;
   case ItemUse:
+  case ItemDrop:
+  case ItemExamine:
+  case InteractNPC:
     drawInventorySubMenu(os);
+    break;
+  default:
     break;
   }
   os << std::endl;
-  os << ActionRecord::getRecords() << std::endl;
   os << "Enter Option: ";
 }
 
@@ -51,7 +57,7 @@ void Game::drawInventory(std::ostream& os) {
 
 void Game::drawInventorySubMenu(std::ostream& os) {
   drawInventory(os);
-  switch (state) {
+  switch (GlobalState) {
   case ItemUse:
     os << "Which item do you want to use?" << std::endl;
     break;
@@ -89,6 +95,8 @@ Game::Game(int roomCount) {
     throw room_count_too_large_error("Cannot have more than 25 rooms");
   }
 
+  GlobalState = Play;
+
   // Create rooms
   for (int i = 0; i < roomCount; i++) {
 
@@ -119,10 +127,10 @@ Game::Game(int roomCount) {
 
 void Game::getInput(std::istream& inStr) {
 
-  int inInt;
-  char inChar;
+  int inInt = 0;
+  char inChar = ' ';
 
-  switch (state) {
+  switch (GlobalState) {
   case MainMenu:
   case Play:
   case Inventory:
@@ -136,12 +144,13 @@ void Game::getInput(std::istream& inStr) {
     break;
   }
 
-  switch (state) {
+  switch (GlobalState) {
   case MainMenu:
   case Play:
     switch (inChar) {
     case INVENTORY:
-      state = Inventory;
+      GlobalState = Inventory;
+      ActionRecord::addRecord("You open your inventory.");
       break;
     case UP:
     case DOWN:
@@ -157,30 +166,31 @@ void Game::getInput(std::istream& inStr) {
   case Inventory:
     switch (inChar) {
     case USE:
-      state = ItemUse;
+      GlobalState = ItemUse;
       break;
     case DROP:
-      state = ItemDrop;
+      GlobalState = ItemDrop;
       break;
     case EXAMINE:
-      state = ItemExamine;
+      GlobalState = ItemExamine;
       break;
     case EXIT:
-      state = Play;
+      GlobalState = Play;
+      ActionRecord::addRecord("You close your inventory.");
       break;
     }
     break;
   case ItemUse:
     player.consumeItem(inInt - 1);
-    state = Inventory;
+    GlobalState = Inventory;
     break;
   case ItemDrop:
     //player.dropItem(inInt - 1);
-    state = Inventory;
+    GlobalState = Inventory;
     break;
   case ItemExamine:
     //player.examineItem(inInt - 1);
-    state = Inventory;
+    GlobalState = Inventory;
     break;
   }
   inStr.clear();
@@ -240,7 +250,7 @@ void Game::movePlayer(char dir) {
       for (Item it : player.getInventory()) {
         if (rooms[roomIndex].tryKey(it)) {
           ActionRecord::addRecord("You use " + it.name + " to unlock the room.");
-          player.consumeItem(it);
+          player.removeItem(it);
         }
       }
     }

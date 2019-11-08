@@ -30,31 +30,70 @@ void Player::updateValues() {
 
 }
 
+bool Player::removeItem(Item it) {
+  if (inventory.size() < 1) {
+    return false;
+  }
+
+  for(int i = 0; i < inventory.size(); i++) {
+    if(inventory[i] == it) {
+      return removeItem(i);
+    }
+  }
+  return false;
+}
+
+bool Player::removeItem(int it) {
+  inventory.erase(inventory.begin() + it);
+}
 
 bool Player::consumeItem(Item it) {
-  for (int i = 0; i < inventory.size(); i++) {
-    std::string valStr = std::to_string(it.value);
+  if (inventory.size() < 1) {
+    return false;
+  }
+
+  for(int i = 0; i < inventory.size(); i++) {
+    if(inventory[i] == it) {
+      return consumeItem(i);
+    }
+  }
+  return false;
+}
+bool Player::consumeItem(int i) {
+  if (inventory.size() < 1) {
+    return false;
+  }
+  if (i < 0) {
+    ActionRecord::addRecord("Please enter a number corresponding to the item.");
+    return false;
+  }
+
+  Item it = inventory[i];
+   std::string valStr = std::to_string(it.value);
     switch (it.type) {
     case Food:
       inventory.erase(inventory.begin() + i);
       if (hunger - it.value >= 0) {
         hunger -= inventory[i].value;
-        ActionRecord::addRecord("You eat the " + it.name + ". It reduces your hunger by " + valStr + ".");
+        ActionRecord::addRecord("You eat the " + it.name +
+                                ". It reduces your hunger by " + valStr + ".");
       } else {
         hunger = 0;
         ActionRecord::addRecord("You eat the " + it.name + ". You are full.");
       }
-
+      return true;
     case Potion:
       inventory.erase(inventory.begin() + i);
 
       if (health + it.value <= MAXHEALTH) {
         health += it.value;
         if (it.value < 0) {
-          ActionRecord::addRecord("You drink the " + it.name + ". It tastes like garbage and it hurts you! " + valStr + " health.");
+          ActionRecord::addRecord("You drink the " + it.name +
+                                  ". It tastes like garbage and it hurts you! " + valStr + " health.");
         } else {
 
-          ActionRecord::addRecord("You drink the " + it.name + ". It refills " + valStr + " health.");
+          ActionRecord::addRecord("You drink the " + it.name + ". It refills " + valStr +
+                                  " health.");
         }
 
       } else {
@@ -64,28 +103,23 @@ bool Player::consumeItem(Item it) {
 
       return true;
     case Treasure:
-      ActionRecord::addRecord("You attempt to eat the " + it.name + ". You choke and die.");
+      ActionRecord::addRecord("You attempt to eat the " + it.name +
+                              ". You choke and die.");
       dead = true;
       return false;
     case Weapon:
-      ActionRecord::addRecord("You attempt to eat the " + it.name + ". You choke and die.");
+      ActionRecord::addRecord("You attempt to eat the " + it.name +
+                              ". You choke and die.");
       dead = true;
       return false;
     case Key:
-      ActionRecord::addRecord("You attempt to eat the " + it.name + ". You choke and die.");
+      ActionRecord::addRecord("You attempt to eat the " + it.name +
+                              ". You choke and die.");
       dead = true;
       return false;
     }
-  }
-
   return false;
 }
-bool Player::consumeItem(int i) {
-  Item it = inventory[i];
-  return consumeItem(it);
-}
-
-
 
 std::string Player::getStatsString() {
   std::stringstream ss;

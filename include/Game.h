@@ -29,7 +29,6 @@ class Game
   protected:
 
   private:
-    State state = Play;
     void movePlayer(char dir);
     void lootRoom();
     void drawPlay(std::ostream& os);
