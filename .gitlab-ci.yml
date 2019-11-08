@@ -1,12 +1,13 @@
 build:
    stage: build
+   only:
+    - Dev
+  except:
+    - master
    script:
       - make DungeonGame
    artifacts:
-      paths:
-         - DungeonGame
-    only:
-        - Dev
+
          
 test:
    stage: test
