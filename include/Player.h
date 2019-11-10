@@ -21,6 +21,7 @@ class Player
     bool removeItem (Item it);
     bool removeItem (int it);
     bool dropItem (int it, Room *room);
+    std::string examineItem(int it);
     std::string getStatsString();
     void updateValues();
     bool dead = false;

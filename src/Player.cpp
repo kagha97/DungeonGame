@@ -145,6 +145,11 @@ bool Player::dropItem(int it, Room *room) {
     return removeItem(it);
 }
 
+std::string Player::examineItem(int it) {
+    ActionRecord::addRecord(inventory[it].examine);
+    return inventory[it].examine;
+}
+
 std::vector<Item> Player::getInventory() {
   return inventory;
 }

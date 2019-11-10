@@ -193,7 +193,7 @@ void Game::getInput(std::istream& inStr) {
     GlobalState = Inventory;
     break;
   case ItemExamine:
-    //player.examineItem(inInt - 1);
+    player.examineItem(inInt - 1);
     GlobalState = Inventory;
     break;
   }
