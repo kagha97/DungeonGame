@@ -131,7 +131,6 @@ Game::Game(int roomCount) {
 }
 
 void Game::getInput(std::istream& inStr) {
-
   int inInt = 0;
   char inChar = ' ';
 
@@ -190,7 +189,7 @@ void Game::getInput(std::istream& inStr) {
     GlobalState = Inventory;
     break;
   case ItemDrop:
-    //player.dropItem(inInt - 1);
+    player.dropItem(inInt - 1, &rooms[player.getCurrentRoom()]);
     GlobalState = Inventory;
     break;
   case ItemExamine:

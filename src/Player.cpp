@@ -139,6 +139,12 @@ std::string Player::showInventory() {
   return ss.str();
 }
 
+bool Player::dropItem(int it, Room *room) {
+    room->addItem(inventory[it]);
+    ActionRecord::addRecord("You drop the " + inventory[it].name +".");
+    return removeItem(it);
+}
+
 std::vector<Item> Player::getInventory() {
   return inventory;
 }

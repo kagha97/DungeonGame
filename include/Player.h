@@ -8,6 +8,7 @@
 #include "GameConstants.h"
 #include <iostream>
 #include "ActionRecord.h"
+#include "Room.h"
 
 class Player
 {
@@ -19,6 +20,7 @@ class Player
     bool consumeItem (int it);
     bool removeItem (Item it);
     bool removeItem (int it);
+    bool dropItem (int it, Room *room);
     std::string getStatsString();
     void updateValues();
     bool dead = false;
