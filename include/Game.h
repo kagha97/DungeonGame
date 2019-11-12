@@ -25,8 +25,8 @@ class Game
     std::string getOptionsString();
     std::string getRoomDescription(int r);
     void inventoryScreen();
+    State state;
     virtual ~Game();
-
     std::vector<std::string> miniMap();
   protected:
 

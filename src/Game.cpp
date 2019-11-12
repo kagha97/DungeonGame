@@ -2,7 +2,7 @@
 
 void Game::draw(std::ostream& os) {
   int cr = player.getCurrentRoom();
-  switch (GlobalState) {
+  switch (state) {
   case Play:
     drawPlay(os);
     os << rooms[cr].getDescription() << std::endl;
@@ -60,7 +60,7 @@ void Game::drawInventory(std::ostream& os) {
 
 void Game::drawInventorySubMenu(std::ostream& os) {
   drawInventory(os);
-  switch (GlobalState) {
+  switch (state) {
   case ItemUse:
     os << "Which item do you want to use?" << std::endl;
     break;
@@ -100,7 +100,7 @@ Game::Game(int roomCount) {
     throw room_count_too_large_error("Cannot have more than 25 rooms");
   }
 
-  GlobalState = Play;
+  state = Play;
 
   // Create rooms
   for (int i = 0; i < roomCount; i++) {
@@ -134,7 +134,7 @@ void Game::getInput(std::istream& inStr) {
   int inInt = 0;
   char inChar = ' ';
 
-  switch (GlobalState) {
+  switch (state) {
   case MainMenu:
   case Play:
   case Inventory:
@@ -148,12 +148,12 @@ void Game::getInput(std::istream& inStr) {
     break;
   }
 
-  switch (GlobalState) {
+  switch (state) {
   case MainMenu:
   case Play:
     switch (inChar) {
     case INVENTORY:
-      GlobalState = Inventory;
+      state = Inventory;
       ActionRecord::addRecord("You open your inventory.");
       break;
     case UP:
@@ -170,31 +170,31 @@ void Game::getInput(std::istream& inStr) {
   case Inventory:
     switch (inChar) {
     case USE:
-      GlobalState = ItemUse;
+      state = ItemUse;
       break;
     case DROP:
-      GlobalState = ItemDrop;
+      state = ItemDrop;
       break;
     case EXAMINE:
-      GlobalState = ItemExamine;
+      state = ItemExamine;
       break;
     case EXIT:
-      GlobalState = Play;
+      state = Play;
       ActionRecord::addRecord("You close your inventory.");
       break;
     }
     break;
   case ItemUse:
     player.consumeItem(inInt - 1);
-    GlobalState = Inventory;
+    state = Inventory;
     break;
   case ItemDrop:
     player.dropItem(inInt - 1, &rooms[player.getCurrentRoom()]);
-    GlobalState = Inventory;
+    state = Inventory;
     break;
   case ItemExamine:
     player.examineItem(inInt - 1);
-    GlobalState = Inventory;
+    state = Inventory;
     break;
   }
   inStr.clear();
