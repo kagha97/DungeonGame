@@ -11,13 +11,13 @@ class NPC
     bool hostile;
     virtual ~NPC();
     void addItem(Item i);
+    std::string name;
 
   protected:
 
   private:
     int health = 100;
     std::vector<Item> inventory;
-    std::string name;
 };
 
 #endif // NPC_H

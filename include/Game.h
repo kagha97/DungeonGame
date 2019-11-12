@@ -23,6 +23,7 @@ class Game
     void getInput(std::istream& inStr);
     void show_ascii(std::string loc);
     std::string getOptionsString();
+    void drawNpcList();
     void inventoryScreen();
     virtual ~Game();
 
@@ -34,6 +35,8 @@ class Game
     void drawPlay(std::ostream& os);
     void drawInventory(std::ostream& os);
     void drawInventorySubMenu(std::ostream& os);
+    void drawNpcList(std::ostream& os);
+    void drawNpcSubMenu(std::ostream& os);
     std::vector<Room> rooms;
 };
 

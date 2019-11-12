@@ -17,7 +17,8 @@ void Game::draw(std::ostream& os) {
   case ItemExamine:
     drawInventorySubMenu(os);
     break;
-  case InteractNPC:
+  case NPCList:
+    drawNpcList(os);
     break;
   default:
     break;
@@ -80,7 +81,7 @@ std::string Game::getOptionsString() {
      " to move north, south, west, or east." << std::endl;
   ss << "Enter " << PICK << " to pick up items in the room, if there are any." <<
      std::endl;
-  ss << "Enter " << NPCINTERACT << " to see list of NPCS in the room." <<
+  ss << "Enter " << NPCVIEW << " to see list of NPCS in the room." <<
      std::endl;
 
   return ss.str();
@@ -146,6 +147,15 @@ void Game::getInput(std::istream& inStr) {
   case ItemExamine:
     inStr >> inInt;
     break;
+  case NPCList:
+    inStr >> inChar;
+    inChar = std::toupper(inChar);
+    break;
+  case TalkNPC:
+  case ExamineNPC:
+    inStr >> inInt;
+    break;
+
   }
 
   switch (GlobalState) {
@@ -165,6 +175,10 @@ void Game::getInput(std::istream& inStr) {
     case PICK:
       lootRoom();
       break;
+    case NPCVIEW:
+        GlobalState = NPCList;
+        ActionRecord::addRecord("The NPCS in this room.");
+        break;
     }
     break;
   case Inventory:
@@ -196,7 +210,29 @@ void Game::getInput(std::istream& inStr) {
     player.examineItem(inInt - 1);
     GlobalState = Inventory;
     break;
+
+  case NPCList:
+    switch (inChar) {
+      case TALK:
+       GlobalState = TalkNPC;
+        break;
+      case EXMNPC:
+       GlobalState = ExamineNPC;
+        break;
+      case EXIT:
+      GlobalState = Play;
+      ActionRecord::addRecord("You are out of the NPC screen.");
+      break;
+    }
+    break;
+    case TalkNPC:
+        GlobalState = NPCList;
+        break;
+    case ExamineNPC:
+        GlobalState = NPCList;
+        break;
   }
+
   inStr.clear();
 }
 
@@ -267,6 +303,36 @@ void Game::movePlayer(char dir) {
   }
   player.updateValues();
 }
+
+//NPC STUFF
+
+void Game::drawNpcList(std::ostream& os) {
+  int currentRoom = player.getCurrentRoom();
+  os << rooms[currentRoom].showNPCS() << std::endl;
+  char opt = ' ';
+  int number = -1;
+  os << "Enter " << TALK << " to talk to an NPC, " << EXMNPC <<
+     " to examine an NPC." << std::endl;
+}
+
+
+void Game::drawNpcSubMenu(std::ostream& os) {
+  drawNpcList(os);
+  switch (GlobalState) {
+  case TalkNPC:
+    os << "Which NPC do you want to talk to?" << std::endl;
+    break;
+  case ExamineNPC:
+    os << "Which NPC do you want to examine?" << std::endl;
+    break;
+  }
+}
+
+
+//END NPC
+
+
+
 
 void Game::lootRoom() {
   int currentRoom = player.getCurrentRoom();

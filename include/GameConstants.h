@@ -19,9 +19,16 @@ const char DROP = 'D';
 const char EXAMINE = 'E';
 const char EXIT = 'X';
 
+
+//NPC Interaction Commands
+const char TALK = 'T';
+const char EXMNPC = 'E';
+
+
+
 //Other room options
 const char PICK = 'P';
-const char NPCINTERACT = 'T';
+const char NPCVIEW = 'T';
 
 
 const int ROOMCOUNT = 25;
@@ -108,8 +115,9 @@ const std::map<int, NPC> NPCS = {
 
 // Map containing NPC locations
 const std::map<int, std::vector<int>> NPCLOCATIONS = {
-  {100, {2}}
+  {100, {0}}
 };
+
 
 
 #endif // GAMECONSTANTS_H
