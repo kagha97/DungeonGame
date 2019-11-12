@@ -13,6 +13,7 @@
 #include "GameConstants.h"
 #include "Room.h"
 #include "ActionRecord.h"
+#include "GameState.h"
 
 
 class WindowManager {
@@ -26,6 +27,7 @@ class WindowManager {
  private:
  std::vector<std::string> boxString(std::string s, int w, int h);
  std::vector<std::string> wrapAR(std::vector<std::string> v, int w, int h);
+ std::vector<std::string> generateUpdateBox(Game* game, int w, int h);
 };
 
 #endif // WINDOWMANAGER_H

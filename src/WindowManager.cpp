@@ -5,6 +5,8 @@ WindowManager::WindowManager() {
 }
 
 void WindowManager::draw(std::ostream& os, Game& game) {
+  os << std::endl << std::endl;
+
   // Initial values for drawing
   struct winsize win;
   ioctl(STDOUT_FILENO, TIOCGWINSZ, &win);
@@ -20,8 +22,8 @@ void WindowManager::draw(std::ostream& os, Game& game) {
   std::string hpStr = "HP: " + std::to_string(game.player.getHP());
   int roomDescH = 50;
   std::vector<std::string> roomDesc = boxString(game.getRoomDescription(pos), offset, roomDescH);
-  std::vector<std::string> updateBox = wrapAR(ActionRecord::getFullRecord(), offset, MAXRECORDS);
-
+  std::vector<std::string> updateBox = generateUpdateBox(&game, offset, MAXRECORDS);
+  std::vector<std::string> invList = game.player.getInventoryList();
 
   for(int y = 0; y < height; y++) {
     for(int x = 0; x < width; x++) {
@@ -54,7 +56,7 @@ void WindowManager::draw(std::ostream& os, Game& game) {
         charDrawn = true;
       }
 
-      // Draw stats below minimap
+      // Draw stats & inventory below minimap
       if (!aboveMinimap && rightOfMinimap && !charDrawn) {
         int tmpY = y + mMap.size();
         int tmpX = x - offset;
@@ -84,9 +86,17 @@ void WindowManager::draw(std::ostream& os, Game& game) {
           }
           break;
         default:
-        break;
+          break;
         }
 
+        int invItemIndex = tmpY - ISTR_D - 1;
+        if(tmpY > ISTR_D && tmpY < IEND_D && invItemIndex < invList.size() && !charDrawn) {
+          int r = invList[invItemIndex].length();
+          if(tmpX < r) {
+            os << invList[invItemIndex][tmpX];
+            charDrawn = true;
+          }
+        }
       }
 
       if (aboveMinimap && !rightOfMinimap && !charDrawn) {
@@ -139,6 +149,44 @@ std::vector<std::string> WindowManager::boxString(std::string s, int w, int h) {
     ss.str("");
   }
   return outVec;
+}
+
+std::vector<std::string> WindowManager::generateUpdateBox(Game* game, int w, int h) {
+  std::vector<std::string> outVec;
+  std::vector<std::string> v;
+
+  switch (game->state) {
+  case MainMenu:
+    break;
+  case Play:
+    v = ActionRecord::getFullRecord();
+    break;
+  case Inventory:
+    v.push_back(ActionRecord::getLatest());
+    v.push_back("");
+    break;
+  case ItemUse:
+    v.push_back("Which item could you like to use?");
+    break;
+  case ItemDrop:
+    v.push_back("Which item could you like to drop?");
+    break;
+  case ItemExamine:
+    v.push_back("Which item could you like to examine?");
+    break;
+    }
+    std::string s(w, ' ');
+    if(v.size() == 0) {
+      return outVec;
+    }
+    while(outVec.size() + v.size() < h) {
+      outVec.push_back(s);
+    }
+    for (int i = v.size(); i --> 0; ) {
+      outVec.push_back(v[i].length() > w ? v[i].substr(0, w) : v[i]);
+    }
+    return outVec;
+
 }
 
 

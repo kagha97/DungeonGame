@@ -310,6 +310,7 @@ std::vector<std::string> Game::miniMap() {
 
       tempCounter++;
     }
+    ss << "     ";
     outVec.push_back(ss.str());
   }
   return outVec;

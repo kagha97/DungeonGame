@@ -41,6 +41,7 @@ const int SSTR_D = 10;
 const int HP_D = 11;
 const int HUN_D = 12;
 const int ISTR_D = 13;
+const int IEND_D = 33;
 //const int IY = 14;
 
 const std::string ROOMDESC[ROOMCOUNT] = {

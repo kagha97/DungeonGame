@@ -167,7 +167,7 @@ int Player::getHunger()
 std::vector<std::string> Player::getInventoryList() {
   std::vector<std::string> outVec;
   for(int i = 0; i < inventory.size(); i++) {
-    outVec.push_back(std::to_string(i) + inventory[i].name);
+    outVec.push_back(std::to_string(i+1) + ": " + inventory[i].name);
   }
   return outVec;
 }
