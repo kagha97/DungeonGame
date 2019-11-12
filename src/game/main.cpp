@@ -4,6 +4,16 @@
 #include "GameConstants.h"
 #include "Player.h"
 #include <fstream>
+#include "WindowManager.h"
+
+void printRecord(struct winsize w,std::vector<std::string> lines)
+{
+    for (int i = 0; i < w.winsize::ws_row; i++)
+    {
+        std::cout << lines[i] << std::endl;
+    }
+}
+
 
 void gameOver(Player p) {
   std::cout << "YOU DIED" << std::endl;
@@ -16,6 +26,7 @@ void clearScreen() {
 
 int main() {
   Game* game;
+  WindowManager wm;
   std::cout << "Welcome to Dungeon Game!" << std::endl;
   std::cout << "Developed by Fafnir Studios LTD. All rights reserved." <<
             std::endl << std::endl;
@@ -45,18 +56,22 @@ int main() {
 
   }
 
-  game->draw(std::cout);
+  // game->draw(std::cout);
+
+
 
   while (true) {
+    wm.draw(std::cout, *game);
     game->getInput(std::cin);
-    clearScreen();
-    //game->movePlayer(inputChar);
-    //game->otherRoomOptions(inputChar);
+
+    // clearScreen();
+
     if(game->player.dead){
         gameOver(game->player);
       break;
     }
-    game->draw(std::cout);
+
+    // game->draw(std::cout);
   }
 
 

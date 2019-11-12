@@ -25,6 +25,11 @@ std::string Room::getDescription() {
 
   return ss.str();
 }
+
+std::string Room::getDescriptionOnly() {
+  return description;
+}
+
 void Room::addNPC(NPC npc) {
   npcs.push_back(npc);
 }
@@ -64,12 +69,28 @@ bool Room::tryKey(Item i)
   return false;
 }
 
-
-
-
 Room::Room(int roomId) {
   id = roomId;
 }
+
+std::vector<std::string> Room::getItemList()
+{
+    std::vector<std::string> retVec;
+    for(Item i : items) {
+      retVec.push_back(i.name);
+    }
+    return retVec;
+}
+
+std::vector<std::string> Room::getNPCList()
+{
+    std::vector<std::string> retVec;
+    for(NPC n : npcs) {
+      retVec.push_back(n.getName());
+    }
+    return retVec;
+}
+
 
 Room::~Room() {
   //dtor

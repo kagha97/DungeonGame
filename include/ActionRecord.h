@@ -11,6 +11,7 @@ class ActionRecord {
  public:
   static void addRecord(std::string text);
   static std::string getRecords();
+  static std::vector<std::string> getFullRecord();
   static std::string getLatest();
  protected:
  private:

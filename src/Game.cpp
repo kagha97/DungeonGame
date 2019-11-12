@@ -280,8 +280,6 @@ void Game::lootRoom() {
   }
 }
 
-
-
 void Game::show_ascii(std::string loc) {
   std::ifstream open(loc);
   std::string out;
@@ -292,6 +290,36 @@ void Game::show_ascii(std::string loc) {
     }
   }
 }
+
+std::vector<std::string> Game::miniMap() {
+  int roomCount = rooms.size();
+  int s = sqrt(roomCount);
+
+  std::vector<std::string> outVec;
+  int currentRoom = player.getCurrentRoom();
+  int tempCounter = 0;
+
+  for(int h = 0; h < s; h++) {
+    std::stringstream ss;
+    for(int w = 0; w < s; w++) {
+      if(currentRoom == tempCounter) {
+        ss << "[*]";
+      } else {
+        ss << "[ ]";
+      }
+
+      tempCounter++;
+    }
+    outVec.push_back(ss.str());
+  }
+  return outVec;
+}
+
+std::string Game::getRoomDescription(int r)
+{
+    return rooms[r].getDescriptionOnly();
+}
+
 
 Game::~Game() {
 

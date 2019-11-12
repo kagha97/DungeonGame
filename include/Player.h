@@ -3,8 +3,8 @@
 #include <vector>
 #include "Item.h"
 #include "ItemType.h"
-#include "string"
-#include  <sstream>
+#include <string>
+#include <sstream>
 #include "GameConstants.h"
 #include <iostream>
 #include "ActionRecord.h"
@@ -29,6 +29,9 @@ class Player
     int getCurrentRoom();
     std::string showInventory();
     std::vector<Item> getInventory();
+    std::vector<std::string> getInventoryList();
+    int getHP();
+    int getHunger();
   protected:
 
   private:

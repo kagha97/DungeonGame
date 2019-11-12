@@ -9,6 +9,10 @@ void NPC::addItem(Item i)
   inventory.push_back(i);
 }
 
+std::string NPC::getName() {
+  return name;
+}
+
 NPC::~NPC()
 {
   //dtor

@@ -23,9 +23,11 @@ class Game
     void getInput(std::istream& inStr);
     void show_ascii(std::string loc);
     std::string getOptionsString();
+    std::string getRoomDescription(int r);
     void inventoryScreen();
     virtual ~Game();
 
+    std::vector<std::string> miniMap();
   protected:
 
   private:

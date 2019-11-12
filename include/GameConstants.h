@@ -31,9 +31,18 @@ const int HUNGERGAIN = 5;
 const int HEALTHLOSS = 10;
 
 // Action Record
-const int MAXRECORDS = 5;
+const int MAXRECORDS = 10;
 
-//TODO: Move these to external text file. Possibly in json format.
+// Window Constants
+const std::string SSTR = "Stats:";
+const std::string ISTR = "Inventory:";
+const int LHMIN = 50;
+const int SSTR_D = 10;
+const int HP_D = 11;
+const int HUN_D = 12;
+const int ISTR_D = 13;
+//const int IY = 14;
+
 const std::string ROOMDESC[ROOMCOUNT] = {
   "You are at the dungeon's entrance. The exit has been closed behind you.",
   "This room is completely blank and devoid of detail. The only things you can see are the doors along its walls.",

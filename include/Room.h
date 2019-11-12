@@ -14,6 +14,9 @@ class Room
     Room(int roomId);
     Room(int roomId, std::string desc);
     std::string getDescription();
+    std::string getDescriptionOnly();
+    std::vector<std::string> getItemList();
+    std::vector<std::string> getNPCList();
     void setDescription(std::string desc);
     void addNPC(NPC npc);
     void addItem(Item item);

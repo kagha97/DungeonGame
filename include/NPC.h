@@ -11,7 +11,7 @@ class NPC
     bool hostile;
     virtual ~NPC();
     void addItem(Item i);
-
+    std::string getName();
   protected:
 
   private:
