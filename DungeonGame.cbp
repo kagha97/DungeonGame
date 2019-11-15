@@ -12,6 +12,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add directory="include" />
 				</Compiler>
@@ -36,6 +37,9 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="include/ActionRecord.h" />
+		<Unit filename="include/ChatGroup.h" />
+		<Unit filename="include/ChatOption.h" />
+		<Unit filename="include/ChatReply.h" />
 		<Unit filename="include/Exceptions.h" />
 		<Unit filename="include/Game.h" />
 		<Unit filename="include/GameConstants.h" />
@@ -46,6 +50,9 @@
 		<Unit filename="include/Player.h" />
 		<Unit filename="include/Room.h" />
 		<Unit filename="src/ActionRecord.cpp" />
+		<Unit filename="src/ChatGroup.cpp" />
+		<Unit filename="src/ChatOption.cpp" />
+		<Unit filename="src/ChatReply.cpp" />
 		<Unit filename="src/Game.cpp" />
 		<Unit filename="src/Item.cpp" />
 		<Unit filename="src/NPC.cpp" />

@@ -2,8 +2,10 @@
 #define GAMECONSTANTS_H
 #include <string>
 #include <map>
-#include "Item.h"
 #include "NPC.h"
+#include "Item.h"
+#include "ChatOption.h"
+#include <vector>
 //Controls
 const char UP = 'U';
 const char DOWN = 'D';
@@ -110,12 +112,47 @@ const std::map<int, std::vector<int>> ITEMLOCATIONS = {
 
 // Map containing NPCs with ID
 const std::map<int, NPC> NPCS = {
-  {100, NPC("Wise Old Man")}
+  {100, NPC("Wise Old Man", 1)}
 };
 
 // Map containing NPC locations
 const std::map<int, std::vector<int>> NPCLOCATIONS = {
   {100, {0}}
+};
+
+
+//Chat
+const std::map <int, std::string> CHATOPTIONS = {
+    {10000, "How are you?"},
+    {10001, "What is this place?"},
+    {10002, "I'm sad. "}
+
+};
+
+
+const std::map <int, std::string> CHATREPLIES = {
+    {10000, "I'm fine."},
+    {10001, "It's a dungeon full of rooms, you must keys to unlock these rooms. One of the rooms contains the exit. Good luck!"},
+    {10002, "lol aite."}
+
+};
+
+
+
+
+
+const std::map <int, std::map <int, ChatOption>> chats = {
+    {1, {{1,
+        ChatOption(CHATOPTIONS.at(10000), CHATREPLIES.at(10000), 1)},
+        {2,
+        ChatOption(CHATOPTIONS.at(10001), CHATREPLIES.at(10001), 2)}
+    }},
+     {2, {{1,
+        ChatOption(CHATOPTIONS.at(10002), CHATREPLIES.at(10002), 1)}
+    }}
+
+
+
 };
 
 

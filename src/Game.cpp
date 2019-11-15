@@ -19,7 +19,17 @@ void Game::draw(std::ostream& os) {
     break;
   case NPCList:
     drawNpcList(os);
+    os << ActionRecord::getLatest() << std::endl;
     break;
+  case TalkNPC:
+  case ExamineNPC:
+    drawNpcSubMenu(os);
+    break;
+  case Talk:
+    drawChatMenu(currentChat);
+    break;
+  case TalkSecond:
+    drawChatMenu(nextChat);
   default:
     break;
   }
@@ -152,6 +162,8 @@ void Game::getInput(std::istream& inStr) {
     inChar = std::toupper(inChar);
     break;
   case TalkNPC:
+  case Talk:
+  case TalkSecond:
   case ExamineNPC:
     inStr >> inInt;
     break;
@@ -226,11 +238,23 @@ void Game::getInput(std::istream& inStr) {
     }
     break;
     case TalkNPC:
-        GlobalState = NPCList;
+        currentChatNpc = inInt;
+        currentChat = inInt;
+        GlobalState = Talk;
         break;
     case ExamineNPC:
         GlobalState = NPCList;
         break;
+    case Talk:
+    nextChat = inInt;
+        drawChatMenu(currentChat);
+        GlobalState = TalkSecond;
+        break;
+    case TalkSecond:
+        nextChat = inInt;
+      // drawChatMenu(inInt);
+       GlobalState = TalkSecond;
+       break;
   }
 
   inStr.clear();
@@ -327,6 +351,63 @@ void Game::drawNpcSubMenu(std::ostream& os) {
     break;
   }
 }
+
+
+void Game::drawChatMenu(int id) {
+  drawChatOptions(id);
+  switch (GlobalState) {
+  case TalkNPC:
+    std::cout << "Which NPC do you want to talk to?" << std::endl;
+    break;
+  case ExamineNPC:
+    std::cout << "Which NPC do you want to examine?" << std::endl;
+    break;
+  }
+
+}
+
+
+void Game::drawChatOptions(int id) {
+
+  int currentRoom = player.getCurrentRoom();
+//  os << rooms[currentRoom].getNPCS()[id - 1] << std::endl;
+  int counter = 0;
+
+  if (id == 0) {
+    GlobalState = Play;
+  } else {
+   std::string npc = rooms[currentRoom].getNPCS()[currentChatNpc - 1].name;
+  std::cout << "You are speaking with: " << npc << std::endl;
+    int cid = 0;
+  switch (GlobalState) {
+  case Talk:
+   cid = rooms[currentRoom].getNPCS()[id - 1].chatid;
+    for (auto const& x : chats.at(cid)) {
+            counter++;
+            std::cout << counter << ". " << x.second.title << std::endl;
+            //os << i+1 << ". " << c.title << std::endl;
+        }
+    break;
+  case TalkSecond:
+    std::cout << npc << " replies: " << chats.at(currentChat).at(id).reply << std::endl;
+    int nchat = chats.at(currentChat).at(id).nextChatId;
+    currentChat = nchat;
+    //counter = 0;
+    for (auto const& x : chats.at(currentChat)) {
+            counter++;
+            std::cout << counter << ". " << x.second.title << std::endl;
+            //os << i+1 << ". " << c.title << std::endl;
+        }
+    break;
+  }
+  }
+
+    std::cout << "Please choose an option. Enter 0 to end chat. " << std::endl;
+}
+
+
+
+
 
 
 //END NPC

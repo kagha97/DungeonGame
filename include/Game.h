@@ -23,13 +23,17 @@ class Game
     void getInput(std::istream& inStr);
     void show_ascii(std::string loc);
     std::string getOptionsString();
-    void drawNpcList();
+    void drawChatOptions(int id);
+    void drawChatMenu (int id);
     void inventoryScreen();
     virtual ~Game();
 
   protected:
 
   private:
+    int currentChat;
+    int currentChatNpc;
+    int nextChat;
     void movePlayer(char dir);
     void lootRoom();
     void drawPlay(std::ostream& os);

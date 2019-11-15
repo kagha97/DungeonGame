@@ -1,23 +1,24 @@
 #ifndef NPC_H
 #define NPC_H
-#include "Item.h"
 #include <vector>
 #include <string>
+#include <sstream>
+
 
 class NPC
 {
   public:
-    NPC(std::string n);
+    NPC(std::string n, int cid);
     bool hostile;
     virtual ~NPC();
-    void addItem(Item i);
+    int chatid;
     std::string name;
+
 
   protected:
 
   private:
     int health = 100;
-    std::vector<Item> inventory;
 };
 
 #endif // NPC_H

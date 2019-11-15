@@ -1,13 +1,12 @@
 #include "NPC.h"
 
-NPC::NPC(std::string n){
+NPC::NPC(std::string n, int cid){
   name = n;
+  chatid = cid;
 }
 
-void NPC::addItem(Item i)
-{
-  inventory.push_back(i);
-}
+
+
 
 NPC::~NPC()
 {
