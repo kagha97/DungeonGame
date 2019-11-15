@@ -86,9 +86,73 @@ std::string Game::getOptionsString() {
   return ss.str();
 }
 
-
 Game::Game(std::string filePath) {
+  std::ifstream in(filePath);
+  std::string str;
+  while (std::getline(in, str)) {
 
+  }
+}
+
+void Game::save(std::string filePath) {
+  std::vector<Item> pInv = player.getInventory();
+  std::ofstream out;
+  out.open(filePath);
+  out << "PLAYER" << std::endl;
+  out << "{" << std::endl;
+  out << '\t' << "INVENTORY{";
+  for(int i = 0; i < pInv.size(); i++) {
+    for(auto const& mI : ITEMS) {
+      if(pInv[i] == mI.second) {
+        out << mI.first;
+        if (i < pInv.size() - 1) {
+          out << ",";
+        }
+        break;
+      }
+    }
+  }
+  out << "}" << std::endl;
+  out << '\t' << "STATS{" << player.getHP() << "," << player.getHunger() << "," << player.getCurrentRoom() << "}" << std::endl;
+  out << "}" << std::endl;
+
+  out << "ROOMS" << std::endl << "{" << std::endl;
+  for(Room r : rooms) {
+    out << '\t' << r.getId() << std::endl;
+    out << '\t' << "{" << std::endl;
+    out << '\t' << '\t' << "ITEMS{";
+    std::vector<Item> rItems = r.getItems();
+    for(int i = 0; i < rItems.size(); i++) {
+      for(auto const& I : ITEMS) {
+        if(rItems[i] == I.second) {
+          out << I.first;
+          if (i < rItems.size() - 1) {
+            out << ",";
+          }
+          break;
+        }
+      }
+    }
+    out << "}" << std::endl;
+    out << '\t' << '\t' << "NPCS{";
+    std::vector<NPC> rNPCs = r.getNPCs();
+    for(int i = 0; i < rNPCs.size(); i++) {
+      for(auto const& N : NPCS) {
+        if(rNPCs[i] == N.second) {
+          out << N.first;
+          if (i < rNPCs.size() - 1) {
+            out << ",";
+          }
+          break;
+        }
+      }
+    }
+    out << "}" << std::endl;
+    out << '\t' << "}" << std::endl;
+  }
+  out << "}" << std::endl;
+
+  out.close();
 }
 
 Game::Game(int roomCount) {

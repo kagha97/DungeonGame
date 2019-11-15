@@ -23,10 +23,11 @@ class Room
     void interact(int npcIndex);
     void pickUpItem(int itemIndex);
     std::vector<Item> getItems();
+    std::vector<NPC> getNPCs();
     void removeAllItems ();
     bool tryKey(Item i);
     bool locked;
-
+    int getId();
     virtual ~Room();
 
   protected:

@@ -18,6 +18,7 @@ class Game
   public:
     Game(int roomCount);
     Game(std::string filePath);
+    void save(std::string filePath);
     Player player;
     void draw(std::ostream& os);
     void getInput(std::istream& inStr);

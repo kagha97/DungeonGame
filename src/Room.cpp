@@ -91,6 +91,16 @@ std::vector<std::string> Room::getNPCList()
     return retVec;
 }
 
+std::vector<NPC> Room::getNPCs()
+{
+    return npcs;
+}
+
+
+int Room::getId()
+{
+    return id;
+}
 
 Room::~Room() {
   //dtor

@@ -13,6 +13,11 @@ std::string NPC::getName() {
   return name;
 }
 
+bool NPC::operator==(const NPC& n) const
+{
+    return name == n.name && hostile == n.hostile;
+}
+
 NPC::~NPC()
 {
   //dtor

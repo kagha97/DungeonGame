@@ -12,6 +12,9 @@ class NPC
     virtual ~NPC();
     void addItem(Item i);
     std::string getName();
+
+    bool operator==(const NPC& n) const;
+
   protected:
 
   private:

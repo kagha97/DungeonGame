@@ -25,6 +25,7 @@ void clearScreen() {
 
 
 int main() {
+  std::cout << "\e[8;35;100t";
   Game* game;
   WindowManager wm;
   std::cout << "Welcome to Dungeon Game!" << std::endl;
@@ -59,21 +60,24 @@ int main() {
   // game->draw(std::cout);
 
 
-
+  int m = 0;
   while (true) {
     wm.draw(std::cout, *game);
     game->getInput(std::cin);
 
     // clearScreen();
 
-    if(game->player.dead){
-        gameOver(game->player);
+    if(game->player.dead) {
+      gameOver(game->player);
       break;
     }
-
+    if(m >= 0) {
+      game->save("auto.save");
+    }
+    m++;
     // game->draw(std::cout);
   }
-
+  delete game;
 
   return 0;
 }
