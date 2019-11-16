@@ -27,6 +27,8 @@ class Player
     bool dead = false;
     void moveTo(int i);
     int getCurrentRoom();
+    void finishRiddle (int id);
+    bool checkRiddle (int id);
     std::string showInventory();
     std::vector<Item> getInventory();
   protected:
@@ -35,6 +37,7 @@ class Player
     int health = MAXHEALTH;
     int hunger = 0;
     int currentRoom = 0;
+    std::vector<int> completedRiddles;
     std::vector<Item> inventory;
 };
 

@@ -25,6 +25,7 @@ class Game
     std::string getOptionsString();
     void drawChatOptions(int id);
     void drawChatMenu (int id);
+    void solveRiddle (std::string inp);
     void inventoryScreen();
     virtual ~Game();
 

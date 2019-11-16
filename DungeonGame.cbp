@@ -40,6 +40,7 @@
 		<Unit filename="include/ChatGroup.h" />
 		<Unit filename="include/ChatOption.h" />
 		<Unit filename="include/ChatReply.h" />
+		<Unit filename="include/ChatType.h" />
 		<Unit filename="include/Exceptions.h" />
 		<Unit filename="include/Game.h" />
 		<Unit filename="include/GameConstants.h" />

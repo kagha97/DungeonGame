@@ -48,6 +48,7 @@ int main() {
   game->draw(std::cout);
 
   while (true) {
+
     game->getInput(std::cin);
     clearScreen();
     //game->movePlayer(inputChar);

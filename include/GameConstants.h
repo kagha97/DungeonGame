@@ -123,38 +123,69 @@ const std::map<int, std::vector<int>> NPCLOCATIONS = {
 
 //Chat
 const std::map <int, std::string> CHATOPTIONS = {
+    //wise old man
     {10000, "How are you?"},
     {10001, "What is this place?"},
-    {10002, "I'm sad. "}
+    {10002, "Ask about riddle..."},
+    {10003, "Okay, let me try."},
+    {10004, "I give up."},
+    {10005, "No thanks."}
+
 
 };
 
 
 const std::map <int, std::string> CHATREPLIES = {
-    {10000, "I'm fine."},
-    {10001, "It's a dungeon full of rooms, you must keys to unlock these rooms. One of the rooms contains the exit. Good luck!"},
-    {10002, "lol aite."}
+    //wise old man
+    {10000, "I am good, thank you for asking."},
+    {10001, "It's a dungeon full of rooms, you must find keys to unlock these rooms. One of the rooms contains the exit. Good luck!"},
+    {10002, "If you solve this riddle for me, I will give you a key to one of the rooms."},
+    //riddle
+    {10003, "What is 10 + 10?"},
+    {10004, "Coward."},
+
+
 
 };
 
 
+const std::map <int, int> RIDDLEANSWERS = {
+    {3, 1},
 
+
+};
+
+const std::map <int, std::string> RANS = {
+    {1, "20"}
+
+};
+
+const std::map <int, std::vector<int>> REWARDS = {
+    {3, {100, 200}}
+
+};
 
 
 const std::map <int, std::map <int, ChatOption>> chats = {
     {1, {{1,
-        ChatOption(CHATOPTIONS.at(10000), CHATREPLIES.at(10000), 1)},
+        ChatOption(CHATOPTIONS.at(10000), CHATREPLIES.at(10000), Chat, 1)},
         {2,
-        ChatOption(CHATOPTIONS.at(10001), CHATREPLIES.at(10001), 2)}
+        ChatOption(CHATOPTIONS.at(10001), CHATREPLIES.at(10001), Chat, 1)},
+        {3,
+        ChatOption(CHATOPTIONS.at(10002), CHATREPLIES.at(10002), Chat, 2)}
     }},
      {2, {{1,
-        ChatOption(CHATOPTIONS.at(10002), CHATREPLIES.at(10002), 1)}
-    }}
+        ChatOption(CHATOPTIONS.at(10003), CHATREPLIES.at(10003), Riddle, 3 )},
+        {2,
+        ChatOption(CHATOPTIONS.at(10005), CHATREPLIES.at(10004), Chat, 1 )}
+    }
 
-
+    },
+     {3, {{1,
+        ChatOption(CHATOPTIONS.at(10004), CHATREPLIES.at(10004), Chat, 1)}
+    }},
 
 };
-
 
 
 #endif // GAMECONSTANTS_H
