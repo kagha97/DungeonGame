@@ -45,6 +45,7 @@
 		<Unit filename="include/NPC.h" />
 		<Unit filename="include/Player.h" />
 		<Unit filename="include/Room.h" />
+		<Unit filename="include/StringManipulations.h" />
 		<Unit filename="include/WindowManager.h" />
 		<Unit filename="src/ActionRecord.cpp" />
 		<Unit filename="src/Game.cpp" />
@@ -52,6 +53,7 @@
 		<Unit filename="src/NPC.cpp" />
 		<Unit filename="src/Player.cpp" />
 		<Unit filename="src/Room.cpp" />
+		<Unit filename="src/StringManipulations.cpp" />
 		<Unit filename="src/WindowManager.cpp" />
 		<Unit filename="src/game/main.cpp" />
 		<Unit filename="test/TestPlayer.cpp">

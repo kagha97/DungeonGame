@@ -42,12 +42,15 @@ int main() {
     switch (std::toupper(inputChar)) {
     case LOADGAME :
       getStart = false;
-      //TODO: Load GameB
+      game = new Game(AUTOSAVEFILE);
+      std::cin.clear();
 
       break;
     case NEWGAME :
       getStart = false;
       game = new Game(ROOMCOUNT);
+      std::cin.clear();
+
 
       break;
     default :
@@ -59,23 +62,19 @@ int main() {
 
   // game->draw(std::cout);
 
-
-  int m = 0;
   while (true) {
+    game->save(AUTOSAVEFILE);
     wm.draw(std::cout, *game);
     game->getInput(std::cin);
 
-    // clearScreen();
+    //clearScreen();
 
     if(game->player.dead) {
       gameOver(game->player);
       break;
     }
-    if(m >= 0) {
-      game->save("auto.save");
-    }
-    m++;
-    // game->draw(std::cout);
+
+     //game->draw(std::cout);
   }
   delete game;
 

@@ -1,19 +1,22 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include <vector>
-#include "Item.h"
-#include "ItemType.h"
 #include <string>
 #include <sstream>
-#include "GameConstants.h"
 #include <iostream>
+#include <algorithm>
+#include "GameConstants.h"
 #include "ActionRecord.h"
 #include "Room.h"
+#include "Item.h"
+#include "ItemType.h"
+#include "StringManipulations.h"
 
 class Player
 {
   public:
     Player();
+    Player(std::string inParam);
     virtual ~Player();
     void addItem(Item i);
     bool consumeItem (Item it);

@@ -3,7 +3,32 @@
 Room::Room(int roomId, std::string desc) {
   description = desc;
   id = roomId;
+  locked = false;
 }
+
+Room::Room(std::string inParam)
+{
+  inParam.erase(std::remove(inParam.begin(), inParam.end(), '{'), inParam.end());
+  inParam.erase(std::remove(inParam.begin(), inParam.end(), '}'), inParam.end());
+  std::vector<std::string> params = StringManipulations::Split(inParam, ATTRIBDELIM);
+  id = std::stoi(params[0]);
+  locked = (bool)(std::stoi(params[1]));
+  description = ROOMDESC[id];
+
+  if(params[2] != EMPTY) {
+    std::vector<std::string> itemIds = StringManipulations::Split(params[2], OBJDELIM);
+    for(std::string s : itemIds) {
+      items.push_back(ITEMS.at(std::stoi(s)));
+    }
+  }
+  if(params[3] != EMPTY) {
+    std::vector<std::string> npcIds = StringManipulations::Split(params[3], OBJDELIM);
+    for(std::string s : npcIds) {
+      npcs.push_back(NPCS.at(std::stoi(s)));
+    }
+  }
+}
+
 
 std::string Room::getDescription() {
   std::stringstream ss;
@@ -71,6 +96,7 @@ bool Room::tryKey(Item i)
 
 Room::Room(int roomId) {
   id = roomId;
+  locked = false;
 }
 
 std::vector<std::string> Room::getItemList()

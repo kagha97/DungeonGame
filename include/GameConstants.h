@@ -44,6 +44,12 @@ const int ISTR_D = 13;
 const int IEND_D = 33;
 //const int IY = 14;
 
+// Savefile delimeters
+const char ATTRIBDELIM = ',';
+const char OBJDELIM = ';';
+const std::string EMPTY = "NULL";
+const std::string AUTOSAVEFILE = "auto.save";
+
 const std::string ROOMDESC[ROOMCOUNT] = {
   "You are at the dungeon's entrance. The exit has been closed behind you.",
   "This room is completely blank and devoid of detail. The only things you can see are the doors along its walls.",

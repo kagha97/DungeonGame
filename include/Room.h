@@ -3,16 +3,20 @@
 
 #include <vector>
 #include <string>
-#include "NPC.h"
-#include "Item.h"
 #include <string>
 #include <sstream>
+#include <algorithm>
+#include "NPC.h"
+#include "Item.h"
+#include "StringManipulations.h"
+#include "GameConstants.h"
 
 class Room
 {
   public:
     Room(int roomId);
     Room(int roomId, std::string desc);
+    Room(std::string inParam);
     std::string getDescription();
     std::string getDescriptionOnly();
     std::vector<std::string> getItemList();

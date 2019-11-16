@@ -89,69 +89,75 @@ std::string Game::getOptionsString() {
 Game::Game(std::string filePath) {
   std::ifstream in(filePath);
   std::string str;
+  std::vector<std::string> data;
   while (std::getline(in, str)) {
-
+    data.push_back(str);
   }
+  in.close();
+  player = Player(data[0]);
+  for(int i = 1 ; i < data.size(); i++) {
+    rooms.push_back(Room(data[i]));
+  }
+  state = Play;
 }
 
 void Game::save(std::string filePath) {
   std::vector<Item> pInv = player.getInventory();
   std::ofstream out;
   out.open(filePath);
-  out << "PLAYER" << std::endl;
-  out << "{" << std::endl;
-  out << '\t' << "INVENTORY{";
+
+  out <<  "{" << player.getHP() << ATTRIBDELIM << player.getHunger() << ATTRIBDELIM << player.getCurrentRoom() << ATTRIBDELIM << "{";
+  if(pInv.size() < 1){
+    out << EMPTY;
+  }
   for(int i = 0; i < pInv.size(); i++) {
     for(auto const& mI : ITEMS) {
       if(pInv[i] == mI.second) {
         out << mI.first;
         if (i < pInv.size() - 1) {
-          out << ",";
+          out << OBJDELIM;
         }
         break;
       }
     }
   }
-  out << "}" << std::endl;
-  out << '\t' << "STATS{" << player.getHP() << "," << player.getHunger() << "," << player.getCurrentRoom() << "}" << std::endl;
-  out << "}" << std::endl;
-
-  out << "ROOMS" << std::endl << "{" << std::endl;
+  out << "}}" << std::endl;
   for(Room r : rooms) {
-    out << '\t' << r.getId() << std::endl;
-    out << '\t' << "{" << std::endl;
-    out << '\t' << '\t' << "ITEMS{";
+    out << "{" << r.getId() << ATTRIBDELIM << (int)r.locked << ATTRIBDELIM << "{";
     std::vector<Item> rItems = r.getItems();
+    if(rItems.size() < 1) {
+      out << EMPTY;
+    }
     for(int i = 0; i < rItems.size(); i++) {
       for(auto const& I : ITEMS) {
         if(rItems[i] == I.second) {
           out << I.first;
           if (i < rItems.size() - 1) {
-            out << ",";
+            out << OBJDELIM;
           }
           break;
         }
       }
     }
-    out << "}" << std::endl;
-    out << '\t' << '\t' << "NPCS{";
+    out << "}" << ATTRIBDELIM;
+    out << "{";
     std::vector<NPC> rNPCs = r.getNPCs();
+    if(rNPCs.size() < 1) {
+      out << EMPTY;
+    }
     for(int i = 0; i < rNPCs.size(); i++) {
       for(auto const& N : NPCS) {
         if(rNPCs[i] == N.second) {
           out << N.first;
           if (i < rNPCs.size() - 1) {
-            out << ",";
+            out << OBJDELIM;
           }
           break;
         }
       }
     }
-    out << "}" << std::endl;
-    out << '\t' << "}" << std::endl;
+    out << "}}" << std::endl;
   }
-  out << "}" << std::endl;
-
   out.close();
 }
 

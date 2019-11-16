@@ -3,6 +3,26 @@
 Player::Player() {
 
 }
+// Input format: {HP,Hunger,RoomID{ItemID0;ItemID1;...;ItemIDn}}
+Player::Player(std::string inParam)
+{
+  inParam.erase(std::remove(inParam.begin(), inParam.end(), '{'), inParam.end());
+  inParam.erase(std::remove(inParam.begin(), inParam.end(), '}'), inParam.end());
+  std::vector<std::string> params = StringManipulations::Split(inParam, ATTRIBDELIM);
+
+  health = std::stoi(params[0]);
+  hunger = std::stoi(params[1]);
+  currentRoom = std::stoi(params[2]);
+
+  if(params[3] != EMPTY) {
+    std::vector<std::string> invIds = StringManipulations::Split(params[3], OBJDELIM);
+    for(std::string s : invIds) {
+      inventory.push_back(ITEMS.at(std::stoi(s)));
+    }
+  }
+  dead = false;
+}
+
 
 void Player::moveTo(int i) {
   currentRoom = i;
