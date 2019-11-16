@@ -37,7 +37,7 @@ all: tests memory coverage docs static style
 .PHONY: clean
 clean:
 	rm -rf *~ $(SRC)/*.o $(TEST_DIR)/$(PROGRAM_TEST) \
-	*.gcov *.gcda *.gcno *.orig ???*/*.orig \
+	*.gcov *.gcda *.gcno *.orig ???*/*.orig *.save \
 	*.bak ???*/*.bak $(PROGRAM_GAME) \
 	???*/*~ ???*/???*/*~ $(COVERAGE_RESULTS) \
 	$(PROGRAM_TEST) $(MEMCHECK_RESULTS) $(COVERAGE_DIR)  \
