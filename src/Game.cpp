@@ -393,6 +393,7 @@ void Game::drawChatOptions(int id) {
   switch (GlobalState) {
   case Talk:
    cid = rooms[currentRoom].getNPCS()[id - 1].chatid;
+
     for (auto const& x : chats.at(cid)) {
             counter++;
             std::cout << counter << ". " << x.second.title << std::endl;
@@ -453,7 +454,7 @@ void Game::solveRiddle(std::string inp)
     }
 
     else {
-            ActionRecord::addRecord("Incorrect reponse.");
+            ActionRecord::addRecord("You got the wrong answer. Speak to " + npc + " to try again.");
             GlobalState = TalkSecond;
     }
 }
