@@ -9,10 +9,11 @@
 class NPC
 {
   public:
-    NPC(std::string n, int cid);
+    NPC(std::string n, std::string exm, int cid);
     bool hostile;
     virtual ~NPC();
     int chatid;
+    std::string examine;
     std::string name;
 
 

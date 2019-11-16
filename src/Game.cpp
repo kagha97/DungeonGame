@@ -26,12 +26,15 @@ void Game::draw(std::ostream& os) {
     drawNpcSubMenu(os);
     break;
   case Talk:
+  std::cout << "drawing current chat" << std::endl;
     drawChatMenu(currentChat);
     break;
   case TalkSecond:
   case RiddleTalk:
+    std::cout << "drawing next chat" << std::endl;
     drawChatMenu(nextChat);
   default:
+
     break;
   }
   os << std::endl;
@@ -248,6 +251,7 @@ void Game::getInput(std::istream& inStr) {
         break;
     case ExamineNPC:
         GlobalState = NPCList;
+        ActionRecord::addRecord(examineNPC(inInt));
         break;
     case Talk:
     nextChat = inInt;
@@ -256,7 +260,7 @@ void Game::getInput(std::istream& inStr) {
         break;
     case TalkSecond:
       nextChat = inInt;
-      // drawChatMenu(inInt);
+    // drawChatMenu(currentChat);
 
        GlobalState = TalkSecond;
        break;
@@ -384,6 +388,8 @@ void Game::drawChatOptions(int id) {
 //  os << rooms[currentRoom].getNPCS()[id - 1] << std::endl;
   int counter = 0;
 
+  std::cout << "current chat: " << currentChat << " Next chat: " << nextChat<< ". Entered id: " << id << ". State is: " << GlobalState << std::endl;
+
   if (id == 0) {
     GlobalState = Play;
   } else {
@@ -393,12 +399,14 @@ void Game::drawChatOptions(int id) {
   switch (GlobalState) {
   case Talk:
    cid = rooms[currentRoom].getNPCS()[id - 1].chatid;
-
+   //nextChat = chats.at(currentChat).at(id).nextChatId;
+     currentChat = cid;
     for (auto const& x : chats.at(cid)) {
             counter++;
             std::cout << counter << ". " << x.second.title << std::endl;
             //os << i+1 << ". " << c.title << std::endl;
         }
+          GlobalState = TalkSecond;
     break;
   case TalkSecond:
 
@@ -413,7 +421,7 @@ void Game::drawChatOptions(int id) {
         case Chat:
     std::cout << npc << " replies: " << chats.at(currentChat).at(id).reply << std::endl;
     int nchat = chats.at(currentChat).at(id).nextChatId;
-    currentChat = nchat;
+     currentChat = nchat;
 
     //counter = 0;
     for (auto const& x : chats.at(currentChat)) {
@@ -430,6 +438,14 @@ void Game::drawChatOptions(int id) {
 
     std::cout << "Please choose an option. Enter 0 to end chat. " << std::endl;
 }
+
+
+std::string Game::examineNPC(int id)
+{
+      int currentRoom = player.getCurrentRoom();
+     return rooms[currentRoom].getNPCS()[id - 1].examine;
+}
+
 
 
 void Game::solveRiddle(std::string inp)

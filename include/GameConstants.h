@@ -112,14 +112,14 @@ const std::map<int, std::vector<int>> ITEMLOCATIONS = {
 
 // Map containing NPCs with ID
 const std::map<int, NPC> NPCS = {
-  {100, NPC("Wise Old Man", 1)},
-  {200, NPC("Maggie", 4)}
+  {100, NPC("Wise Old Man", "A venerable sage.", 1)},
+  {200, NPC("Maggie", "A young witch.", 4)}
 };
 
 // Map containing NPC locations
 const std::map<int, std::vector<int>> NPCLOCATIONS = {
   {100, {0}},
-  {200, {0}},
+  {200, {3}},
 
 };
 
