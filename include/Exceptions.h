@@ -29,5 +29,17 @@ class room_count_too_large_error: public std::runtime_error {
   }
 };
 
+/**
+* Exception for when you try to do anything invalid
+*/
+class invalid_operation_error: public std::runtime_error {
+ public:
+  /**
+  * @param errMessage An error message.
+  */
+  explicit invalid_operation_error(const char* errMessage) :
+    std::runtime_error(errMessage) {
+  }
+};
 
 #endif  // INCLUDE_EXCEPTIONS_H_
