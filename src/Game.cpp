@@ -128,18 +128,18 @@ void Game::getInput(std::istream& inStr) {
   case Inventory:
   case Pause:
   case NPCList:
-  case RiddleTalk:
-  case Talk:
     inStr >> inChar;
     inChar = std::toupper(inChar);
     break;
   case Save:
   case Load:
+  case RiddleTalk:
     inStr >> inString;
     break;
   // Most inputs require int.
   default:
     inStr >> inInt;
+    std::cout << inInt <<std::endl;
     break;
   }
 
@@ -175,7 +175,7 @@ void Game::getInput(std::istream& inStr) {
       break;
     default:
       ActionRecord::addRecord("Unrecognized command.");
-    break;
+      break;
     }
     //
     break;
@@ -197,7 +197,7 @@ void Game::getInput(std::istream& inStr) {
       break;
     default:
       ActionRecord::addRecord("Unrecognized command.");
-    break;
+      break;
     }
     //
     break;
@@ -231,18 +231,18 @@ void Game::getInput(std::istream& inStr) {
     break;
   case Save: {
     char s = std::toupper(inString[0]);
-    if(s != EXIT) {
-      if(!(StringManipulations::hasEnding(inString, FILEEXT))) {
+    if (s != EXIT) {
+      if (!(StringManipulations::hasEnding(inString, FILEEXT))) {
         inString += FILEEXT;
       }
       save(inString);
     }
     state = Pause;
-    }
-    break;
+  }
+  break;
 
   case NPCList:
-  // Handle inputs while in NPCList menu
+    // Handle inputs while in NPCList menu
     switch (inChar) {
     case TALK:
       state = TalkNPC;
@@ -273,13 +273,13 @@ void Game::getInput(std::istream& inStr) {
     break;
   case TalkSecond:
     nextChat = inInt;
-    //drawChatMenu(currentChat);
+    //drawChatMenu(nextChat);
 
     state = TalkSecond;
     break;
   case RiddleTalk:
-    inStr >> inString;
-    // std::getline(inStr, inString);
+    //inStr >> inString;
+    std::cout << inString;
     solveRiddle(inString);
     state = Play;
     break;
@@ -403,7 +403,8 @@ void Game::drawChatOptions(int id) {
 //  os << rooms[currentRoom].getNPCS()[id - 1] << std::endl;
   int counter = 0;
 
-  std::cout << "current chat: " << currentChat << " Next chat: " << nextChat<< ". Entered id: " << id << ". State is: " << state << std::endl;
+  std::cout << "current chat: " << currentChat << " Next chat: " << nextChat<<
+            ". Entered id: " << id << ". State is: " << state << std::endl;
 
   if (id == 0) {
     state = Play;
@@ -430,11 +431,13 @@ void Game::drawChatOptions(int id) {
       case Riddle:
         state = RiddleTalk;
         nextChat = chats.at(currentChat).at(id).nextChatId;
-        std::cout << npc << " replies: " << chats.at(currentChat).at(id).reply << std::endl;
+        std::cout << npc << " replies: " << chats.at(currentChat).at(
+                    id).reply << std::endl;
         break;
 
       case Chat:
-        std::cout << npc << " replies: " << chats.at(currentChat).at(id).reply << std::endl;
+        std::cout << npc << " replies: " << chats.at(currentChat).at(
+                    id).reply << std::endl;
         int nchat = chats.at(currentChat).at(id).nextChatId;
         currentChat = nchat;
 
@@ -470,7 +473,8 @@ void Game::solveRiddle(std::string inp) {
   if (inp == RANS.at(RIDDLEANSWERS.at(nextChat))) {
 
     if (!player.checkRiddle(nextChat)) {
-      ActionRecord::addRecord("You got the right answer! " +npc + " rewards you, check your inventory.");
+      ActionRecord::addRecord("You got the right answer! " +npc +
+                              " rewards you, check your inventory.");
       player.finishRiddle(nextChat);
       for (int id : REWARDS.at(nextChat)) {
         player.addItem(ITEMS.at(id));
@@ -483,7 +487,8 @@ void Game::solveRiddle(std::string inp) {
   }
 
   else {
-    ActionRecord::addRecord("You got the wrong answer. Speak to " + npc + " to try again.");
+    ActionRecord::addRecord("You got the wrong answer. Speak to " + npc +
+                            " to try again.");
     state = TalkSecond;
   }
 }
@@ -553,6 +558,84 @@ std::vector<std::string> Game::getRoomItemNames() {
 std::vector<std::string> Game::getRoomNPCNames() {
   return rooms[player.getCurrentRoom()].getNPCList();
 }
+
+std::vector<std::string> Game::getNpcOptions(int id, int width) {
+  int currentRoom = player.getCurrentRoom();
+
+  std::vector<std::string> outVec;
+//  os << rooms[currentRoom].getNPCS()[id - 1] << std::endl;
+  int counter = 0;
+
+  std::cout << "current chat: " << currentChat << " Next chat: " << nextChat<<
+            ". Entered id: " << id << ". State is: " << state << std::endl;
+
+  if (id == 0) {
+    state = Play;
+  } else {
+    std::string npc = rooms[currentRoom].getNPCS()[currentChatNpc - 1].name;
+    outVec.push_back("You are speaking with: " + npc);
+    int cid = 0;
+    switch (state) {
+    case Talk:
+      cid = rooms[currentRoom].getNPCS()[id - 1].chatid;
+      //nextChat = chats.at(currentChat).at(id).nextChatId;
+      currentChat = cid;
+      for (auto const& x : chats.at(cid)) {
+        counter++;
+        outVec.push_back(std::to_string(counter) + ". " + x.second.title);
+        //os << i+1 << ". " << c.title << std::endl;
+      }
+      state = TalkSecond;
+      break;
+    case TalkSecond:
+
+      switch (chats.at(currentChat).at(id).type) {
+
+      case Riddle: {
+        state = RiddleTalk;
+        nextChat = chats.at(currentChat).at(id).nextChatId;
+
+        int tStart = 0;
+        int tLen = width;
+        std::string riddle = npc + " replies: " + chats.at(currentChat).at(id).reply;
+        while (tStart + tLen < riddle.length()) {
+          outVec.push_back(riddle.substr(tStart, tLen));
+          tStart += tLen;
+        }
+        outVec.push_back(riddle.substr(tStart, riddle.length() - tStart));
+
+      }
+      break;
+
+      case Chat: {
+        int tStart = 0;
+        int tLen = width;
+        std::string reply = npc + " replies: " + chats.at(currentChat).at(id).reply;
+        while (tStart + tLen < reply.length()) {
+          outVec.push_back(reply.substr(tStart, tLen));
+          tStart += tLen;
+        }
+        outVec.push_back(reply.substr(tStart, reply.length() - tStart));
+        int nchat = chats.at(currentChat).at(id).nextChatId;
+        currentChat = nchat;
+
+        //counter = 0;
+        for (auto const& x : chats.at(currentChat)) {
+          counter++;
+          outVec.push_back(std::to_string(counter) + ". " + x.second.title);
+          //os << i+1 << ". " << c.title << std::endl;
+        }
+
+      }
+      }
+      break;
+
+    }
+  }
+
+  return outVec;
+}
+
 
 Game::~Game() {
 

@@ -36,13 +36,16 @@ class Game
     virtual ~Game();
     std::vector<std::string> miniMap();
     std::vector<std::string> getRoomItemNames();
+    std::vector<std::string> getNpcOptions(int id, int width);
     std::vector<std::string> getRoomNPCNames();
+    int currentChat;
+    int nextChat;
   protected:
 
   private:
-    int currentChat;
+
     int currentChatNpc;
-    int nextChat;
+
     void movePlayer(char dir);
     void lootRoom();
     void drawPlay(std::ostream& os);

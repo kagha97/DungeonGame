@@ -108,11 +108,11 @@ void WindowManager::generatePlayContents(Game& game, std::vector<TextBox>& conte
   rItem.fillTopDown(itemVec);
 
   // Show available options
-  std::vector<std::string> options = getOptionsVector(game);
+  std::vector<std::string> options = getOptionsVector(game, rDescW);
   int optX = 0;
   int optY = rItemY + rItemH + 1;
   int optW = rDescW;
-  int optH = 8;
+  int optH = 13;
   TextBox opt(optX, optY, optW, optH);
   opt.fillTopDown(options);
 
@@ -142,7 +142,7 @@ void WindowManager::generatePlayContents(Game& game, std::vector<TextBox>& conte
 }
 
 void WindowManager::generatePauseMenu(Game& game, std::vector<TextBox>& contents, int width, int height) {
-  std::vector<std::string> optVec = getOptionsVector(game);
+  std::vector<std::string> optVec = getOptionsVector(game, width);
   int tbW = 30;
   int tbH = 12;
   TextBox tb((width / 2) - (tbW / 2), (height / 2) - (tbH / 2), tbW, tbH);
@@ -150,7 +150,7 @@ void WindowManager::generatePauseMenu(Game& game, std::vector<TextBox>& contents
   contents.push_back(tb);
 }
 
-std::vector<std::string> WindowManager::getOptionsVector(Game& game) {
+std::vector<std::string> WindowManager::getOptionsVector(Game& game, int width) {
   std::vector<std::string> outVec;
   outVec.push_back("Commands:");
   switch (game.state) {
@@ -230,7 +230,8 @@ std::vector<std::string> WindowManager::getOptionsVector(Game& game) {
   }
   break;
   case Talk: {
-    outVec.push_back("Talk Not implemented");
+
+    outVec = game.getNpcOptions(game.currentChat, width);
   }
   break;
   case Examine: {
@@ -238,7 +239,7 @@ std::vector<std::string> WindowManager::getOptionsVector(Game& game) {
   }
   break;
   case TalkSecond: {
-    outVec.push_back("TalkSecond Not implemented");
+    outVec = game.getNpcOptions(game.nextChat, width);
   }
   break;
   case NPCOptions: {
@@ -246,7 +247,7 @@ std::vector<std::string> WindowManager::getOptionsVector(Game& game) {
   }
   break;
   case RiddleTalk: {
-    outVec.push_back("RiddleTalk Not implemented");
+    outVec = game.getNpcOptions(game.nextChat, width);
   }
   break;
   case InteractNPC: {
