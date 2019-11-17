@@ -76,6 +76,7 @@ int main() {
   // game->draw(std::cout);
 
   while (true) {
+    std::cout << game->state;
     //game->save(AUTOSAVEFILE);
     wm.draw(std::cout, *game);
     game->getInput(std::cin);

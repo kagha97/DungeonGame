@@ -42,4 +42,17 @@ class invalid_operation_error: public std::runtime_error {
   }
 };
 
+/**
+* Exception for if you somehow reach a game state that is unhandled
+*/
+class game_state_error: public std::runtime_error {
+ public:
+  /**
+  * @param errMessage An error message.
+  */
+  explicit game_state_error(const char* errMessage) :
+    std::runtime_error(errMessage) {
+  }
+};
+
 #endif  // INCLUDE_EXCEPTIONS_H_

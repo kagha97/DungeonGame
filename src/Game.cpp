@@ -6,21 +6,6 @@ Game::Game(std::string filePath) {
   std::vector<std::string> data;
   while (std::getline(in, str)) {
     data.push_back(str);
-    drawNpcList(os);
-    os << ActionRecord::getLatest() << std::endl;
-    break;
-  case TalkNPC:
-  case ExamineNPC:
-    drawNpcSubMenu(os);
-  case Talk:
-  std::cout << "drawing current chat" << std::endl;
-    drawChatMenu(currentChat);
-    break;
-  case TalkSecond:
-  case RiddleTalk:
-    std::cout << "drawing next chat" << std::endl;
-    drawChatMenu(nextChat);
-
   }
   in.close();
   player = Player(data[0]);
@@ -71,7 +56,7 @@ void Game::save(std::string filePath) {
     }
     out << "}" << ATTRIBDELIM;
     out << "{";
-    std::vector<NPC> rNPCs = r.getNPCs();
+    std::vector<NPC> rNPCs = r.getNPCS();
     if (rNPCs.size() < 1) {
       out << EMPTY;
     }
@@ -136,40 +121,33 @@ void Game::getInput(std::istream& inStr) {
   char inChar = ' ';
   std::string inString = "";
 
+  // Determine input style based on game state
   switch (state) {
   case MainMenu:
   case Play:
   case Inventory:
   case Pause:
+  case NPCList:
+  case RiddleTalk:
+  case Talk:
     inStr >> inChar;
     inChar = std::toupper(inChar);
-    break;
-  case ItemUse:
-  case ItemDrop:
-  case ItemExamine:
-    inStr >> inInt;
     break;
   case Save:
+  case Load:
     inStr >> inString;
     break;
-  case NPCList:
-    inStr >> inChar;
-    inChar = std::toupper(inChar);
-    break;
-  case TalkNPC:
-  case Talk:
-  case TalkSecond:
-  case ExamineNPC:
+  // Most inputs require int.
+  default:
     inStr >> inInt;
     break;
-  case RiddleTalk:
-   //inStr >> inChar;
-   break;
   }
 
+  // Change state and call methods based on input
   switch (state) {
   case MainMenu:
   case Play:
+    // Handle inputs while playing
     switch (inChar) {
     case INVENTORY:
       if (player.getInventory().size() > 0) {
@@ -192,12 +170,17 @@ void Game::getInput(std::istream& inStr) {
       state = Pause;
       break;
     case NPCVIEW:
-        state = NPCList;
-        ActionRecord::addRecord("The NPCS in this room.");
-        break;
+      state = NPCList;
+      ActionRecord::addRecord("The NPCS in this room.");
+      break;
+    default:
+      ActionRecord::addRecord("Unrecognized command.");
+    break;
     }
+    //
     break;
   case Inventory:
+    // Handle inputs while in inventory
     switch (inChar) {
     case USE:
       state = ItemUse;
@@ -212,7 +195,11 @@ void Game::getInput(std::istream& inStr) {
       state = Play;
       ActionRecord::addRecord("You close your inventory.");
       break;
+    default:
+      ActionRecord::addRecord("Unrecognized command.");
+    break;
     }
+    //
     break;
   case ItemUse:
     player.consumeItem(inInt - 1);
@@ -227,18 +214,20 @@ void Game::getInput(std::istream& inStr) {
     state = Inventory;
     break;
   case Pause:
+    // Handle inputs while in "Pause" menu
     switch (inChar) {
     case EXIT:
       state = Play;
       break;
     case QUIT:
-    std::cout << std::endl;
+      std::cout << std::endl;
       exit(0);
       break;
     case SAVE:
       state = Save;
       break;
     }
+    //
     break;
   case Save:
     if(inString != std::string(1, SAVE)) {
@@ -251,45 +240,50 @@ void Game::getInput(std::istream& inStr) {
     break;
 
   case NPCList:
+  // Handle inputs while in NPCList menu
     switch (inChar) {
-      case TALK:
-       GlobalState = TalkNPC;
-        break;
-      case EXMNPC:
-       GlobalState = ExamineNPC;
-        break;
-      case EXIT:
-      GlobalState = Play;
+    case TALK:
+      state = TalkNPC;
+      break;
+    case EXMNPC:
+      state = ExamineNPC;
+      break;
+    case EXIT:
+      state = Play;
       ActionRecord::addRecord("You are out of the NPC screen.");
       break;
     }
+    //
     break;
-    case TalkNPC:
-        currentChatNpc = inInt;
-        currentChat = inInt;
-        GlobalState = Talk;
-        break;
-    case ExamineNPC:
-        GlobalState = NPCList;
-        ActionRecord::addRecord(examineNPC(inInt));
-        break;
-    case Talk:
+  case TalkNPC:
+    currentChatNpc = inInt;
+    currentChat = inInt;
+    state = Talk;
+    break;
+  case ExamineNPC:
+    state = NPCList;
+    ActionRecord::addRecord(examineNPC(inInt));
+    break;
+  case Talk:
     nextChat = inInt;
-        drawChatMenu(currentChat);
-        GlobalState = TalkSecond;
-        break;
-    case TalkSecond:
-      nextChat = inInt;
+    drawChatMenu(currentChat);
+    state = TalkSecond;
+    break;
+  case TalkSecond:
+    nextChat = inInt;
     // drawChatMenu(currentChat);
 
-       GlobalState = TalkSecond;
-       break;
-    case RiddleTalk:
-        inStr >> inString;
-      // std::getline(inStr, inString);
-       solveRiddle(inString);
-       GlobalState = Play;
-       break;
+    state = TalkSecond;
+    break;
+  case RiddleTalk:
+    inStr >> inString;
+    // std::getline(inStr, inString);
+    solveRiddle(inString);
+    state = Play;
+    break;
+  default:
+    ActionRecord::addRecord("Unrecognized command.");
+    break;
   }
 
   inStr.clear();
@@ -338,9 +332,9 @@ void Game::movePlayer(char dir) {
     moveInt = 1;
     moved = true;
     break;
-  default :
+  default:
+    ActionRecord::addRecord("Unrecognized command.");
     return;
-    //break;
   }
   if (moved) {
     int roomIndex = currentRoom + moveInt;
@@ -376,7 +370,7 @@ void Game::drawNpcList(std::ostream& os) {
 
 void Game::drawNpcSubMenu(std::ostream& os) {
   drawNpcList(os);
-  switch (GlobalState) {
+  switch (state) {
   case TalkNPC:
     os << "Which NPC do you want to talk to?" << std::endl;
     break;
@@ -389,7 +383,7 @@ void Game::drawNpcSubMenu(std::ostream& os) {
 
 void Game::drawChatMenu(int id) {
   drawChatOptions(id);
-  switch (GlobalState) {
+  switch (state) {
   case TalkNPC:
     std::cout << "Which NPC do you want to talk to?" << std::endl;
     break;
@@ -407,91 +401,89 @@ void Game::drawChatOptions(int id) {
 //  os << rooms[currentRoom].getNPCS()[id - 1] << std::endl;
   int counter = 0;
 
-  std::cout << "current chat: " << currentChat << " Next chat: " << nextChat<< ". Entered id: " << id << ". State is: " << GlobalState << std::endl;
+  std::cout << "current chat: " << currentChat << " Next chat: " << nextChat<< ". Entered id: " << id << ". State is: " << state << std::endl;
 
   if (id == 0) {
-    GlobalState = Play;
+    state = Play;
   } else {
-   std::string npc = rooms[currentRoom].getNPCS()[currentChatNpc - 1].name;
-  std::cout << "You are speaking with: " << npc << std::endl;
-    int cid = 0;
-  switch (GlobalState) {
-  case Talk:
-   cid = rooms[currentRoom].getNPCS()[id - 1].chatid;
-   //nextChat = chats.at(currentChat).at(id).nextChatId;
-     currentChat = cid;
-    for (auto const& x : chats.at(cid)) {
-            counter++;
-            std::cout << counter << ". " << x.second.title << std::endl;
-            //os << i+1 << ". " << c.title << std::endl;
-        }
-          GlobalState = TalkSecond;
-    break;
-  case TalkSecond:
-
-    switch (chats.at(currentChat).at(id).type) {
-
-        case Riddle:
-            GlobalState = RiddleTalk;
-             nextChat = chats.at(currentChat).at(id).nextChatId;
-             std::cout << npc << " replies: " << chats.at(currentChat).at(id).reply << std::endl;
-            break;
-
-        case Chat:
-    std::cout << npc << " replies: " << chats.at(currentChat).at(id).reply << std::endl;
-    int nchat = chats.at(currentChat).at(id).nextChatId;
-     currentChat = nchat;
-
-    //counter = 0;
-    for (auto const& x : chats.at(currentChat)) {
-            counter++;
-            std::cout << counter << ". " << x.second.title << std::endl;
-            //os << i+1 << ". " << c.title << std::endl;
-        }
-
-
-    }
-    break;
-  }
-  }
-
-    std::cout << "Please choose an option. Enter 0 to end chat. " << std::endl;
-}
-
-
-std::string Game::examineNPC(int id)
-{
-      int currentRoom = player.getCurrentRoom();
-     return rooms[currentRoom].getNPCS()[id - 1].examine;
-}
-
-
-
-void Game::solveRiddle(std::string inp)
-{
-    int currentRoom = player.getCurrentRoom();
     std::string npc = rooms[currentRoom].getNPCS()[currentChatNpc - 1].name;
-    std::cout << nextChat << std::endl;
-    std::cout << "input: " << inp << std::endl;
-    if (inp == RANS.at(RIDDLEANSWERS.at(nextChat))) {
+    std::cout << "You are speaking with: " << npc << std::endl;
+    int cid = 0;
+    switch (state) {
+    case Talk:
+      cid = rooms[currentRoom].getNPCS()[id - 1].chatid;
+      //nextChat = chats.at(currentChat).at(id).nextChatId;
+      currentChat = cid;
+      for (auto const& x : chats.at(cid)) {
+        counter++;
+        std::cout << counter << ". " << x.second.title << std::endl;
+        //os << i+1 << ". " << c.title << std::endl;
+      }
+      state = TalkSecond;
+      break;
+    case TalkSecond:
 
-        if (!player.checkRiddle(nextChat)) {
-        ActionRecord::addRecord("You got the right answer! " +npc + " rewards you, check your inventory.");
-        player.finishRiddle(nextChat);
-        for (int id : REWARDS.at(nextChat)) {
-            player.addItem(ITEMS.at(id));
-        }
-        GlobalState = Play;
-        } else {
-         ActionRecord::addRecord("You already solved this riddle and recieved the rewards..");
-        GlobalState = Play;
-        }
-    }
+      switch (chats.at(currentChat).at(id).type) {
 
-    else {
-            ActionRecord::addRecord("You got the wrong answer. Speak to " + npc + " to try again.");
-            GlobalState = TalkSecond;
+      case Riddle:
+        state = RiddleTalk;
+        nextChat = chats.at(currentChat).at(id).nextChatId;
+        std::cout << npc << " replies: " << chats.at(currentChat).at(id).reply << std::endl;
+        break;
+
+      case Chat:
+        std::cout << npc << " replies: " << chats.at(currentChat).at(id).reply << std::endl;
+        int nchat = chats.at(currentChat).at(id).nextChatId;
+        currentChat = nchat;
+
+        //counter = 0;
+        for (auto const& x : chats.at(currentChat)) {
+          counter++;
+          std::cout << counter << ". " << x.second.title << std::endl;
+          //os << i+1 << ". " << c.title << std::endl;
+        }
+
+
+      }
+      break;
     }
+  }
+
+  std::cout << "Please choose an option. Enter 0 to end chat. " << std::endl;
+}
+
+
+std::string Game::examineNPC(int id) {
+  int currentRoom = player.getCurrentRoom();
+  return rooms[currentRoom].getNPCS()[id - 1].examine;
+}
+
+
+
+void Game::solveRiddle(std::string inp) {
+  int currentRoom = player.getCurrentRoom();
+  std::string npc = rooms[currentRoom].getNPCS()[currentChatNpc - 1].name;
+  std::cout << nextChat << std::endl;
+  std::cout << "input: " << inp << std::endl;
+  if (inp == RANS.at(RIDDLEANSWERS.at(nextChat))) {
+
+    if (!player.checkRiddle(nextChat)) {
+      ActionRecord::addRecord("You got the right answer! " +npc + " rewards you, check your inventory.");
+      player.finishRiddle(nextChat);
+      for (int id : REWARDS.at(nextChat)) {
+        player.addItem(ITEMS.at(id));
+      }
+      state = Play;
+    } else {
+      ActionRecord::addRecord("You already solved this riddle and recieved the rewards..");
+      state = Play;
+    }
+  }
+
+  else {
+    ActionRecord::addRecord("You got the wrong answer. Speak to " + npc + " to try again.");
+    state = TalkSecond;
+  }
 }
 
 

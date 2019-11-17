@@ -1,7 +1,7 @@
 #ifndef CHATPUZZLE_H
 #define CHATPUZZLE_H
 
-#include <ChatOption.h>
+#include "ChatOption.h"
 
 
 class ChatPuzzle : public ChatOption

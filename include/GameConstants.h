@@ -25,12 +25,10 @@ const char EXIT = 'X';
 //NPC Interaction Commands
 const char TALK = 'T';
 const char EXMNPC = 'E';
+
 //Menu Commands
 const char SAVE = 'S';
 const char QUIT = 'Q';
-
-
-
 
 //Other room options
 const char PICK = 'P';

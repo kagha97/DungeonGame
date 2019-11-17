@@ -85,12 +85,6 @@ void Room::removeAllItems()
   items.clear();
 }
 
-std::vector<NPC> Room::getNPCS()
-{
-    return npcs;
-}
-
-
 std::string Room::showNPCS() {
   std::stringstream ss;
   ss << "NPCS In Room:" << std::endl;
@@ -128,12 +122,12 @@ std::vector<std::string> Room::getNPCList()
 {
     std::vector<std::string> retVec;
     for(NPC n : npcs) {
-      retVec.push_back(n.getName());
+      retVec.push_back(n.name);
     }
     return retVec;
 }
 
-std::vector<NPC> Room::getNPCs()
+std::vector<NPC> Room::getNPCS()
 {
     return npcs;
 }

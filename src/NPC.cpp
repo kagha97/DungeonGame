@@ -11,9 +11,9 @@ NPC::NPC(std::string n,std::string exm, int cid){
 
 
 
-std::string NPC::getName() {
-  return name;
-}
+//std::string NPC::getName() {
+//  return name;
+//}
 
 bool NPC::operator==(const NPC& n) const
 {
