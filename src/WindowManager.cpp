@@ -18,6 +18,7 @@ void WindowManager::draw(std::ostream& os, Game& game) {
   case MainMenu:
     break;
   case Pause:
+  case Save:
     generatePauseMenu(game, contents, width, height);
     break;
   case Play:
@@ -56,12 +57,11 @@ void WindowManager::draw(std::ostream& os, Game& game) {
   os << "Enter Option: ";
 }
 
-void WindowManager::generatePlayContents(Game& game,
-    std::vector<TextBox>& contents, int width, int height) {
+void WindowManager::generatePlayContents(Game& game, std::vector<TextBox>& contents, int width, int height) {
   // Set up Minimap
   std::vector<std::string> mMap = game.miniMap();
   int mMapW = mMap[0].length();
-  int mMapX = width - mMapW - 5;
+  int mMapX = width - mMapW;
   int mMapY = 0;
   int mMapH =  mMap.size();
   TextBox minimap(mMapX, mMapY, mMapW, mMapH);
@@ -127,7 +127,7 @@ void WindowManager::generatePlayContents(Game& game,
   ar.fillBottomUp(ActionRecord::getFullRecord());
 
   // Show available options
-  std::vector<std::string> options = getOptionsVector();
+  std::vector<std::string> options = getOptionsVector(game);
   int optX = 0;
   int optY = rDescH + 1;
   int optW = rDescW;
@@ -152,23 +152,33 @@ void WindowManager::generatePlayContents(Game& game,
   contents.push_back(rItem);
 }
 
-void WindowManager::generatePauseMenu(Game& game,
-                                      std::vector<TextBox>& contents, int width, int height) {
-  std::vector<std::string> optVec;
-
-
+void WindowManager::generatePauseMenu(Game& game, std::vector<TextBox>& contents, int width, int height) {
+  std::vector<std::string> optVec = getOptionsVector(game);
+  int tbW = 30;
+  int tbH = 12;
+  TextBox tb((width / 2) - (tbW / 2), (height / 2) - (tbH / 2), tbW, tbH);
+  tb.fillTopDown(optVec);
+  contents.push_back(tb);
 }
 
 std::vector<std::string> WindowManager::getOptionsVector(Game& game) {
   std::vector<std::string> outVec;
-  outVec.push_back("Options:");
-  switch (state) {
+  outVec.push_back("Commands:");
+  switch (game.state) {
   case MainMenu:
     break;
-  case Pause:
-    break;
-  case Save:
-    break;
+  case Pause: {
+    std::stringstream ss;
+    ss << SAVE << " to save your game.";
+    outVec.push_back(ss.str());
+    ss.str("");
+    ss << QUIT << " to quit.";
+    outVec.push_back(ss.str());
+    ss.str("");
+    ss << EXIT << " to return to the game.";
+    outVec.push_back(ss.str());
+  }
+  break;
   case Play: {
     std::stringstream ss;
     ss << "Enter " << UP << ", " << DOWN << ", " << LEFT << ", or " << RIGHT <<
@@ -201,25 +211,18 @@ std::vector<std::string> WindowManager::getOptionsVector(Game& game) {
     ss.str("");
     ss << "Enter " << EXIT << " to close your inventory.";
     outVec.push_back(ss.str());
-    game.
   }
   break;
   case ItemUse: {
-    std::stringstream ss;
-    ss << "Enter the number of the item you want to use.";
-    outVec.push_back(ss.str());
+    outVec.push_back("Enter the number of the item you want to use.");
   }
   break;
   case ItemDrop: {
-    std::stringstream ss;
-    ss << "Enter the number of the item you want to drop.";
-    outVec.push_back(ss.str());
+    outVec.push_back("Enter the number of the item you want to drop.");
   }
   break;
   case ItemExamine: {
-    std::stringstream ss;
-    ss << "Enter the number of the item you want to examine.";
-    outVec.push_back(ss.str());
+    outVec.push_back("Enter the number of the item you want to examine.");
   }
   break;
   case InteractNPC: {
@@ -228,10 +231,18 @@ std::vector<std::string> WindowManager::getOptionsVector(Game& game) {
   case Win: {
   }
   break;
+  case Save: {
+    outVec.push_back("Enter the filename to save.");
+    outVec.push_back( std::string(1, EXIT) + " to cancel.");
+  }
+  break;
+  case Load: {
+    outVec.push_back("Enter the filename to load.");
+  }
+  break;
   }
   return outVec;
 }
-
 
 WindowManager::~WindowManager() {
   //dtor

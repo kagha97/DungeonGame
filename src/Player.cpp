@@ -26,6 +26,7 @@ Player::Player(std::string inParam)
 
 void Player::moveTo(int i) {
   currentRoom = i;
+  updateValues();
 }
 
 int Player::getCurrentRoom() {

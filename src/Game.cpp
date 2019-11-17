@@ -1,91 +1,5 @@
 #include "Game.h"
 
-//void Game::draw(std::ostream& os) {
-//  int cr = player.getCurrentRoom();
-//  switch (state) {
-//  case Play:
-//    drawPlay(os);
-//    os << rooms[cr].getDescription() << std::endl;
-//    os << ActionRecord::getRecords() << std::endl;
-//    break;
-//  case Inventory:
-//    drawInventory(os);
-//    os << ActionRecord::getLatest() << std::endl;
-//    break;
-//  case ItemUse:
-//  case ItemDrop:
-//  case ItemExamine:
-//    drawInventorySubMenu(os);
-//    break;
-//  case InteractNPC:
-//    break;
-//  default:
-//    break;
-//  }
-//  os << std::endl;
-//  os << "Enter Option: ";
-//}
-//
-//void Game::drawPlay(std::ostream& os) {
-//  int roomCount = rooms.size();
-//  if (roomCount < 1)
-//    return;
-//  int currentRoom = player.getCurrentRoom();
-//  //ActionRecord::addRecord(rooms[currentRoom].getDescription());
-//
-//  int tmpNewLine = 0;
-//  for (int i = 0; i < roomCount; i++) {
-//    if (currentRoom == i) {
-//      os << '[' << "P" << ']';
-//    } else {
-//      os << '[' << " " << ']';
-//    }
-//    tmpNewLine++;
-//    if (tmpNewLine == sqrt(roomCount)) {
-//      os << std::endl;
-//      tmpNewLine=0;
-//    }
-//  }
-//  os << getOptionsString() << std::endl;
-//  os << player.getStatsString() << std::endl;
-//}
-//
-//void Game::drawInventory(std::ostream& os) {
-//  os << player.showInventory() << std::endl;
-//  char opt = ' ';
-//  int number = -1;
-//  os << "Enter " << USE << " to use an item, " << EXAMINE <<
-//     " to examine the item, and " << DROP << " to drop an item." << std::endl;
-//}
-//
-//void Game::drawInventorySubMenu(std::ostream& os) {
-//  drawInventory(os);
-//  switch (state) {
-//  case ItemUse:
-//    os << "Which item do you want to use?" << std::endl;
-//    break;
-//  case ItemDrop:
-//    os << "Which item do you want to drop?" << std::endl;
-//    break;
-//  case ItemExamine:
-//    os << "Which item do you want to examine?" << std::endl;
-//    break;
-//  }
-//}
-//
-//std::string Game::getOptionsString() {
-//  std::stringstream ss;
-//
-//  ss << "Enter " << UP << " , " << DOWN << " , " << LEFT << " , " << RIGHT <<
-//     " to move north, south, west, or east." << std::endl;
-//  ss << "Enter " << PICK << " to pick up items in the room, if there are any." <<
-//     std::endl;
-//  ss << "Enter " << NPCINTERACT << " to see list of NPCS in the room." <<
-//     std::endl;
-//
-//  return ss.str();
-//}
-
 Game::Game(std::string filePath) {
   std::ifstream in(filePath);
   std::string str;
@@ -160,6 +74,7 @@ void Game::save(std::string filePath) {
     out << "}}" << std::endl;
   }
   out.close();
+  ActionRecord::addRecord("Game saved as " + filePath);
 }
 
 Game::Game(int roomCount) {
@@ -221,7 +136,7 @@ void Game::getInput(std::istream& inStr) {
     break;
   case Save:
     inStr >> inString;
-  break;
+    break;
   }
 
   switch (state) {
@@ -285,6 +200,7 @@ void Game::getInput(std::istream& inStr) {
       state = Play;
       break;
     case QUIT:
+    std::cout << std::endl;
       exit(0);
       break;
     case SAVE:
@@ -293,12 +209,12 @@ void Game::getInput(std::istream& inStr) {
     }
     break;
   case Save:
-
-//    if(!(StringManipulations::hasEnding(inString, FILEEXT))) {
-//      inString += FILEEXT;
-//    }
-    save(inString);
-    ActionRecord::addRecord("Game saved as " + inString);
+    if(inString != std::string(1, SAVE)) {
+      if(!(StringManipulations::hasEnding(inString, FILEEXT))) {
+        inString += FILEEXT;
+      }
+      save(inString);
+    }
     state = Pause;
     break;
   }
@@ -370,7 +286,6 @@ void Game::movePlayer(char dir) {
       ActionRecord::addRecord("That room is locked");
     }
   }
-  player.updateValues();
 }
 
 void Game::lootRoom() {
@@ -415,7 +330,6 @@ std::vector<std::string> Game::miniMap() {
 
       tempCounter++;
     }
-    ss << "     ";
     outVec.push_back(ss.str());
   }
   return outVec;

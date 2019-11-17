@@ -1,19 +1,22 @@
 #include <iostream>
 #include <cctype>
+#include <fstream>
 #include "Game.h"
 #include "GameConstants.h"
 #include "Player.h"
-#include <fstream>
 #include "WindowManager.h"
+#include "ActionRecord.h"
 
-void printRecord(struct winsize w,std::vector<std::string> lines)
-{
-    for (int i = 0; i < w.winsize::ws_row; i++)
-    {
-        std::cout << lines[i] << std::endl;
-    }
+void printRecord(struct winsize w,std::vector<std::string> lines) {
+  for (int i = 0; i < w.winsize::ws_row; i++) {
+    std::cout << lines[i] << std::endl;
+  }
 }
 
+bool fileAccessible(std::string fileName) {
+  std::ifstream file(fileName);
+  return file.good();
+}
 
 void gameOver(Player p) {
   std::cout << "YOU DIED" << std::endl;
@@ -31,21 +34,31 @@ int main() {
   std::cout << "Welcome to Dungeon Game!" << std::endl;
   std::cout << "Developed by Fafnir Studios LTD. All rights reserved." <<
             std::endl << std::endl;
-  std::cout << "Options:" << std::endl;
-  std::cout << "Press " << LOADGAME << " to load a save" << std::endl;
-  std::cout << "Press " << NEWGAME << " to start a new game" << std::endl;
+
   bool getStart = true;
   while (getStart) {
+    std::cout << "Options:" << std::endl;
+    std::cout << "Press " << LOADGAME << " to load a save" << std::endl;
+    std::cout << "Press " << NEWGAME << " to start a new game" << std::endl;
+
     char inputChar;
     std::cin >> inputChar;
     clearScreen();
     switch (std::toupper(inputChar)) {
-    case LOADGAME :
-      getStart = false;
-      game = new Game(AUTOSAVEFILE);
-      std::cin.clear();
-
-      break;
+    case LOADGAME : {
+      std::string fileName;
+      std::cout << "Please enter the file to load." << std::endl;
+      std::cin >> fileName;
+      if(fileAccessible(fileName)) {
+        game = new Game(fileName);
+        getStart = false;
+        ActionRecord::addRecord(fileName + " loaded.");
+        std::cin.clear();
+        break;
+      }
+      std::cout << "File not found or inaccessible. Please try again." << std::endl;
+    }
+    break;
     case NEWGAME :
       getStart = false;
       game = new Game(ROOMCOUNT);
@@ -63,7 +76,7 @@ int main() {
   // game->draw(std::cout);
 
   while (true) {
-    game->save(AUTOSAVEFILE);
+    //game->save(AUTOSAVEFILE);
     wm.draw(std::cout, *game);
     game->getInput(std::cin);
 
@@ -74,7 +87,7 @@ int main() {
       break;
     }
 
-     //game->draw(std::cout);
+    //game->draw(std::cout);
   }
   delete game;
 
