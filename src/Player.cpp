@@ -171,6 +171,25 @@ std::string Player::examineItem(int it) {
     return inventory[it].examine;
 }
 
+void Player::finishRiddle(int id)
+{
+    completedRiddles.push_back(id);
+}
+
+bool Player::checkRiddle(int id)
+{
+    for (int r : completedRiddles) {
+        if (r == id) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+
+
 std::vector<Item> Player::getInventory() {
   return inventory;
 }

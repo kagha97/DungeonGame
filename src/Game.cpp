@@ -6,6 +6,21 @@ Game::Game(std::string filePath) {
   std::vector<std::string> data;
   while (std::getline(in, str)) {
     data.push_back(str);
+    drawNpcList(os);
+    os << ActionRecord::getLatest() << std::endl;
+    break;
+  case TalkNPC:
+  case ExamineNPC:
+    drawNpcSubMenu(os);
+  case Talk:
+  std::cout << "drawing current chat" << std::endl;
+    drawChatMenu(currentChat);
+    break;
+  case TalkSecond:
+  case RiddleTalk:
+    std::cout << "drawing next chat" << std::endl;
+    drawChatMenu(nextChat);
+
   }
   in.close();
   player = Player(data[0]);
@@ -137,6 +152,19 @@ void Game::getInput(std::istream& inStr) {
   case Save:
     inStr >> inString;
     break;
+  case NPCList:
+    inStr >> inChar;
+    inChar = std::toupper(inChar);
+    break;
+  case TalkNPC:
+  case Talk:
+  case TalkSecond:
+  case ExamineNPC:
+    inStr >> inInt;
+    break;
+  case RiddleTalk:
+   //inStr >> inChar;
+   break;
   }
 
   switch (state) {
@@ -163,6 +191,10 @@ void Game::getInput(std::istream& inStr) {
     case EXIT:
       state = Pause;
       break;
+    case NPCVIEW:
+        state = NPCList;
+        ActionRecord::addRecord("The NPCS in this room.");
+        break;
     }
     break;
   case Inventory:
@@ -217,7 +249,49 @@ void Game::getInput(std::istream& inStr) {
     }
     state = Pause;
     break;
+
+  case NPCList:
+    switch (inChar) {
+      case TALK:
+       GlobalState = TalkNPC;
+        break;
+      case EXMNPC:
+       GlobalState = ExamineNPC;
+        break;
+      case EXIT:
+      GlobalState = Play;
+      ActionRecord::addRecord("You are out of the NPC screen.");
+      break;
+    }
+    break;
+    case TalkNPC:
+        currentChatNpc = inInt;
+        currentChat = inInt;
+        GlobalState = Talk;
+        break;
+    case ExamineNPC:
+        GlobalState = NPCList;
+        ActionRecord::addRecord(examineNPC(inInt));
+        break;
+    case Talk:
+    nextChat = inInt;
+        drawChatMenu(currentChat);
+        GlobalState = TalkSecond;
+        break;
+    case TalkSecond:
+      nextChat = inInt;
+    // drawChatMenu(currentChat);
+
+       GlobalState = TalkSecond;
+       break;
+    case RiddleTalk:
+        inStr >> inString;
+      // std::getline(inStr, inString);
+       solveRiddle(inString);
+       GlobalState = Play;
+       break;
   }
+
   inStr.clear();
 }
 
@@ -287,6 +361,145 @@ void Game::movePlayer(char dir) {
     }
   }
 }
+
+//NPC STUFF
+
+void Game::drawNpcList(std::ostream& os) {
+  int currentRoom = player.getCurrentRoom();
+  os << rooms[currentRoom].showNPCS() << std::endl;
+  char opt = ' ';
+  int number = -1;
+  os << "Enter " << TALK << " to talk to an NPC, " << EXMNPC <<
+     " to examine an NPC." << std::endl;
+}
+
+
+void Game::drawNpcSubMenu(std::ostream& os) {
+  drawNpcList(os);
+  switch (GlobalState) {
+  case TalkNPC:
+    os << "Which NPC do you want to talk to?" << std::endl;
+    break;
+  case ExamineNPC:
+    os << "Which NPC do you want to examine?" << std::endl;
+    break;
+  }
+}
+
+
+void Game::drawChatMenu(int id) {
+  drawChatOptions(id);
+  switch (GlobalState) {
+  case TalkNPC:
+    std::cout << "Which NPC do you want to talk to?" << std::endl;
+    break;
+  case ExamineNPC:
+    std::cout << "Which NPC do you want to examine?" << std::endl;
+    break;
+  }
+
+}
+
+
+void Game::drawChatOptions(int id) {
+
+  int currentRoom = player.getCurrentRoom();
+//  os << rooms[currentRoom].getNPCS()[id - 1] << std::endl;
+  int counter = 0;
+
+  std::cout << "current chat: " << currentChat << " Next chat: " << nextChat<< ". Entered id: " << id << ". State is: " << GlobalState << std::endl;
+
+  if (id == 0) {
+    GlobalState = Play;
+  } else {
+   std::string npc = rooms[currentRoom].getNPCS()[currentChatNpc - 1].name;
+  std::cout << "You are speaking with: " << npc << std::endl;
+    int cid = 0;
+  switch (GlobalState) {
+  case Talk:
+   cid = rooms[currentRoom].getNPCS()[id - 1].chatid;
+   //nextChat = chats.at(currentChat).at(id).nextChatId;
+     currentChat = cid;
+    for (auto const& x : chats.at(cid)) {
+            counter++;
+            std::cout << counter << ". " << x.second.title << std::endl;
+            //os << i+1 << ". " << c.title << std::endl;
+        }
+          GlobalState = TalkSecond;
+    break;
+  case TalkSecond:
+
+    switch (chats.at(currentChat).at(id).type) {
+
+        case Riddle:
+            GlobalState = RiddleTalk;
+             nextChat = chats.at(currentChat).at(id).nextChatId;
+             std::cout << npc << " replies: " << chats.at(currentChat).at(id).reply << std::endl;
+            break;
+
+        case Chat:
+    std::cout << npc << " replies: " << chats.at(currentChat).at(id).reply << std::endl;
+    int nchat = chats.at(currentChat).at(id).nextChatId;
+     currentChat = nchat;
+
+    //counter = 0;
+    for (auto const& x : chats.at(currentChat)) {
+            counter++;
+            std::cout << counter << ". " << x.second.title << std::endl;
+            //os << i+1 << ". " << c.title << std::endl;
+        }
+
+
+    }
+    break;
+  }
+  }
+
+    std::cout << "Please choose an option. Enter 0 to end chat. " << std::endl;
+}
+
+
+std::string Game::examineNPC(int id)
+{
+      int currentRoom = player.getCurrentRoom();
+     return rooms[currentRoom].getNPCS()[id - 1].examine;
+}
+
+
+
+void Game::solveRiddle(std::string inp)
+{
+    int currentRoom = player.getCurrentRoom();
+    std::string npc = rooms[currentRoom].getNPCS()[currentChatNpc - 1].name;
+    std::cout << nextChat << std::endl;
+    std::cout << "input: " << inp << std::endl;
+    if (inp == RANS.at(RIDDLEANSWERS.at(nextChat))) {
+
+        if (!player.checkRiddle(nextChat)) {
+        ActionRecord::addRecord("You got the right answer! " +npc + " rewards you, check your inventory.");
+        player.finishRiddle(nextChat);
+        for (int id : REWARDS.at(nextChat)) {
+            player.addItem(ITEMS.at(id));
+        }
+        GlobalState = Play;
+        } else {
+         ActionRecord::addRecord("You already solved this riddle and recieved the rewards..");
+        GlobalState = Play;
+        }
+    }
+
+    else {
+            ActionRecord::addRecord("You got the wrong answer. Speak to " + npc + " to try again.");
+            GlobalState = TalkSecond;
+    }
+}
+
+
+
+//END NPC
+
+
+
 
 void Game::lootRoom() {
   int currentRoom = player.getCurrentRoom();

@@ -85,6 +85,22 @@ void Room::removeAllItems()
   items.clear();
 }
 
+std::vector<NPC> Room::getNPCS()
+{
+    return npcs;
+}
+
+
+std::string Room::showNPCS() {
+  std::stringstream ss;
+  ss << "NPCS In Room:" << std::endl;
+  for (int i = 0; i < npcs.size(); i++) {
+    ss << i+1 << ". " << npcs[i].name << std::endl;
+  }
+
+  return ss.str();
+}
+
 bool Room::tryKey(Item i)
 {
   if(i.type == Key && i.value == id) {

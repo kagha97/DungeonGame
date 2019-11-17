@@ -26,7 +26,11 @@ class Game
     void getInput(std::istream& inStr);
     void show_ascii(std::string loc);
     std::string getOptionsString();
+    void drawChatOptions(int id);
     std::string getRoomDescription(int r);
+    void drawChatMenu (int id);
+    void solveRiddle (std::string inp);
+    std::string examineNPC (int id);
     void inventoryScreen();
     State state;
     virtual ~Game();
@@ -36,11 +40,16 @@ class Game
   protected:
 
   private:
+    int currentChat;
+    int currentChatNpc;
+    int nextChat;
     void movePlayer(char dir);
     void lootRoom();
     void drawPlay(std::ostream& os);
     void drawInventory(std::ostream& os);
     void drawInventorySubMenu(std::ostream& os);
+    void drawNpcList(std::ostream& os);
+    void drawNpcSubMenu(std::ostream& os);
     std::vector<Room> rooms;
 };
 
