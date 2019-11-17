@@ -16,10 +16,12 @@ class TextBox
     int height;
     char getAt(int x, int y);
     //bool isAt(int x, int y);
+    void fillChar(char c);
     void fillTopDown(std::string text);
     void fillBottomUp(std::string text);
     void fillTopDown(std::vector<std::string> lines);
     void fillBottomUp(std::vector<std::string> lines);
+    void shrink();
 
   protected:
 

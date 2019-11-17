@@ -34,15 +34,9 @@ const int HEALTHLOSS = 10;
 const int MAXRECORDS = 10;
 
 // Window Constants
-const std::string SSTR = "Stats:";
-const std::string ISTR = "Inventory:";
-const int LHMIN = 50;
-const int SSTR_D = 10;
-const int HP_D = 11;
-const int HUN_D = 12;
-const int ISTR_D = 13;
-const int IEND_D = 33;
-//const int IY = 14;
+const int WINDOWWIDTH = 90;
+const int WINDOWHEIGHT = 35;
+
 
 // Savefile delimeters
 const char ATTRIBDELIM = ',';

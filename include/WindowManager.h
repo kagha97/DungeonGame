@@ -26,6 +26,7 @@ class WindowManager {
  protected:
 
  private:
+   void generateContents(Game& game, std::vector<TextBox>& contents, int width, int height);
 };
 
 #endif // WINDOWMANAGER_H

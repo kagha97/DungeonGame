@@ -25,7 +25,7 @@ void clearScreen() {
 
 
 int main() {
-  std::cout << "\e[8;35;100t";
+  std::cout << "\e[8;" << WINDOWHEIGHT << ";"<< WINDOWWIDTH <<"t";
   Game* game;
   WindowManager wm;
   std::cout << "Welcome to Dungeon Game!" << std::endl;

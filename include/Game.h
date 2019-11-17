@@ -30,6 +30,9 @@ class Game
     State state;
     virtual ~Game();
     std::vector<std::string> miniMap();
+    std::vector<std::string> getOptionsVector();
+    std::vector<std::string> getRoomItemNames();
+    std::vector<std::string> getRoomNPCNames();
   protected:
 
   private:

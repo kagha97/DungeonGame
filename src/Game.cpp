@@ -95,7 +95,7 @@ Game::Game(std::string filePath) {
   }
   in.close();
   player = Player(data[0]);
-  for(int i = 1 ; i < data.size(); i++) {
+  for (int i = 1 ; i < data.size(); i++) {
     rooms.push_back(Room(data[i]));
   }
   state = Play;
@@ -106,13 +106,14 @@ void Game::save(std::string filePath) {
   std::ofstream out;
   out.open(filePath);
 
-  out <<  "{" << player.getHP() << ATTRIBDELIM << player.getHunger() << ATTRIBDELIM << player.getCurrentRoom() << ATTRIBDELIM << "{";
-  if(pInv.size() < 1){
+  out <<  "{" << player.getHP() << ATTRIBDELIM << player.getHunger() <<
+      ATTRIBDELIM << player.getCurrentRoom() << ATTRIBDELIM << "{";
+  if (pInv.size() < 1) {
     out << EMPTY;
   }
-  for(int i = 0; i < pInv.size(); i++) {
-    for(auto const& mI : ITEMS) {
-      if(pInv[i] == mI.second) {
+  for (int i = 0; i < pInv.size(); i++) {
+    for (auto const& mI : ITEMS) {
+      if (pInv[i] == mI.second) {
         out << mI.first;
         if (i < pInv.size() - 1) {
           out << OBJDELIM;
@@ -122,15 +123,15 @@ void Game::save(std::string filePath) {
     }
   }
   out << "}}" << std::endl;
-  for(Room r : rooms) {
+  for (Room r : rooms) {
     out << "{" << r.getId() << ATTRIBDELIM << (int)r.locked << ATTRIBDELIM << "{";
     std::vector<Item> rItems = r.getItems();
-    if(rItems.size() < 1) {
+    if (rItems.size() < 1) {
       out << EMPTY;
     }
-    for(int i = 0; i < rItems.size(); i++) {
-      for(auto const& I : ITEMS) {
-        if(rItems[i] == I.second) {
+    for (int i = 0; i < rItems.size(); i++) {
+      for (auto const& I : ITEMS) {
+        if (rItems[i] == I.second) {
           out << I.first;
           if (i < rItems.size() - 1) {
             out << OBJDELIM;
@@ -142,12 +143,12 @@ void Game::save(std::string filePath) {
     out << "}" << ATTRIBDELIM;
     out << "{";
     std::vector<NPC> rNPCs = r.getNPCs();
-    if(rNPCs.size() < 1) {
+    if (rNPCs.size() < 1) {
       out << EMPTY;
     }
-    for(int i = 0; i < rNPCs.size(); i++) {
-      for(auto const& N : NPCS) {
-        if(rNPCs[i] == N.second) {
+    for (int i = 0; i < rNPCs.size(); i++) {
+      for (auto const& N : NPCS) {
+        if (rNPCs[i] == N.second) {
           out << N.first;
           if (i < rNPCs.size() - 1) {
             out << OBJDELIM;
@@ -223,8 +224,12 @@ void Game::getInput(std::istream& inStr) {
   case Play:
     switch (inChar) {
     case INVENTORY:
-      state = Inventory;
-      ActionRecord::addRecord("You open your inventory.");
+      if (player.getInventory().size() > 0) {
+        state = Inventory;
+        ActionRecord::addRecord("You open your inventory.");
+      } else {
+        ActionRecord::addRecord("Your inventory is empty.");
+      }
       break;
     case UP:
     case DOWN:
@@ -369,10 +374,10 @@ std::vector<std::string> Game::miniMap() {
   int currentRoom = player.getCurrentRoom();
   int tempCounter = 0;
 
-  for(int h = 0; h < s; h++) {
+  for (int h = 0; h < s; h++) {
     std::stringstream ss;
-    for(int w = 0; w < s; w++) {
-      if(currentRoom == tempCounter) {
+    for (int w = 0; w < s; w++) {
+      if (currentRoom == tempCounter) {
         ss << "[*]";
       } else {
         ss << "[ ]";
@@ -386,11 +391,89 @@ std::vector<std::string> Game::miniMap() {
   return outVec;
 }
 
-std::string Game::getRoomDescription(int r)
-{
-    return rooms[r].getDescriptionOnly();
+std::string Game::getRoomDescription(int r) {
+  return rooms[r].getDescriptionOnly();
 }
 
+std::vector<std::string> Game::getOptionsVector() {
+  std::vector<std::string> outVec;
+  outVec.push_back("Options:");
+  switch (state) {
+  case MainMenu:
+    break;
+  case Menu:
+    break;
+  case Play: {
+    std::stringstream ss;
+    ss << "Enter " << UP << ", " << DOWN << ", " << LEFT << ", or " << RIGHT <<
+       " to move north, south, west, or east.";
+    outVec.push_back(ss.str());
+    ss.str("");
+    ss << "Enter " << PICK << " to pick up items in the room, if there are any.";
+    outVec.push_back(ss.str());
+    ss.str("");
+    ss << "Enter " << NPCINTERACT << " to see list of NPCS in the room.";
+    outVec.push_back(ss.str());
+    ss.str("");
+    ss << "Enter " << INVENTORY << " to open your inventory.";
+    outVec.push_back(ss.str());
+    ss.str("");
+    ss << "Enter " << EXIT << " to open the game menu.";
+    outVec.push_back(ss.str());
+  }
+  break;
+  case Inventory: {
+    std::stringstream ss;
+    ss << "Enter " << USE << " to use an item";
+    outVec.push_back(ss.str());
+    ss.str("");
+    ss << "Enter " << DROP << " to drop an item";
+    outVec.push_back(ss.str());
+    ss.str("");
+    ss << "Enter " << EXAMINE << " to examine an item";
+    outVec.push_back(ss.str());
+    ss.str("");
+    ss << "Enter " << EXIT << " to close your inventory.";
+    outVec.push_back(ss.str());
+  }
+  break;
+  case ItemUse: {
+    std::stringstream ss;
+    ss << "Enter the number of the item you want to use.";
+    outVec.push_back(ss.str());
+  }
+  break;
+  case ItemDrop: {
+    std::stringstream ss;
+    ss << "Enter the number of the item you want to drop.";
+    outVec.push_back(ss.str());
+  }
+  break;
+  case ItemExamine: {
+    std::stringstream ss;
+    ss << "Enter the number of the item you want to examine.";
+    outVec.push_back(ss.str());
+  }
+  break;
+  case InteractNPC: {
+  }
+  break;
+  case Win: {
+  }
+  break;
+  }
+  return outVec;
+}
+
+std::vector<std::string> Game::getRoomItemNames()
+{
+  return rooms[player.getCurrentRoom()].getItemList();
+}
+
+std::vector<std::string> Game::getRoomNPCNames()
+{
+  return rooms[player.getCurrentRoom()].getNPCList();
+}
 
 Game::~Game() {
 

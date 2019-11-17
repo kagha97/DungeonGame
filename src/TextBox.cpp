@@ -63,3 +63,17 @@ void TextBox::fillBottomUp(std::vector<std::string>lines) {
   }
 }
 
+void TextBox::fillChar(char c)
+{
+  for (int y = 0; y < height; y++) {
+    for (int x = 0; x < width; x++) {
+        content[y][x] = c;
+    }
+  }
+}
+void TextBox::shrink()
+{
+
+}
+
+
