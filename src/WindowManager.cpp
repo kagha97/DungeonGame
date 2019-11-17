@@ -4,8 +4,7 @@ WindowManager::WindowManager() {
   //ctor
 }
 
-void WindowManager::draw(std::ostream& os, Game& game)
-{
+void WindowManager::draw(std::ostream& os, Game& game) {
   os << std::endl << std::endl;
   // Initial values for drawing
   std::vector<TextBox> contents;
@@ -18,14 +17,15 @@ void WindowManager::draw(std::ostream& os, Game& game)
   switch (game.state) {
   case MainMenu:
     break;
-  case Menu:
+  case Pause:
+    generatePauseMenu(game, contents, width, height);
     break;
   case Play:
   case Inventory:
   case ItemUse:
   case ItemDrop:
   case ItemExamine:
-    generateContents(game, contents, width, height);
+    generatePlayContents(game, contents, width, height);
     break;
   case InteractNPC:
     break;
@@ -56,8 +56,8 @@ void WindowManager::draw(std::ostream& os, Game& game)
   os << "Enter Option: ";
 }
 
-void WindowManager::generateContents(Game& game, std::vector<TextBox>& contents, int width, int height)
-{
+void WindowManager::generatePlayContents(Game& game,
+    std::vector<TextBox>& contents, int width, int height) {
   // Set up Minimap
   std::vector<std::string> mMap = game.miniMap();
   int mMapW = mMap[0].length();
@@ -81,7 +81,7 @@ void WindowManager::generateContents(Game& game, std::vector<TextBox>& contents,
   statVec.push_back(hunStr);
   statVec.push_back(hpStr);
   statVec.push_back("Inventory:");
-  for(std::string s : invList) {
+  for (std::string s : invList) {
     statVec.push_back(s);
   }
   stats.fillTopDown(statVec);
@@ -102,10 +102,9 @@ void WindowManager::generateContents(Game& game, std::vector<TextBox>& contents,
   int rItemW = rDescW;
   int rItemH = itemVec.size();
   TextBox rItem(rItemX, rItemY, rItemW, rItemH);
-  if(itemVec.size() > 0){
+  if (itemVec.size() > 0) {
     itemVec.insert(itemVec.begin(), "You see the following items within the room:");
-  }
-  else {
+  } else {
     itemVec.clear();
   }
   rItem.fillTopDown(itemVec);
@@ -128,7 +127,7 @@ void WindowManager::generateContents(Game& game, std::vector<TextBox>& contents,
   ar.fillBottomUp(ActionRecord::getFullRecord());
 
   // Show available options
-  std::vector<std::string> options = game.getOptionsVector();
+  std::vector<std::string> options = getOptionsVector();
   int optX = 0;
   int optY = rDescH + 1;
   int optW = rDescW;
@@ -139,7 +138,7 @@ void WindowManager::generateContents(Game& game, std::vector<TextBox>& contents,
   // Set up border things
   TextBox border(mMapX - 1, 0, 1, height);
   border.fillChar('|');
-  TextBox border2(0, rDescH , mMapX - 1, 1);
+  TextBox border2(0, rDescH, mMapX - 1, 1);
   border2.fillChar('-');
 
   // Add textboxes to vector
@@ -151,8 +150,88 @@ void WindowManager::generateContents(Game& game, std::vector<TextBox>& contents,
   contents.push_back(border2);
   contents.push_back(opt);
   contents.push_back(rItem);
+}
+
+void WindowManager::generatePauseMenu(Game& game,
+                                      std::vector<TextBox>& contents, int width, int height) {
+  std::vector<std::string> optVec;
+
 
 }
+
+std::vector<std::string> WindowManager::getOptionsVector(Game& game) {
+  std::vector<std::string> outVec;
+  outVec.push_back("Options:");
+  switch (state) {
+  case MainMenu:
+    break;
+  case Pause:
+    break;
+  case Save:
+    break;
+  case Play: {
+    std::stringstream ss;
+    ss << "Enter " << UP << ", " << DOWN << ", " << LEFT << ", or " << RIGHT <<
+       " to move north, south, west, or east.";
+    outVec.push_back(ss.str());
+    ss.str("");
+    ss << "Enter " << PICK << " to pick up items in the room, if there are any.";
+    outVec.push_back(ss.str());
+    ss.str("");
+    ss << "Enter " << NPCINTERACT << " to see list of NPCS in the room.";
+    outVec.push_back(ss.str());
+    ss.str("");
+    ss << "Enter " << INVENTORY << " to open your inventory.";
+    outVec.push_back(ss.str());
+    ss.str("");
+    ss << "Enter " << EXIT << " to open the game menu.";
+    outVec.push_back(ss.str());
+  }
+  break;
+  case Inventory: {
+    std::stringstream ss;
+    ss << "Enter " << USE << " to use an item";
+    outVec.push_back(ss.str());
+    ss.str("");
+    ss << "Enter " << DROP << " to drop an item";
+    outVec.push_back(ss.str());
+    ss.str("");
+    ss << "Enter " << EXAMINE << " to examine an item";
+    outVec.push_back(ss.str());
+    ss.str("");
+    ss << "Enter " << EXIT << " to close your inventory.";
+    outVec.push_back(ss.str());
+    game.
+  }
+  break;
+  case ItemUse: {
+    std::stringstream ss;
+    ss << "Enter the number of the item you want to use.";
+    outVec.push_back(ss.str());
+  }
+  break;
+  case ItemDrop: {
+    std::stringstream ss;
+    ss << "Enter the number of the item you want to drop.";
+    outVec.push_back(ss.str());
+  }
+  break;
+  case ItemExamine: {
+    std::stringstream ss;
+    ss << "Enter the number of the item you want to examine.";
+    outVec.push_back(ss.str());
+  }
+  break;
+  case InteractNPC: {
+  }
+  break;
+  case Win: {
+  }
+  break;
+  }
+  return outVec;
+}
+
 
 WindowManager::~WindowManager() {
   //dtor

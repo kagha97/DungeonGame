@@ -1,90 +1,90 @@
 #include "Game.h"
 
-void Game::draw(std::ostream& os) {
-  int cr = player.getCurrentRoom();
-  switch (state) {
-  case Play:
-    drawPlay(os);
-    os << rooms[cr].getDescription() << std::endl;
-    os << ActionRecord::getRecords() << std::endl;
-    break;
-  case Inventory:
-    drawInventory(os);
-    os << ActionRecord::getLatest() << std::endl;
-    break;
-  case ItemUse:
-  case ItemDrop:
-  case ItemExamine:
-    drawInventorySubMenu(os);
-    break;
-  case InteractNPC:
-    break;
-  default:
-    break;
-  }
-  os << std::endl;
-  os << "Enter Option: ";
-}
-
-void Game::drawPlay(std::ostream& os) {
-  int roomCount = rooms.size();
-  if (roomCount < 1)
-    return;
-  int currentRoom = player.getCurrentRoom();
-  //ActionRecord::addRecord(rooms[currentRoom].getDescription());
-
-  int tmpNewLine = 0;
-  for (int i = 0; i < roomCount; i++) {
-    if (currentRoom == i) {
-      os << '[' << "P" << ']';
-    } else {
-      os << '[' << " " << ']';
-    }
-    tmpNewLine++;
-    if (tmpNewLine == sqrt(roomCount)) {
-      os << std::endl;
-      tmpNewLine=0;
-    }
-  }
-  os << getOptionsString() << std::endl;
-  os << player.getStatsString() << std::endl;
-}
-
-void Game::drawInventory(std::ostream& os) {
-  os << player.showInventory() << std::endl;
-  char opt = ' ';
-  int number = -1;
-  os << "Enter " << USE << " to use an item, " << EXAMINE <<
-     " to examine the item, and " << DROP << " to drop an item." << std::endl;
-}
-
-void Game::drawInventorySubMenu(std::ostream& os) {
-  drawInventory(os);
-  switch (state) {
-  case ItemUse:
-    os << "Which item do you want to use?" << std::endl;
-    break;
-  case ItemDrop:
-    os << "Which item do you want to drop?" << std::endl;
-    break;
-  case ItemExamine:
-    os << "Which item do you want to examine?" << std::endl;
-    break;
-  }
-}
-
-std::string Game::getOptionsString() {
-  std::stringstream ss;
-
-  ss << "Enter " << UP << " , " << DOWN << " , " << LEFT << " , " << RIGHT <<
-     " to move north, south, west, or east." << std::endl;
-  ss << "Enter " << PICK << " to pick up items in the room, if there are any." <<
-     std::endl;
-  ss << "Enter " << NPCINTERACT << " to see list of NPCS in the room." <<
-     std::endl;
-
-  return ss.str();
-}
+//void Game::draw(std::ostream& os) {
+//  int cr = player.getCurrentRoom();
+//  switch (state) {
+//  case Play:
+//    drawPlay(os);
+//    os << rooms[cr].getDescription() << std::endl;
+//    os << ActionRecord::getRecords() << std::endl;
+//    break;
+//  case Inventory:
+//    drawInventory(os);
+//    os << ActionRecord::getLatest() << std::endl;
+//    break;
+//  case ItemUse:
+//  case ItemDrop:
+//  case ItemExamine:
+//    drawInventorySubMenu(os);
+//    break;
+//  case InteractNPC:
+//    break;
+//  default:
+//    break;
+//  }
+//  os << std::endl;
+//  os << "Enter Option: ";
+//}
+//
+//void Game::drawPlay(std::ostream& os) {
+//  int roomCount = rooms.size();
+//  if (roomCount < 1)
+//    return;
+//  int currentRoom = player.getCurrentRoom();
+//  //ActionRecord::addRecord(rooms[currentRoom].getDescription());
+//
+//  int tmpNewLine = 0;
+//  for (int i = 0; i < roomCount; i++) {
+//    if (currentRoom == i) {
+//      os << '[' << "P" << ']';
+//    } else {
+//      os << '[' << " " << ']';
+//    }
+//    tmpNewLine++;
+//    if (tmpNewLine == sqrt(roomCount)) {
+//      os << std::endl;
+//      tmpNewLine=0;
+//    }
+//  }
+//  os << getOptionsString() << std::endl;
+//  os << player.getStatsString() << std::endl;
+//}
+//
+//void Game::drawInventory(std::ostream& os) {
+//  os << player.showInventory() << std::endl;
+//  char opt = ' ';
+//  int number = -1;
+//  os << "Enter " << USE << " to use an item, " << EXAMINE <<
+//     " to examine the item, and " << DROP << " to drop an item." << std::endl;
+//}
+//
+//void Game::drawInventorySubMenu(std::ostream& os) {
+//  drawInventory(os);
+//  switch (state) {
+//  case ItemUse:
+//    os << "Which item do you want to use?" << std::endl;
+//    break;
+//  case ItemDrop:
+//    os << "Which item do you want to drop?" << std::endl;
+//    break;
+//  case ItemExamine:
+//    os << "Which item do you want to examine?" << std::endl;
+//    break;
+//  }
+//}
+//
+//std::string Game::getOptionsString() {
+//  std::stringstream ss;
+//
+//  ss << "Enter " << UP << " , " << DOWN << " , " << LEFT << " , " << RIGHT <<
+//     " to move north, south, west, or east." << std::endl;
+//  ss << "Enter " << PICK << " to pick up items in the room, if there are any." <<
+//     std::endl;
+//  ss << "Enter " << NPCINTERACT << " to see list of NPCS in the room." <<
+//     std::endl;
+//
+//  return ss.str();
+//}
 
 Game::Game(std::string filePath) {
   std::ifstream in(filePath);
@@ -204,11 +204,13 @@ Game::Game(int roomCount) {
 void Game::getInput(std::istream& inStr) {
   int inInt = 0;
   char inChar = ' ';
+  std::string inString = "";
 
   switch (state) {
   case MainMenu:
   case Play:
   case Inventory:
+  case Pause:
     inStr >> inChar;
     inChar = std::toupper(inChar);
     break;
@@ -217,6 +219,9 @@ void Game::getInput(std::istream& inStr) {
   case ItemExamine:
     inStr >> inInt;
     break;
+  case Save:
+    inStr >> inString;
+  break;
   }
 
   switch (state) {
@@ -239,6 +244,9 @@ void Game::getInput(std::istream& inStr) {
       break;
     case PICK:
       lootRoom();
+      break;
+    case EXIT:
+      state = Pause;
       break;
     }
     break;
@@ -270,6 +278,28 @@ void Game::getInput(std::istream& inStr) {
   case ItemExamine:
     player.examineItem(inInt - 1);
     state = Inventory;
+    break;
+  case Pause:
+    switch (inChar) {
+    case EXIT:
+      state = Play;
+      break;
+    case QUIT:
+      exit(0);
+      break;
+    case SAVE:
+      state = Save;
+      break;
+    }
+    break;
+  case Save:
+
+//    if(!(StringManipulations::hasEnding(inString, FILEEXT))) {
+//      inString += FILEEXT;
+//    }
+    save(inString);
+    ActionRecord::addRecord("Game saved as " + inString);
+    state = Pause;
     break;
   }
   inStr.clear();
@@ -395,83 +425,11 @@ std::string Game::getRoomDescription(int r) {
   return rooms[r].getDescriptionOnly();
 }
 
-std::vector<std::string> Game::getOptionsVector() {
-  std::vector<std::string> outVec;
-  outVec.push_back("Options:");
-  switch (state) {
-  case MainMenu:
-    break;
-  case Menu:
-    break;
-  case Play: {
-    std::stringstream ss;
-    ss << "Enter " << UP << ", " << DOWN << ", " << LEFT << ", or " << RIGHT <<
-       " to move north, south, west, or east.";
-    outVec.push_back(ss.str());
-    ss.str("");
-    ss << "Enter " << PICK << " to pick up items in the room, if there are any.";
-    outVec.push_back(ss.str());
-    ss.str("");
-    ss << "Enter " << NPCINTERACT << " to see list of NPCS in the room.";
-    outVec.push_back(ss.str());
-    ss.str("");
-    ss << "Enter " << INVENTORY << " to open your inventory.";
-    outVec.push_back(ss.str());
-    ss.str("");
-    ss << "Enter " << EXIT << " to open the game menu.";
-    outVec.push_back(ss.str());
-  }
-  break;
-  case Inventory: {
-    std::stringstream ss;
-    ss << "Enter " << USE << " to use an item";
-    outVec.push_back(ss.str());
-    ss.str("");
-    ss << "Enter " << DROP << " to drop an item";
-    outVec.push_back(ss.str());
-    ss.str("");
-    ss << "Enter " << EXAMINE << " to examine an item";
-    outVec.push_back(ss.str());
-    ss.str("");
-    ss << "Enter " << EXIT << " to close your inventory.";
-    outVec.push_back(ss.str());
-  }
-  break;
-  case ItemUse: {
-    std::stringstream ss;
-    ss << "Enter the number of the item you want to use.";
-    outVec.push_back(ss.str());
-  }
-  break;
-  case ItemDrop: {
-    std::stringstream ss;
-    ss << "Enter the number of the item you want to drop.";
-    outVec.push_back(ss.str());
-  }
-  break;
-  case ItemExamine: {
-    std::stringstream ss;
-    ss << "Enter the number of the item you want to examine.";
-    outVec.push_back(ss.str());
-  }
-  break;
-  case InteractNPC: {
-  }
-  break;
-  case Win: {
-  }
-  break;
-  }
-  return outVec;
-}
-
-std::vector<std::string> Game::getRoomItemNames()
-{
+std::vector<std::string> Game::getRoomItemNames() {
   return rooms[player.getCurrentRoom()].getItemList();
 }
 
-std::vector<std::string> Game::getRoomNPCNames()
-{
+std::vector<std::string> Game::getRoomNPCNames() {
   return rooms[player.getCurrentRoom()].getNPCList();
 }
 

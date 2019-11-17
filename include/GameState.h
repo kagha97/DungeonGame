@@ -2,7 +2,7 @@
 #define GAMESTATE_H
 
 
-enum State {MainMenu, Menu, Play, Inventory, ItemUse, ItemDrop, ItemExamine, InteractNPC, Win };
+enum State {MainMenu, Pause, Play, Inventory, ItemUse, ItemDrop, ItemExamine, InteractNPC, Win, Save, Load };
 //static State GlobalState;
 
 #endif //INCLUDE GAMESTATE_H

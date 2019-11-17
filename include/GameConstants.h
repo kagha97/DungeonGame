@@ -19,6 +19,10 @@ const char DROP = 'D';
 const char EXAMINE = 'E';
 const char EXIT = 'X';
 
+//Menu Commands
+const char SAVE = 'S';
+const char QUIT = 'Q';
+
 //Other room options
 const char PICK = 'P';
 const char NPCINTERACT = 'T';
@@ -38,11 +42,12 @@ const int WINDOWWIDTH = 90;
 const int WINDOWHEIGHT = 35;
 
 
-// Savefile delimeters
+// Save file parameters
 const char ATTRIBDELIM = ',';
 const char OBJDELIM = ';';
 const std::string EMPTY = "NULL";
-const std::string AUTOSAVEFILE = "auto.save";
+const std::string FILEEXT = ".save";
+const std::string AUTOSAVEFILE = "auto" + FILEEXT;
 
 const std::string ROOMDESC[ROOMCOUNT] = {
   "You are at the dungeon's entrance. The exit has been closed behind you.",
