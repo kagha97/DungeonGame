@@ -26,6 +26,7 @@ void WindowManager::draw(std::ostream& os, Game& game) {
   case ItemUse:
   case ItemDrop:
   case ItemExamine:
+  case NPCList:
     generatePlayContents(game, contents, width, height);
     break;
   case InteractNPC:
@@ -98,33 +99,36 @@ void WindowManager::generatePlayContents(Game& game, std::vector<TextBox>& conte
   int rDescX = 0;
   int rDescY = 0;
   int rDescW = mMapX - 1;
-  int rDescH = height / 5;
+  int rDescH = 4;
   int pos = game.player.getCurrentRoom();
   TextBox rDesc(rDescX, rDescY, rDescW, rDescH);
-  rDesc.fillTopDown(game.getRoomDescription(pos));
+  std::string desc = game.getRoomDescription(pos);
+  int npcCount = game.getRoomNPCNames().size();
+  if(npcCount == 1) {
+    desc += " There is one NPC in the room.";
+  }
+  if(npcCount > 1) {
+    desc += " There are " + std::to_string(npcCount) + " NPCs in the room.";
+  }
+  rDesc.fillTopDown(desc);
 
   // Set up room item list
-  std::vector<std::string> itemVec = game.getRoomItemNames();
+  std::vector<std::string> itemVec = getNpcOrItemVector(game);
   int rItemX = 0;
-  int rItemY = rDescH + 1;
+  int rItemY = rDescH;
   int rItemW = rDescW;
-  int rItemH = itemVec.size();
+  int rItemH = itemVec.size() + 1;
   TextBox rItem(rItemX, rItemY, rItemW, rItemH);
-  if (itemVec.size() > 0) {
-    itemVec.insert(itemVec.begin(), "You see the following items within the room:");
-  } else {
-    itemVec.clear();
-  }
   rItem.fillTopDown(itemVec);
 
-  // Set up room NPC list
-  int rNpcX = 0;
-  int rNpcY = 0;
-  int rNpcW = width / 2;
-  int rNpcH = height / 4;
-  TextBox rNpc(rNpcX, rNpcY, rNpcW, rNpcH);
-  std::vector<std::string> npcVec = game.getRoomNPCNames();
-  //rNpc.fillTopDown();
+  // Show available options
+  std::vector<std::string> options = getOptionsVector(game);
+  int optX = 0;
+  int optY = rItemY + rItemH + 1;
+  int optW = rDescW;
+  int optH = 8;
+  TextBox opt(optX, optY, optW, optH);
+  opt.fillTopDown(options);
 
   // Set up action record
   int arX = 0;
@@ -134,19 +138,10 @@ void WindowManager::generatePlayContents(Game& game, std::vector<TextBox>& conte
   TextBox ar(arX, arY, arW, arH);
   ar.fillBottomUp(ActionRecord::getFullRecord());
 
-  // Show available options
-  std::vector<std::string> options = getOptionsVector(game);
-  int optX = 0;
-  int optY = rDescH + 1;
-  int optW = rDescW;
-  int optH = 8;
-  TextBox opt(optX, optY, optW, optH);
-  opt.fillTopDown(options);
-
   // Set up border things
   TextBox border(mMapX - 1, 0, 1, height);
   border.fillChar('|');
-  TextBox border2(0, rDescH, mMapX - 1, 1);
+  TextBox border2(0, rDescH - 1, mMapX - 1, 1);
   border2.fillChar('-');
 
   // Add textboxes to vector
@@ -173,102 +168,106 @@ std::vector<std::string> WindowManager::getOptionsVector(Game& game) {
   std::vector<std::string> outVec;
   outVec.push_back("Commands:");
   switch (game.state) {
-    case MainMenu: {
+  case MainMenu: {
 
-    }
-    //break;
-    case Play: {
-      std::string ss = "Enter " +
-                       std::string(1, UP) + ", " +
-                       std::string(1, DOWN) + ", " +
-                       std::string(1, LEFT) + ", or " +
-                       std::string(1, RIGHT) + " to move north, south, west, or east.";
+  }
+  //break;
+  case Play: {
+    std::string ss = "Enter " +
+                     std::string(1, UP) + ", " +
+                     std::string(1, DOWN) + ", " +
+                     std::string(1, LEFT) + ", or " +
+                     std::string(1, RIGHT) + " to move north, south, west, or east.";
 
-      outVec.push_back(ss);
-      outVec.push_back(std::string(1, PICK) + " to pick up items in the room, if there are any.");
-      outVec.push_back(std::string(1, TALK) + " to see list of NPCS in the room.");
-      outVec.push_back(std::string(1, INVENTORY) + " to open your inventory.");
-      outVec.push_back(std::string(1, EXIT) + " to open the game menu.");
+    outVec.push_back(ss);
+    outVec.push_back(std::string(1, PICK) + " to pick up items in the room, if there are any.");
+    int npcCount = game.getRoomNPCNames().size();
+    if(npcCount > 0) {
+      outVec.push_back(std::string(1, TALK) + " to view NPCs.");
     }
-    break;
-    case Pause: {
-      outVec.push_back(std::string(1, SAVE) + " to save your game.");
-      outVec.push_back(std::string(1, QUIT) + " to quit.");
-      outVec.push_back(std::string(1, EXIT) + " to return to the game.");
-    }
-    break;
-    case Save: {
-      outVec.push_back("Enter the filename to save.");
-      outVec.push_back( std::string(1, EXIT) + " to cancel.");
 
-    }
-    break;
-    case Load: {
-      outVec.push_back("Enter the filename to load.");
-    }
-    break;
-    case Win: {
-      outVec.push_back("Not implemented");
-    }
-    break;
-    case Inventory: {
-      outVec.push_back(std::string(1, USE) + " to use an item");
-      outVec.push_back(std::string(1, DROP) + " to drop an item");
-      outVec.push_back(std::string(1, EXAMINE) + " to examine an item");
-      outVec.push_back(std::string(1, EXIT) + " to close your inventory.");
-    }
-    break;
-    case ItemUse: {
-      outVec.push_back("Enter the number of the item you want to use.");
-    }
-    break;
-    case ItemDrop: {
-      outVec.push_back("Enter the number of the item you want to drop.");
-    }
-    break;
-    case ItemExamine: {
-      outVec.push_back("Enter the number of the item you want to examine.");
-    }
-    break;
-    case NPCList: {
-      outVec.push_back("NPCList Not implemented");
-    }
-    break;
-    case TalkNPC: {
-      outVec.push_back("TalkNPC Not implemented");
-    }
-    break;
-    case ExamineNPC: {
-      outVec.push_back("Enter the number of the NPC you want to examine.");
-    }
-    break;
-    case Talk: {
-      outVec.push_back("Talk Not implemented");
-    }
-    break;
-    case Examine: {
-      outVec.push_back("Examine Not implemented");
-    }
-    break;
-    case TalkSecond: {
-      outVec.push_back("TalkSecond Not implemented");
-    }
-    break;
-    case NPCOptions: {
-      outVec.push_back("NPCOptions Not implemented");
-    }
-    break;
-    case RiddleTalk: {
-      outVec.push_back("RiddleTalk Not implemented");
-    }
-    break;
-    case InteractNPC: {
-      outVec.push_back("Enter the number of the NPC you want to talk to.");
-    }
-    break;
-    default: {
-      outVec.push_back("Unhandled Game State: " + std::to_string(game.state));
-    }
+    outVec.push_back(std::string(1, INVENTORY) + " to open your inventory.");
+    outVec.push_back(std::string(1, EXIT) + " to open the game menu.");
+  }
+  break;
+  case Pause: {
+    outVec.push_back(std::string(1, SAVE) + " to save your game.");
+    outVec.push_back(std::string(1, QUIT) + " to quit.");
+    outVec.push_back(std::string(1, EXIT) + " to return to the game.");
+  }
+  break;
+  case Save: {
+    outVec.push_back("Enter the filename to save.");
+    outVec.push_back( std::string(1, EXIT) + " to cancel.");
+
+  }
+  break;
+  case Load: {
+    outVec.push_back("Enter the filename to load.");
+  }
+  break;
+  case Win: {
+    outVec.push_back("Not implemented");
+  }
+  break;
+  case Inventory: {
+    outVec.push_back(std::string(1, USE) + " to use an item");
+    outVec.push_back(std::string(1, DROP) + " to drop an item");
+    outVec.push_back(std::string(1, EXAMINE) + " to examine an item");
+    outVec.push_back(std::string(1, EXIT) + " to close your inventory.");
+  }
+  break;
+  case ItemUse: {
+    outVec.push_back("Enter the number of the item you want to use.");
+  }
+  break;
+  case ItemDrop: {
+    outVec.push_back("Enter the number of the item you want to drop.");
+  }
+  break;
+  case ItemExamine: {
+    outVec.push_back("Enter the number of the item you want to examine.");
+  }
+  break;
+  case NPCList: {
+    outVec.push_back("NPCList Not implemented");
+  }
+  break;
+  case TalkNPC: {
+    outVec.push_back("TalkNPC Not implemented");
+  }
+  break;
+  case ExamineNPC: {
+    outVec.push_back("Enter the number of the NPC you want to examine.");
+  }
+  break;
+  case Talk: {
+    outVec.push_back("Talk Not implemented");
+  }
+  break;
+  case Examine: {
+    outVec.push_back("Examine Not implemented");
+  }
+  break;
+  case TalkSecond: {
+    outVec.push_back("TalkSecond Not implemented");
+  }
+  break;
+  case NPCOptions: {
+    outVec.push_back("NPCOptions Not implemented");
+  }
+  break;
+  case RiddleTalk: {
+    outVec.push_back("RiddleTalk Not implemented");
+  }
+  break;
+  case InteractNPC: {
+    outVec.push_back("Enter the number of the NPC you want to talk to.");
+  }
+  break;
+  default: {
+    outVec.push_back("Unhandled Game State: " + std::to_string(game.state));
+  }
   }
 
   return outVec;
@@ -277,6 +276,29 @@ std::vector<std::string> WindowManager::getOptionsVector(Game& game) {
 void WindowManager::generateNPCMenu(Game& game, std::vector<TextBox>& contents, int width, int height) {
 
 }
+
+std::vector<std::string> WindowManager::getNpcOrItemVector(Game& game) {
+  std::vector<std::string> outVec;
+  if(game.state == Play){
+    outVec = game.getRoomItemNames();
+    if (outVec.size() > 0) {
+      outVec.insert(outVec.begin(), "You see the following item" + (std::string)((outVec.size() > 1) ? "s" : "") + " within the room:");
+    } else {
+      outVec.clear();
+    }
+  }
+  if(game.state == NPCList){
+    outVec = game.getRoomNPCNames();
+    if (outVec.size() > 0) {
+      outVec.insert(outVec.begin(), "You see the following NPC" + (std::string)((outVec.size() > 1) ? "s" : "") + " within the room:");
+    } else {
+      outVec.clear();
+    }
+  }
+
+  return outVec;
+}
+
 
 
 WindowManager::~WindowManager() {

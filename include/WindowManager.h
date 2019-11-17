@@ -27,6 +27,7 @@ class WindowManager {
 
  private:
   std::vector<std::string> getOptionsVector(Game& game);
+  std::vector<std::string> getNpcOrItemVector(Game& game);
   void generatePlayContents(Game& game, std::vector<TextBox>& contents, int width, int height);
   void generatePauseMenu(Game& game, std::vector<TextBox>& contents, int width, int height);
   void generateNPCMenu(Game& game, std::vector<TextBox>& contents, int width, int height);
