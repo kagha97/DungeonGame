@@ -9,7 +9,6 @@ class StringManipulations {
   //StringManipulations();
   //virtual ~StringManipulations();
   static std::vector<std::string> Split(std::string inStr, char delim);
-  static std::string ToUpper(std::string inStr);
   static bool hasEnding (std::string const &fullString, std::string const &ending);
  protected:
 

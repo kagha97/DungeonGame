@@ -20,11 +20,3 @@ bool StringManipulations::hasEnding (std::string const &fullString, std::string 
   }
   return false;
 }
-
-std::string StringManipulations::ToUpper(std::string inStr) {
-  std::stringstream ss;
-  for(char c : inStr) {
-    ss << std::toupper(c);
-  }
-  return ss.str();
-}

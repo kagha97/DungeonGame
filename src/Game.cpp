@@ -230,8 +230,8 @@ void Game::getInput(std::istream& inStr) {
     //
     break;
   case Save: {
-    std::string s = StringManipulations::ToUpper(inString);
-    if(s != std::string(1, EXIT)) {
+    char s = std::toupper(inString[0]);
+    if(s != EXIT) {
       if(!(StringManipulations::hasEnding(inString, FILEEXT))) {
         inString += FILEEXT;
       }
