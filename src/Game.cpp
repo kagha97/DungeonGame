@@ -229,14 +229,16 @@ void Game::getInput(std::istream& inStr) {
     }
     //
     break;
-  case Save:
-    if(inString != std::string(1, SAVE)) {
+  case Save: {
+    std::string s = StringManipulations::ToUpper(inString);
+    if(s != std::string(1, EXIT)) {
       if(!(StringManipulations::hasEnding(inString, FILEEXT))) {
         inString += FILEEXT;
       }
       save(inString);
     }
     state = Pause;
+    }
     break;
 
   case NPCList:
@@ -262,16 +264,16 @@ void Game::getInput(std::istream& inStr) {
     break;
   case ExamineNPC:
     state = NPCList;
-    ActionRecord::addRecord(examineNPC(inInt));
+    ActionRecord::addRecord(examineNPC(inInt - 1));
     break;
   case Talk:
     nextChat = inInt;
-    drawChatMenu(currentChat);
+    //drawChatMenu(currentChat);
     state = TalkSecond;
     break;
   case TalkSecond:
     nextChat = inInt;
-    // drawChatMenu(currentChat);
+    //drawChatMenu(currentChat);
 
     state = TalkSecond;
     break;

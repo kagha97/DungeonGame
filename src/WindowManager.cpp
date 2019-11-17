@@ -21,24 +21,10 @@ void WindowManager::draw(std::ostream& os, Game& game) {
   case Save:
     generatePauseMenu(game, contents, width, height);
     break;
-  case Play:
-  case Inventory:
-  case ItemUse:
-  case ItemDrop:
-  case ItemExamine:
-  case NPCList:
-    generatePlayContents(game, contents, width, height);
-    break;
-  case InteractNPC:
-    break;
   case Win:
     break;
   default: {
-    std::vector<std::string> optVec = getOptionsVector(game);
-    TextBox defaultBox(width / 2 - 10, height / 2 - 5, 20, 10);
-    defaultBox.fillTopDown(optVec);
-    contents.push_back(defaultBox);
-    os << game.state << std::endl;
+    generatePlayContents(game, contents, width, height);
   }
   break;
   }
@@ -230,11 +216,13 @@ std::vector<std::string> WindowManager::getOptionsVector(Game& game) {
   }
   break;
   case NPCList: {
-    outVec.push_back("NPCList Not implemented");
+    outVec.push_back(std::string(1, TALK) + " to talk to an NPC");
+    outVec.push_back(std::string(1, EXMNPC) + " to examine an NPC");
+    outVec.push_back(std::string(1, EXIT) + " to cancel.");
   }
   break;
   case TalkNPC: {
-    outVec.push_back("TalkNPC Not implemented");
+    outVec.push_back("Enter the number of the NPC you want to talk to.");
   }
   break;
   case ExamineNPC: {
@@ -279,27 +267,33 @@ void WindowManager::generateNPCMenu(Game& game, std::vector<TextBox>& contents, 
 
 std::vector<std::string> WindowManager::getNpcOrItemVector(Game& game) {
   std::vector<std::string> outVec;
-  if(game.state == Play){
-    outVec = game.getRoomItemNames();
-    if (outVec.size() > 0) {
-      outVec.insert(outVec.begin(), "You see the following item" + (std::string)((outVec.size() > 1) ? "s" : "") + " within the room:");
-    } else {
-      outVec.clear();
-    }
-  }
-  if(game.state == NPCList){
-    outVec = game.getRoomNPCNames();
-    if (outVec.size() > 0) {
-      outVec.insert(outVec.begin(), "You see the following NPC" + (std::string)((outVec.size() > 1) ? "s" : "") + " within the room:");
-    } else {
-      outVec.clear();
-    }
-  }
+  switch (game.state) {
+  case NPCList:
+  case TalkNPC:
+  case InteractNPC: {
+    case ExamineNPC: {
+      outVec = game.getRoomNPCNames();
+      if (outVec.size() > 0) {
+        outVec.insert(outVec.begin(), "You see the following NPC" + (std::string)((outVec.size() > 1) ? "s" : "") + " within the room:");
+      } else {
+        outVec.clear();
+      }
 
+    }
+    break;
+    default: {
+      outVec = game.getRoomItemNames();
+      if (outVec.size() > 0) {
+        outVec.insert(outVec.begin(), "You see the following item" + (std::string)((outVec.size() > 1) ? "s" : "") + " within the room:");
+      } else {
+        outVec.clear();
+      }
+    }
+    break;
+  }
   return outVec;
+  }
 }
-
-
 
 WindowManager::~WindowManager() {
   //dtor

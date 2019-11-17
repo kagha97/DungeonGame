@@ -121,8 +121,8 @@ std::vector<std::string> Room::getItemList()
 std::vector<std::string> Room::getNPCList()
 {
     std::vector<std::string> retVec;
-    for(NPC n : npcs) {
-      retVec.push_back(n.name);
+    for(int i = 0; i < npcs.size(); i++) {
+      retVec.push_back(std::to_string(i + 1) + ": " + npcs[i].name);
     }
     return retVec;
 }
