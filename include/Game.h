@@ -26,8 +26,6 @@ class Game {
   void save(std::string filePath);
   void getInput(std::istream& inStr);
   void show_ascii(std::string loc);
-  void drawChatOptions(int id);
-  void drawChatMenu(int id);
   void solveRiddle(std::string inp);
   Player player;
   std::string getRoomDescription(int r);
@@ -45,8 +43,6 @@ class Game {
   int currentChatNpc;
   void movePlayer(char dir);
   void lootRoom();
-  void drawNpcList(std::ostream& os);
-  void drawNpcSubMenu(std::ostream& os);
   std::vector<Room> rooms;
 };
 

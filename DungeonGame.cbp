@@ -63,6 +63,9 @@
 		<Unit filename="test/TestActionRecord.cpp">
 			<Option target="Debug" />
 		</Unit>
+		<Unit filename="test/TestGame.cpp">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="test/TestPlayer.cpp">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
