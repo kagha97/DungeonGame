@@ -1,7 +1,5 @@
 build:
    stage: build
-   only:
-    - Dev
    script:
       - make DungeonGame
    artifacts:
@@ -10,7 +8,7 @@ build:
 test:
    stage: test
    script:
-      - ./testDungeonGame
+      - testDungeonGame
 
 
 pages:
