@@ -56,7 +56,7 @@ void WindowManager::generatePlayContents(Game& game, std::vector<TextBox>& conte
   // Set up Minimap
   std::vector<std::string> mMap = game.miniMap();
   int mMapW = mMap[0].length();
-  int mMapX = width - mMapW;
+  int mMapX = width - mMapW - 6;
   int mMapY = 0;
   int mMapH =  mMap.size();
   TextBox minimap(mMapX, mMapY, mMapW, mMapH);
