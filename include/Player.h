@@ -27,14 +27,12 @@ class Player {
   bool removeItem(int it);
   bool dropItem(int it, Room *room);
   std::string examineItem(int it);
-  std::string getStatsString();
   void updateValues();
   bool dead = false;
   void moveTo(int i);
   int getCurrentRoom();
   void finishRiddle(int id);
   bool checkRiddle(int id);
-  std::string showInventory();
   std::vector<Item> getInventory();
   std::vector<std::string> getInventoryList();
   std::vector<int> getCompletedRiddles();

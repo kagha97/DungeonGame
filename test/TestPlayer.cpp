@@ -13,39 +13,39 @@ TEST(Player, PlayerTest) {
 
 TEST(Player, TestStrConLocation) {
   Player p("{99,5,1,{NULL},{NULL}}");
-  EXPECT_TRUE(p.getCurrentRoom() == 1);
+  EXPECT_EQ(p.getCurrentRoom(), 1);
 }
 
 TEST(Player, TestStrConHP) {
   Player p("{99,5,1,{100},{NULL}}");
-  EXPECT_TRUE(p.getHP() == 99);
+  EXPECT_EQ(p.getHP(), 99);
 }
 
 TEST(Player, TestStrConHUN) {
   Player p("{99,5,1,{100},{NULL}}");
-  EXPECT_TRUE(p.getHunger() == 5);
+  EXPECT_EQ(p.getHunger(), 5);
 }
 
 TEST(Player, TestStrConInv) {
   Player p("{99,5,1,{100},{NULL}}");
-  EXPECT_TRUE(p.getInventory().size() == 1);
+  EXPECT_EQ(p.getInventory().size(), 1);
 }
 
 TEST(Player, TestStrConCRid) {
   Player p("{99,5,1,{100},{3}}");
-  EXPECT_TRUE(p.getCompletedRiddles().size() == 1);
+  EXPECT_EQ(p.getCompletedRiddles().size(), 1);
 }
 
 TEST(Player, TestStrConInvList) {
   Player p("{99,5,1,{100},{NULL}}");
-  EXPECT_TRUE(p.getInventoryList().size() == 1);
+  EXPECT_EQ(p.getInventoryList().size(), 1);
 }
 
 TEST(Player, RemoveItem) {
   Player p("{99,5,1,{100},{NULL}}");
   Item i = ITEMS.at(100);
   p.removeItem(i);
-  EXPECT_TRUE(p.getInventoryList().size() == 0);
+  EXPECT_EQ(p.getInventoryList().size(), 0);
 }
 
 TEST(Player, TryRemoveItem) {
@@ -67,7 +67,7 @@ TEST(Player, AddItem) {
   Player p("{99,5,1,{100},{NULL}}");
   Item i = ITEMS.at(100);
   p.addItem(i);
-  EXPECT_TRUE(p.getInventoryList().size() == 2);
+  EXPECT_EQ(p.getInventoryList().size(), 2);
 }
 
 TEST(Player, EatKey) {
@@ -147,19 +147,19 @@ TEST(Player, DrinkBadPotion) {
 TEST(Player, MoveTo) {
   Player p("{99,5,1,{100},{NULL}}");
   p.moveTo(3);
-  EXPECT_TRUE(p.getCurrentRoom() == 3);
+  EXPECT_EQ(p.getCurrentRoom(), 3);
 }
 
 TEST(Player, HungerMove) {
   Player p("{99,5,1,{100},{NULL}}");
   p.moveTo(3);
-  EXPECT_TRUE(p.getHunger() == 5 + HUNGERGAIN);
+  EXPECT_EQ(p.getHunger(), 5 + HUNGERGAIN);
 }
 
 TEST(Player, MoveHPLoss) {
   Player p("{99,99,1,{100},{NULL}}");
   p.moveTo(3);
-  EXPECT_TRUE(p.getHP() == 99 - HEALTHLOSS);
+  EXPECT_EQ(p.getHP(), 99 - HEALTHLOSS);
 }
 
 TEST(Player, MoveDie) {

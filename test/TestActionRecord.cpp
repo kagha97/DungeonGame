@@ -1,9 +1,12 @@
-#include "gtest/gtest.h"
-#include "ActionRecord.h"
+/*
+*Copyright 2019 Fafnir
+*/
 #include <string>
 #include <vector>
+#include "gtest/gtest.h"
+#include "ActionRecord.h"
 
-TEST(ActionRecord, Get){
+TEST(ActionRecord, Get) {
   ActionRecord::addRecord("1");
   ActionRecord::addRecord("2");
   ActionRecord::addRecord("3");
@@ -12,7 +15,7 @@ TEST(ActionRecord, Get){
   EXPECT_EQ(s, s2);
 }
 
-TEST(ActionRecord, GetLatest){
+TEST(ActionRecord, GetLatest) {
   ActionRecord::addRecord("1");
   ActionRecord::addRecord("2");
   ActionRecord::addRecord("3");
@@ -21,7 +24,7 @@ TEST(ActionRecord, GetLatest){
   EXPECT_EQ(s, s2);
 }
 
-TEST(ActionRecord, GetFull){
+TEST(ActionRecord, GetFull) {
   ActionRecord::addRecord("1");
   ActionRecord::addRecord("2");
   ActionRecord::addRecord("3");

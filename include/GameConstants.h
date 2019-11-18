@@ -60,7 +60,7 @@ const char EMPTY[] = "NULL";
 const char FILEEXT[] = ".fafnir";
 // const char AUTOSAVEFILE[] = "auto" + FILEEXT;
 
-const std::string ROOMDESC[ROOMCOUNT] = {
+const std::vector<std::string> ROOMDESC = {
   "You are at the dungeon's entrance. The exit has been closed behind you.",
   "This room is completely blank and devoid of detail. "
   " only things you can see are the doors along its walls.",

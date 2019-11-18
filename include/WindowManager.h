@@ -23,18 +23,18 @@
 class WindowManager {
  public:
   WindowManager();
-  void draw(std::ostream& os, Game& game);
+  void draw(std::ostream& os, Game* game);
   virtual ~WindowManager();
 
  private:
-  std::vector<std::string> getOptionsVector(Game& game, int width);
-  std::vector<std::string> getNpcOrItemVector(Game& game);
-  void generatePlayContents(Game& game,
-                            std::vector<TextBox>& contents, int width,
+  std::vector<std::string> getOptionsVector(Game* game, int width);
+  std::vector<std::string> getNpcOrItemVector(Game* game);
+  void generatePlayContents(Game* game,
+                            std::vector<TextBox>* contents, int width,
                             int height);
-  void generatePauseMenu(Game& game, std::vector<TextBox>& contents, int width,
+  void generatePauseMenu(Game* game, std::vector<TextBox>* contents, int width,
                          int height);
-  void generateNPCMenu(Game& game, std::vector<TextBox>& contents, int width,
+  void generateNPCMenu(Game* game, std::vector<TextBox>* contents, int width,
                        int height);
 };
 

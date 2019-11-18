@@ -1,7 +1,10 @@
-#include "gtest/gtest.h"
-#include "StringManipulations.h"
+/*
+*Copyright 2019 Fafnir
+*/
 #include <string>
 #include <vector>
+#include "gtest/gtest.h"
+#include "StringManipulations.h"
 
 TEST(StringManipulations, Split) {
   std::string s = "1,2,3,4,5";

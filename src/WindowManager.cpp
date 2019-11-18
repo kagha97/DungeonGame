@@ -9,7 +9,7 @@
 WindowManager::WindowManager() {
 }
 
-void WindowManager::draw(std::ostream& os, Game& game) {
+void WindowManager::draw(std::ostream& os, Game* game) {
   // Initial values for drawing
   std::vector<TextBox> contents;
   struct winsize win;
@@ -18,17 +18,17 @@ void WindowManager::draw(std::ostream& os, Game& game) {
   int height = win.ws_row - 1;
   char output[height][width];
 
-  switch (game.state) {
+  switch (game->state) {
   case MainMenu:
     break;
   case Pause:
   case Save:
-    generatePauseMenu(game, contents, width, height);
+    generatePauseMenu(game, &contents, width, height);
     break;
   case Win:
     break;
   default: {
-    generatePlayContents(game, contents, width, height);
+    generatePlayContents(game, &contents, width, height);
   }
   break;
   }
@@ -55,10 +55,10 @@ void WindowManager::draw(std::ostream& os, Game& game) {
   os << "Enter Option: ";
 }
 
-void WindowManager::generatePlayContents(Game& game,
-    std::vector<TextBox>& contents, int width, int height) {
+void WindowManager::generatePlayContents(Game* game,
+    std::vector<TextBox>* contents, int width, int height) {
   // Set up Minimap
-  std::vector<std::string> mMap = game.miniMap();
+  std::vector<std::string> mMap = game->miniMap();
   int mMapW = mMap[0].length();
   int mMapX = width - mMapW - 6;
   int mMapY = 0;
@@ -67,15 +67,15 @@ void WindowManager::generatePlayContents(Game& game,
   minimap.fillTopDown(mMap);
 
   // Set up stats + inventory
-  std::vector<std::string> invList = game.player.getInventoryList();
+  std::vector<std::string> invList = game->player.getInventoryList();
   int statsX = mMapX;
   int statsY = mMapY + mMapH + 1;
   int statsW = width - statsX;
   int statsH = 4 + invList.size() + 1;
   TextBox stats(statsX, statsY, statsW, statsH);
   std::vector<std::string> statVec;
-  std::string hunStr = "Hunger: " + std::to_string(game.player.getHunger());
-  std::string hpStr = "HP: " + std::to_string(game.player.getHP());
+  std::string hunStr = "Hunger: " + std::to_string(game->player.getHunger());
+  std::string hpStr = "HP: " + std::to_string(game->player.getHP());
   statVec.push_back("Stats:");
   statVec.push_back(hunStr);
   statVec.push_back(hpStr);
@@ -90,10 +90,10 @@ void WindowManager::generatePlayContents(Game& game,
   int rDescY = 0;
   int rDescW = mMapX - 1;
   int rDescH = 4;
-  int pos = game.player.getCurrentRoom();
+  int pos = game->player.getCurrentRoom();
   TextBox rDesc(rDescX, rDescY, rDescW, rDescH);
-  std::string desc = game.getRoomDescription(pos);
-  int npcCount = game.getRoomNPCNames().size();
+  std::string desc = game->getRoomDescription(pos);
+  int npcCount = game->getRoomNPCNames().size();
   if (npcCount == 1) {
     desc += " There is one NPC in the room.";
   }
@@ -135,32 +135,32 @@ void WindowManager::generatePlayContents(Game& game,
   border2.fillChar('-');
 
   // Add textboxes to vector
-  contents.push_back(rDesc);
-  contents.push_back(minimap);
-  contents.push_back(stats);
-  contents.push_back(ar);
-  contents.push_back(border);
-  contents.push_back(border2);
-  contents.push_back(opt);
-  contents.push_back(rItem);
+  contents->push_back(rDesc);
+  contents->push_back(minimap);
+  contents->push_back(stats);
+  contents->push_back(ar);
+  contents->push_back(border);
+  contents->push_back(border2);
+  contents->push_back(opt);
+  contents->push_back(rItem);
 }
 
-void WindowManager::generatePauseMenu(Game& game,
-                                      std::vector<TextBox>& contents,
+void WindowManager::generatePauseMenu(Game* game,
+                                      std::vector<TextBox>* contents,
                                       int width, int height) {
   std::vector<std::string> optVec = getOptionsVector(game, width);
   int tbW = 30;
   int tbH = 12;
   TextBox tb((width / 2) - (tbW / 2), (height / 2) - (tbH / 2), tbW, tbH);
   tb.fillTopDown(optVec);
-  contents.push_back(tb);
+  contents->push_back(tb);
 }
 
-std::vector<std::string> WindowManager::getOptionsVector(Game& game,
+std::vector<std::string> WindowManager::getOptionsVector(Game* game,
     int width) {
   std::vector<std::string> outVec;
   outVec.push_back("Commands:");
-  switch (game.state) {
+  switch (game->state) {
   case MainMenu: {
   }
   case Play: {
@@ -175,7 +175,7 @@ std::vector<std::string> WindowManager::getOptionsVector(Game& game,
     outVec.push_back(std::string(1,
                                  PICK) + " to pick up items in the room, "
                      "if there are any.");
-    int npcCount = game.getRoomNPCNames().size();
+    int npcCount = game->getRoomNPCNames().size();
     if (npcCount > 0) {
       outVec.push_back(std::string(1, TALK) + " to view NPCs.");
     }
@@ -237,7 +237,7 @@ std::vector<std::string> WindowManager::getOptionsVector(Game& game,
   }
   break;
   case Talk: {
-    outVec = game.getNpcOptions(game.currentChat, width);
+    outVec = game->getNpcOptions(game->currentChat, width);
   }
   break;
   case Examine: {
@@ -245,7 +245,7 @@ std::vector<std::string> WindowManager::getOptionsVector(Game& game,
   }
   break;
   case TalkSecond: {
-    outVec = game.getNpcOptions(game.nextChat, width);
+    outVec = game->getNpcOptions(game->nextChat, width);
   }
   break;
   case NPCOptions: {
@@ -253,7 +253,7 @@ std::vector<std::string> WindowManager::getOptionsVector(Game& game,
   }
   break;
   case RiddleTalk: {
-    outVec = game.getNpcOptions(game.nextChat, width);
+    outVec = game->getNpcOptions(game->nextChat, width);
   }
   break;
   case InteractNPC: {
@@ -261,21 +261,21 @@ std::vector<std::string> WindowManager::getOptionsVector(Game& game,
   }
   break;
   default: {
-    outVec.push_back("Unhandled Game State: " + std::to_string(game.state));
+    outVec.push_back("Unhandled Game State: " + std::to_string(game->state));
   }
   }
 
   return outVec;
 }
 
-std::vector<std::string> WindowManager::getNpcOrItemVector(Game& game) {
+std::vector<std::string> WindowManager::getNpcOrItemVector(Game* game) {
   std::vector<std::string> outVec;
-  switch (game.state) {
+  switch (game->state) {
   case NPCList:
   case TalkNPC:
   case InteractNPC: {
     case ExamineNPC: {
-      outVec = game.getRoomNPCNames();
+      outVec = game->getRoomNPCNames();
       if (outVec.size() > 0) {
         outVec.insert(outVec.begin(),
                       "You see the following NPC"
@@ -287,7 +287,7 @@ std::vector<std::string> WindowManager::getNpcOrItemVector(Game& game) {
     }
     break;
     default: {
-      outVec = game.getRoomItemNames();
+      outVec = game->getRoomItemNames();
       if (outVec.size() > 0) {
         outVec.insert(outVec.begin(),
                       "You see the following item"

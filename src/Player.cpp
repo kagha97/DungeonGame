@@ -161,21 +161,6 @@ bool Player::consumeItem(int i) {
   return false;
 }
 
-std::string Player::getStatsString() {
-  std::stringstream ss;
-  ss << "HP: " << health << std::endl << "Hunger: " << hunger << std::endl;
-  return ss.str();
-}
-
-std::string Player::showInventory() {
-  std::stringstream ss;
-  ss << "Inventory:" << std::endl;
-  for (int i = 0; i < inventory.size(); i++) {
-    ss << i+1 << ". " << inventory[i].name << std::endl;
-  }
-  return ss.str();
-}
-
 bool Player::dropItem(int it, Room *room) {
   room->addItem(inventory[it]);
   ActionRecord::addRecord("You drop the " + inventory[it].name +".");
