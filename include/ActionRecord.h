@@ -13,7 +13,6 @@
 
 class ActionRecord {
  public:
-
    /**
    * Adds record to output in game
    * @param text The string to output.
@@ -33,7 +32,6 @@ class ActionRecord {
   static std::string getLatest();
 
  private:
-
    /**
    * All of the records
    */
