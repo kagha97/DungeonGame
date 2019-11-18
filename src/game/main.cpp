@@ -40,10 +40,22 @@ void win(Player p) {
   std::cin >> c;
 }
 
+void show_ascii(std::string loc) {
+  std::ifstream open(loc);
+  std::string out;
+  if (open.is_open()) {
+    while (open.eof() == false) {
+      getline(open, out);
+      std::cout << "\x1B[31m" << out << "\x1B[0m" << std::endl;
+    }
+  }
+}
+
 int main() {
   std::cout << "\e[8;" << WINDOWHEIGHT << ";"<< WINDOWWIDTH <<"t";
   Game* game;
   WindowManager wm;
+  show_ascii("logo.txt");
   std::cout << "Welcome to Dungeon Game!" << std::endl;
   std::cout << "Developed by Fafnir Studios LTD. All rights reserved." <<
             std::endl << std::endl;
