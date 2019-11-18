@@ -17,11 +17,6 @@ TEST(Room, MakeDesc) {
   EXPECT_EQ(r.getDescriptionOnly(), "TEST");
 }
 
-TEST(Room, MakeInParamID) {
-  Room r("{2,0,{NULL},{NULL}}");
-  EXPECT_EQ(r.getId(), 2);
-}
-
 TEST(Room, MakeInParamLock) {
   Room r("{2,1,{NULL},{NULL}}");
   EXPECT_TRUE(r.locked);
