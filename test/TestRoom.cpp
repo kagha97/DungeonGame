@@ -28,12 +28,6 @@ TEST(Room, MakeInParamItem) {
   EXPECT_EQ(r.getItems()[0], i);
 }
 
-TEST(Room, MakeInParamNPC) {
-  Room r("{2,1,{200},{100}}");
-  NPC i = NPCS.at(100);
-  EXPECT_EQ(r.getNPCS()[0], i);
-}
-
 TEST(Room, AddNPC) {
   Room r(0);
   NPC i = NPCS.at(100);
