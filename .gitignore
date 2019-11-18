@@ -44,12 +44,14 @@ obj/
 *.bak
 
 # Docs
-docs/
-documentation/
+docs/code
 
 # Coverage
 *.gc*
 *.coverage
+coverage/
+html/
+latex/
 
-
-
+# Game Saves
+*.fafnir

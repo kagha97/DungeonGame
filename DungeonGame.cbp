@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="include" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -22,6 +23,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -32,7 +34,53 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="src/main.cpp" />
+		<Unit filename="include/ActionRecord.h" />
+		<Unit filename="include/ChatOption.h" />
+		<Unit filename="include/ChatType.h" />
+		<Unit filename="include/Exceptions.h" />
+		<Unit filename="include/Game.h" />
+		<Unit filename="include/GameConstants.h" />
+		<Unit filename="include/GameState.h" />
+		<Unit filename="include/Item.h" />
+		<Unit filename="include/ItemType.h" />
+		<Unit filename="include/NPC.h" />
+		<Unit filename="include/Player.h" />
+		<Unit filename="include/Room.h" />
+		<Unit filename="include/StringManipulations.h" />
+		<Unit filename="include/TextBox.h" />
+		<Unit filename="include/WindowManager.h" />
+		<Unit filename="src/ActionRecord.cpp" />
+		<Unit filename="src/ChatOption.cpp" />
+		<Unit filename="src/Game.cpp" />
+		<Unit filename="src/Item.cpp" />
+		<Unit filename="src/NPC.cpp" />
+		<Unit filename="src/Player.cpp" />
+		<Unit filename="src/Room.cpp" />
+		<Unit filename="src/StringManipulations.cpp" />
+		<Unit filename="src/TextBox.cpp" />
+		<Unit filename="src/WindowManager.cpp" />
+		<Unit filename="src/game/main.cpp" />
+		<Unit filename="test/TestActionRecord.cpp">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="test/TestGame.cpp">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="test/TestPlayer.cpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="test/TestRoom.cpp">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="test/TestStringManipulations.cpp">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="test/TestTextBox.cpp">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="test/main.cpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Extensions>
 			<envvars />
 			<code_completion />
