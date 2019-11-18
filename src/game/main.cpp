@@ -13,12 +13,6 @@
 #include "StringManipulations.h"
 #include "Item.h"
 
-void printRecord(struct winsize w,std::vector<std::string> lines) {
-  for (int i = 0; i < w.winsize::ws_row; i++) {
-    std::cout << lines[i] << std::endl;
-  }
-}
-
 bool fileAccessible(std::string fileName) {
   std::ifstream file(fileName);
   return file.good();
