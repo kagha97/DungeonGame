@@ -21,6 +21,6 @@ TEST(ActionRecord, GetFull) {
   ActionRecord::addRecord("2");
   ActionRecord::addRecord("3");
   std::vector<std::string> s = ActionRecord::getFullRecord();
-  EXPECT_EQ(s.size(), 9);
+  EXPECT_EQ(s.size(), 6);
 }
 
