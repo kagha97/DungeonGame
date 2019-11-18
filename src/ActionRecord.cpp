@@ -17,13 +17,11 @@ std::string ActionRecord::getRecords() {
   return ss.str();
 }
 
-std::string ActionRecord::getLatest()
-{
+std::string ActionRecord::getLatest() {
   return record[0];
 }
 
-std::vector<std::string> ActionRecord::getFullRecord()
-{
+std::vector<std::string> ActionRecord::getFullRecord() {
 //  std::vector<std::string> outVec;
 //  for (int i = record.size(); i --> 0; ) {
 //    outVec.push_back(record[i]);

@@ -4,15 +4,14 @@
 #include "ChatOption.h"
 
 
-class ChatPuzzle : public ChatOption
-{
-    public:
-        ChatPuzzle();
-        virtual ~ChatPuzzle();
+class ChatPuzzle : public ChatOption {
+ public:
+  ChatPuzzle();
+  virtual ~ChatPuzzle();
 
-    protected:
+ protected:
 
-    private:
+ private:
 };
 
 #endif // CHATPUZZLE_H

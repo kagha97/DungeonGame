@@ -1,7 +1,6 @@
 #ifndef WINDOWMANAGER_H
 #define WINDOWMANAGER_H
 #include <iostream>
-
 #include <sys/ioctl.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -28,9 +27,12 @@ class WindowManager {
  private:
   std::vector<std::string> getOptionsVector(Game& game, int width);
   std::vector<std::string> getNpcOrItemVector(Game& game);
-  void generatePlayContents(Game& game, std::vector<TextBox>& contents, int width, int height);
-  void generatePauseMenu(Game& game, std::vector<TextBox>& contents, int width, int height);
-  void generateNPCMenu(Game& game, std::vector<TextBox>& contents, int width, int height);
+  void generatePlayContents(Game& game, std::vector<TextBox>& contents, int width,
+                            int height);
+  void generatePauseMenu(Game& game, std::vector<TextBox>& contents, int width,
+                         int height);
+  void generateNPCMenu(Game& game, std::vector<TextBox>& contents, int width,
+                       int height);
 };
 
 #endif // WINDOWMANAGER_H

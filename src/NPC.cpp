@@ -1,6 +1,6 @@
 #include "NPC.h"
 
-NPC::NPC(std::string n,std::string exm, int cid){
+NPC::NPC(std::string n, std::string exm, int cid) {
   name = n;
   examine = exm;
   chatid = cid;
@@ -15,12 +15,10 @@ NPC::NPC(std::string n,std::string exm, int cid){
 //  return name;
 //}
 
-bool NPC::operator==(const NPC& n) const
-{
-    return name == n.name && hostile == n.hostile;
+bool NPC::operator==(const NPC& n) const {
+  return name == n.name && hostile == n.hostile;
 }
 
-NPC::~NPC()
-{
+NPC::~NPC() {
   //dtor
 }

@@ -2,15 +2,14 @@
 #define CHATREPLY_H
 
 
-class ChatReply
-{
-    public:
-        ChatReply();
-        virtual ~ChatReply();
+class ChatReply {
+ public:
+  ChatReply();
+  virtual ~ChatReply();
 
-    protected:
+ protected:
 
-    private:
+ private:
 };
 
 #endif // CHATREPLY_H

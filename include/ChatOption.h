@@ -4,20 +4,19 @@
 #include <string>
 
 
-class ChatOption
-{
-    public:
-        ChatOption(std::string titl, std::string rep, ChatType tp, int id);
-        virtual ~ChatOption();
-        std::string title;
-        std::string reply;
-        int nextChatId;
-        ChatType type;
+class ChatOption {
+ public:
+  ChatOption(std::string titl, std::string rep, ChatType tp, int id);
+  virtual ~ChatOption();
+  std::string title;
+  std::string reply;
+  int nextChatId;
+  ChatType type;
 
 
-    protected:
+ protected:
 
-    private:
+ private:
 
 };
 

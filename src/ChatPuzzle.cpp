@@ -6,7 +6,6 @@
 //
 //}
 
-ChatPuzzle::~ChatPuzzle()
-{
+ChatPuzzle::~ChatPuzzle() {
 
 }

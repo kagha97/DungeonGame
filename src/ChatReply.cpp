@@ -1,11 +1,9 @@
 #include "ChatReply.h"
 
-ChatReply::ChatReply()
-{
-    //ctor
+ChatReply::ChatReply() {
+  //ctor
 }
 
-ChatReply::~ChatReply()
-{
-    //dtor
+ChatReply::~ChatReply() {
+  //dtor
 }

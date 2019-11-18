@@ -6,22 +6,21 @@
 #include "Item.h"
 
 
-class NPC
-{
-  public:
-    NPC(std::string n, std::string exm, int cid);
-    bool hostile;
-    virtual ~NPC();
-    int chatid;
-    bool operator==(const NPC& n) const;
-    std::string examine;
-    std::string name;
+class NPC {
+ public:
+  NPC(std::string n, std::string exm, int cid);
+  bool hostile;
+  virtual ~NPC();
+  int chatid;
+  bool operator==(const NPC& n) const;
+  std::string examine;
+  std::string name;
 
 
-  protected:
+ protected:
 
-  private:
-    int health = 100;
+ private:
+  int health = 100;
 };
 
 #endif // NPC_H
