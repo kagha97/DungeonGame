@@ -1,3 +1,7 @@
+/*
+*Copyright 2019 Fafnir
+*/
+
 #include "gtest/gtest.h"
 
 int main(int argc, char **argv) {

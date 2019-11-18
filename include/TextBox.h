@@ -1,5 +1,9 @@
-#ifndef TEXTBOX_H
-#define TEXTBOX_H
+/*
+*Copyright 2019 Fafnir
+*/
+
+#ifndef INCLUDE_TEXTBOX_H_
+#define INCLUDE_TEXTBOX_H_
 #include <string>
 #include <vector>
 #include "Exceptions.h"
@@ -14,7 +18,6 @@ class TextBox {
   int width;
   int height;
   char getAt(int x, int y);
-  //bool isAt(int x, int y);
   void fillChar(char c);
   void fillTopDown(std::string text);
   void fillBottomUp(std::string text);
@@ -22,10 +25,8 @@ class TextBox {
   void fillBottomUp(std::vector<std::string> lines);
   void shrink();
 
- protected:
-
  private:
   std::vector<std::string> content;
 };
 
-#endif // TEXTBOX_H
+#endif  // INCLUDE_TEXTBOX_H_

@@ -1,4 +1,10 @@
+/*
+*Copyright 2019 Fafnir
+*/
+
 #include "StringManipulations.h"
+#include <string>
+#include <vector>
 
 std::vector<std::string> StringManipulations::Split(std::string inStr,
     char delim) {
@@ -13,7 +19,7 @@ std::vector<std::string> StringManipulations::Split(std::string inStr,
   return outVec;
 }
 
-bool StringManipulations::hasEnding (std::string const &fullString,
+bool StringManipulations::hasEnding(std::string const &fullString,
                                      std::string const &ending) {
   if (fullString.length() >= ending.length()) {
     return (0 == fullString.compare (fullString.length() - ending.length(),

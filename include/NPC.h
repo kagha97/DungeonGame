@@ -1,5 +1,9 @@
-#ifndef NPC_H
-#define NPC_H
+/*
+*Copyright 2019 Fafnir
+*/
+
+#ifndef INCLUDE_NPC_H_
+#define INCLUDE_NPC_H_
 #include <vector>
 #include <string>
 #include <sstream>
@@ -16,11 +20,8 @@ class NPC {
   std::string examine;
   std::string name;
 
-
- protected:
-
  private:
   int health = 100;
 };
 
-#endif // NPC_H
+#endif  // INCLUDE_NPC_H_

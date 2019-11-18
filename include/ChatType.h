@@ -1,6 +1,10 @@
-#ifndef CHATTYPE_H
-#define CHATTYPE_H
+/*
+*Copyright 2019 Fafnir
+*/
+
+#ifndef INCLUDE_CHATTYPE_H_
+#define INCLUDE_CHATTYPE_H_
 
 enum ChatType {Chat, Riddle};
 
-#endif // CHATTYPE_H
+#endif  // INCLUDE_CHATTYPE_H_

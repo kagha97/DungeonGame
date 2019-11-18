@@ -1,3 +1,7 @@
+/*
+*Copyright 2019 Fafnir
+*/
+
 #include <iostream>
 #include <cctype>
 #include <fstream>
