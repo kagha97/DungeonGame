@@ -10,7 +10,7 @@ build:
 test:
    stage: test
    script:
-      - testDungeonGame
+      - ./testDungeonGame
 
 
 pages:
