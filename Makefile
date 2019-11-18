@@ -53,7 +53,7 @@ $(PROGRAM_GAME): $(GAME_SRC_DIR) $(SRC_DIR)
 
 compile: $(PROGRAM_GAME)
 
-test: $(PROGRAM_TEST)
+tests: $(PROGRAM_TEST)
 	$(PROGRAM_TEST)
 
 memory: $(PROGRAM_TEST)
