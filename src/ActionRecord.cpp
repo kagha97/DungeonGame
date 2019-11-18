@@ -24,9 +24,5 @@ std::string ActionRecord::getLatest()
 
 std::vector<std::string> ActionRecord::getFullRecord()
 {
-//  std::vector<std::string> outVec;
-//  for (int i = record.size(); i --> 0; ) {
-//    outVec.push_back(record[i]);
-//  }
   return record;
 }
