@@ -21,10 +21,35 @@
 
 class Game {
  public:
+
+    /**
+   * A new game object
+   * @param roomCount Number of rooms in game.
+   */
   explicit Game(int roomCount);
+
+   /**
+   * Game object with loaded data
+   * @param filePath The path to save file.
+   */
   explicit Game(std::string filePath);
+
+   /**
+   * Saves game
+   * @param filePath Path to save game.
+   */
   void save(std::string filePath);
+
+ /**
+   * Get input from user
+   * @param inStr input stream from user.
+   */
   void getInput(std::istream& inStr);
+
+   /**
+   * A new game object
+   * @param loc Path to ascii file
+   */
   void show_ascii(std::string loc);
   void drawChatOptions(int id);
   void drawChatMenu(int id);
