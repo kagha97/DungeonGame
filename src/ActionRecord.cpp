@@ -15,13 +15,6 @@ void ActionRecord::addRecord(std::string text) {
   }
 }
 
-std::string ActionRecord::getRecords() {
-  std::stringstream ss;
-  for (int i = record.size(); i --> 0; ) {
-    ss << record[i] << std::endl;
-  }
-  return ss.str();
-}
 
 std::string ActionRecord::getLatest() {
   return record[0];

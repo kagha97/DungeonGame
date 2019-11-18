@@ -6,14 +6,6 @@
 #include "gtest/gtest.h"
 #include "ActionRecord.h"
 
-TEST(ActionRecord, Get) {
-  ActionRecord::addRecord("1");
-  ActionRecord::addRecord("2");
-  ActionRecord::addRecord("3");
-  std::string s = ActionRecord::getRecords();
-  std::string s2 = "1\n2\n3\n";
-  EXPECT_EQ(s, s2);
-}
 
 TEST(ActionRecord, GetLatest) {
   ActionRecord::addRecord("1");
