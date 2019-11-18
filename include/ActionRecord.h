@@ -1,5 +1,9 @@
-#ifndef ACTIONRECORD_H
-#define ACTIONRECORD_H
+/*
+*Copyright 2019 Fafnir
+*/
+
+#ifndef INCLUDE_ACTIONRECORD_H_
+#define INCLUDE_ACTIONRECORD_H_
 #include <vector>
 #include <string>
 #include <sstream>
@@ -18,4 +22,4 @@ class ActionRecord {
   static std::vector<std::string> record;
 };
 
-#endif // ACTIONRECORD_H
+#endif  // INCLUDE_ACTIONRECORD_H_

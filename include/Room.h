@@ -1,8 +1,10 @@
-#ifndef ROOM_H
-#define ROOM_H
+/*
+*Copyright 2019 Fafnir
+*/
 
+#ifndef INCLUDE_ROOM_H_
+#define INCLUDE_ROOM_H_
 #include <vector>
-#include <string>
 #include <string>
 #include <sstream>
 #include <algorithm>
@@ -13,9 +15,9 @@
 
 class Room {
  public:
-  Room(int roomId);
-  Room(int roomId, std::string desc);
-  Room(std::string inParam);
+  explicit Room(int roomId);
+  explicit Room(int roomId, std::string desc);
+  explicit Room(std::string inParam);
   std::string getDescription();
   std::string getDescriptionOnly();
   std::vector<std::string> getItemList();
@@ -28,13 +30,11 @@ class Room {
   std::vector<Item> getItems();
   std::vector<NPC> getNPCS();
   std::string showNPCS();
-  void removeAllItems ();
+  void removeAllItems();
   bool tryKey(Item i);
   bool locked;
   int getId();
   virtual ~Room();
-
- protected:
 
  private:
   std::vector<Item> items;
@@ -43,4 +43,4 @@ class Room {
   int id;
 };
 
-#endif // ROOM_H
+#endif  // INCLUDE_ROOM_H_

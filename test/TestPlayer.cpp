@@ -1,3 +1,7 @@
+/*
+*Copyright 2019 Fafnir
+*/
+
 #include "gtest/gtest.h"
 #include "Player.h"
 #include "Item.h"

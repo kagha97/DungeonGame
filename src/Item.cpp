@@ -1,4 +1,9 @@
+/*
+*Copyright 2019 Fafnir
+*/
+
 #include "Item.h"
+#include <string>
 
 Item::Item(std::string n, std::string exam, ItemType t, int val) {
   name = n;
@@ -14,5 +19,4 @@ bool Item::operator==(const Item& it) const {
 
 
 Item::~Item() {
-  //dtor
 }

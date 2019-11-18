@@ -1,4 +1,10 @@
+/*
+*Copyright 2019 Fafnir
+*/
+
 #include "ActionRecord.h"
+#include <vector>
+#include <string>
 
 std::vector<std::string> ActionRecord::record;
 

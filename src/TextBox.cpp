@@ -1,5 +1,10 @@
-#include "TextBox.h"
+/*
+*Copyright 2019 Fafnir
+*/
 
+#include "TextBox.h"
+#include <string>
+#include <vector>
 TextBox::TextBox(int x, int y, int w, int h) {
   posX = x;
   posY = y;
@@ -12,7 +17,6 @@ TextBox::TextBox(int x, int y, int w, int h) {
 }
 
 TextBox::~TextBox() {
-
 }
 
 char TextBox::getAt(int x, int y) {
@@ -70,8 +74,3 @@ void TextBox::fillChar(char c) {
     }
   }
 }
-void TextBox::shrink() {
-
-}
-
-

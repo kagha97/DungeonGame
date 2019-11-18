@@ -1,3 +1,7 @@
+/*
+*Copyright 2019 Fafnir
+*/
+
 #ifndef INCLUDE_EXCEPTIONS_H_
 #define INCLUDE_EXCEPTIONS_H_
 

@@ -1,4 +1,10 @@
+/*
+*Copyright 2019 Fafnir
+*/
+
 #include "Game.h"
+#include <vector>
+#include <string>
 
 Game::Game(std::string filePath) {
   std::ifstream in(filePath);
@@ -20,7 +26,6 @@ void Game::save(std::string filePath) {
   std::vector<int> compRid = player.getCompletedRiddles();
   std::ofstream out;
   out.open(filePath);
-
   out <<  "{" << player.getHP() << ATTRIBDELIM << player.getHunger() <<
       ATTRIBDELIM << player.getCurrentRoom() << ATTRIBDELIM << "{";
   if (pInv.size() < 1) {
@@ -50,7 +55,8 @@ void Game::save(std::string filePath) {
 
   out << "}}" << std::endl;
   for (Room r : rooms) {
-    out << "{" << r.getId() << ATTRIBDELIM << (int)r.locked << ATTRIBDELIM << "{";
+    out << "{" << r.getId()
+    << ATTRIBDELIM << static_cast<int>(r.locked) << ATTRIBDELIM << "{";
     std::vector<Item> rItems = r.getItems();
     if (rItems.size() < 1) {
       out << EMPTY;
@@ -92,7 +98,8 @@ void Game::save(std::string filePath) {
 Game::Game(int roomCount) {
   double sr = sqrt(roomCount);
   if ((sr - floor(sr)) != 0) {
-    throw room_count_not_square_error("The number of rooms must be a square number");
+    throw room_count_not_square_error("The number of rooms "
+                                      "must be a square number");
   }
   if (roomCount > 25) {
     throw room_count_too_large_error("Cannot have more than 25 rooms");
@@ -102,10 +109,8 @@ Game::Game(int roomCount) {
 
   // Create rooms
   for (int i = 0; i < roomCount; i++) {
-
     Room newRoom(i, ROOMDESC[i]);
     rooms.push_back(newRoom);
-
   }
 
 
@@ -114,18 +119,17 @@ Game::Game(int roomCount) {
       rooms[i].addItem(ITEMS.at(x.first));
     }
     if (ITEMS.find(x.first)->second.type == Key) {
-      //If the item is a key, lock the room corresponding to its value
+      // If the item is a key, lock the room corresponding to its value
       rooms[ITEMS.find(x.first)->second.value].locked = true;
     }
   }
 
-  //add npc to room
+  // add npc to room
   for (auto const& x : NPCLOCATIONS) {
     for (int i : x.second) {
       rooms[i].addNPC(NPCS.at(x.first));
     }
   }
-
 }
 
 void Game::getInput(std::istream& inStr) {
@@ -189,7 +193,7 @@ void Game::getInput(std::istream& inStr) {
       ActionRecord::addRecord("Unrecognized command.");
       break;
     }
-    //
+    // end
     break;
   case Inventory:
     // Handle inputs while in inventory
@@ -211,7 +215,7 @@ void Game::getInput(std::istream& inStr) {
       ActionRecord::addRecord("Unrecognized command.");
       break;
     }
-    //
+    // end
     break;
   case ItemUse:
     player.consumeItem(inInt - 1);
@@ -239,7 +243,7 @@ void Game::getInput(std::istream& inStr) {
       state = Save;
       break;
     }
-    //
+    // end
     break;
   case Save: {
     char s = std::toupper(inString[0]);
@@ -280,17 +284,14 @@ void Game::getInput(std::istream& inStr) {
     break;
   case Talk:
     nextChat = inInt;
-    //drawChatMenu(currentChat);
     state = TalkSecond;
     break;
   case TalkSecond:
     nextChat = inInt;
-    //drawChatMenu(nextChat);
 
     state = TalkSecond;
     break;
   case RiddleTalk:
-    //inStr >> inString;
     std::cout << inString;
     solveRiddle(inString);
     state = Play;
@@ -299,7 +300,6 @@ void Game::getInput(std::istream& inStr) {
     ActionRecord::addRecord("Unrecognized command.");
     break;
   }
-
   inStr.clear();
 }
 
@@ -320,7 +320,7 @@ void Game::movePlayer(char dir) {
     moved = true;
     break;
   case DOWN :
-    if (currentRoom + mapWidth >= rooms.size() ) {
+    if (currentRoom + mapWidth >= rooms.size()) {
       ActionRecord::addRecord("You cannot go that way.");
       break;
     }
@@ -329,7 +329,7 @@ void Game::movePlayer(char dir) {
     moved = true;
     break;
   case LEFT :
-    if (currentRoom % mapWidth == 0 ) {
+    if (currentRoom % mapWidth == 0) {
       ActionRecord::addRecord("You cannot go that way.");
       break;
     }
@@ -338,7 +338,7 @@ void Game::movePlayer(char dir) {
     moved = true;
     break;
   case RIGHT :
-    if ((currentRoom + 1) % mapWidth == 0 ) {
+    if ((currentRoom + 1) % mapWidth == 0) {
       ActionRecord::addRecord("You cannot go that way.");
       break;
     }
@@ -356,7 +356,8 @@ void Game::movePlayer(char dir) {
     if (rooms[roomIndex].locked) {
       for (Item it : player.getInventory()) {
         if (rooms[roomIndex].tryKey(it)) {
-          ActionRecord::addRecord("You use " + it.name + " to unlock the room.");
+          ActionRecord::addRecord("You use " +
+                                  it.name + " to unlock the room.");
           player.removeItem(it);
         }
       }
@@ -370,7 +371,7 @@ void Game::movePlayer(char dir) {
   }
 }
 
-//NPC STUFF
+// NPC STUFF
 
 void Game::drawNpcList(std::ostream& os) {
   int currentRoom = player.getCurrentRoom();
@@ -405,16 +406,12 @@ void Game::drawChatMenu(int id) {
     std::cout << "Which NPC do you want to examine?" << std::endl;
     break;
   }
-
 }
 
 
 void Game::drawChatOptions(int id) {
-
   int currentRoom = player.getCurrentRoom();
-//  os << rooms[currentRoom].getNPCS()[id - 1] << std::endl;
   int counter = 0;
-
   std::cout << "current chat: " << currentChat << " Next chat: " << nextChat<<
             ". Entered id: " << id << ". State is: " << state << std::endl;
 
@@ -427,19 +424,16 @@ void Game::drawChatOptions(int id) {
     switch (state) {
     case Talk:
       cid = rooms[currentRoom].getNPCS()[id - 1].chatid;
-      //nextChat = chats.at(currentChat).at(id).nextChatId;
       currentChat = cid;
       for (auto const& x : chats.at(cid)) {
         counter++;
         std::cout << counter << ". " << x.second.title << std::endl;
-        //os << i+1 << ". " << c.title << std::endl;
       }
       state = TalkSecond;
       break;
     case TalkSecond:
 
       switch (chats.at(currentChat).at(id).type) {
-
       case Riddle:
         state = RiddleTalk;
         nextChat = chats.at(currentChat).at(id).nextChatId;
@@ -453,19 +447,14 @@ void Game::drawChatOptions(int id) {
         int nchat = chats.at(currentChat).at(id).nextChatId;
         currentChat = nchat;
 
-        //counter = 0;
         for (auto const& x : chats.at(currentChat)) {
           counter++;
           std::cout << counter << ". " << x.second.title << std::endl;
-          //os << i+1 << ". " << c.title << std::endl;
         }
-
-
       }
       break;
     }
   }
-
   std::cout << "Please choose an option. Enter 0 to end chat. " << std::endl;
 }
 
@@ -483,7 +472,6 @@ void Game::solveRiddle(std::string inp) {
   std::cout << nextChat << std::endl;
   std::cout << "input: " << inp << std::endl;
   if (inp == RANS.at(RIDDLEANSWERS.at(nextChat))) {
-
     if (!player.checkRiddle(nextChat)) {
       ActionRecord::addRecord("You got the right answer! " +npc +
                               " rewards you, check your inventory.");
@@ -493,22 +481,17 @@ void Game::solveRiddle(std::string inp) {
       }
       state = Play;
     } else {
-      ActionRecord::addRecord("You already solved this riddle and recieved the rewards..");
+      ActionRecord::addRecord("You already solved this "
+                              "riddle and received the rewards..");
       state = Play;
     }
-  }
-
-  else {
+  } else {
     ActionRecord::addRecord("You got the wrong answer. Speak to " + npc +
                             " to try again.");
     state = TalkSecond;
   }
 }
-
-
-
-//END NPC
-
+//  END NPC
 
 
 
@@ -551,7 +534,6 @@ std::vector<std::string> Game::miniMap() {
       } else {
         ss << "[ ]";
       }
-
       tempCounter++;
     }
     outVec.push_back(ss.str());
@@ -575,7 +557,6 @@ std::vector<std::string> Game::getNpcOptions(int id, int width) {
   int currentRoom = player.getCurrentRoom();
 
   std::vector<std::string> outVec;
-//  os << rooms[currentRoom].getNPCS()[id - 1] << std::endl;
   int counter = 0;
 
   std::cout << "current chat: " << currentChat << " Next chat: " << nextChat<<
@@ -590,39 +571,36 @@ std::vector<std::string> Game::getNpcOptions(int id, int width) {
     switch (state) {
     case Talk:
       cid = rooms[currentRoom].getNPCS()[id - 1].chatid;
-      //nextChat = chats.at(currentChat).at(id).nextChatId;
       currentChat = cid;
       for (auto const& x : chats.at(cid)) {
         counter++;
         outVec.push_back(std::to_string(counter) + ". " + x.second.title);
-        //os << i+1 << ". " << c.title << std::endl;
       }
       state = TalkSecond;
       break;
     case TalkSecond:
-
       switch (chats.at(currentChat).at(id).type) {
-
       case Riddle: {
         state = RiddleTalk;
         nextChat = chats.at(currentChat).at(id).nextChatId;
 
         int tStart = 0;
         int tLen = width;
-        std::string riddle = npc + " replies: " + chats.at(currentChat).at(id).reply;
+        std::string riddle = npc + " replies: "
+        + chats.at(currentChat).at(id).reply;
         while (tStart + tLen < riddle.length()) {
           outVec.push_back(riddle.substr(tStart, tLen));
           tStart += tLen;
         }
         outVec.push_back(riddle.substr(tStart, riddle.length() - tStart));
-
       }
       break;
 
       case Chat: {
         int tStart = 0;
         int tLen = width;
-        std::string reply = npc + " replies: " + chats.at(currentChat).at(id).reply;
+        std::string reply = npc +
+        " replies: " + chats.at(currentChat).at(id).reply;
         while (tStart + tLen < reply.length()) {
           outVec.push_back(reply.substr(tStart, tLen));
           tStart += tLen;
@@ -631,24 +609,18 @@ std::vector<std::string> Game::getNpcOptions(int id, int width) {
         int nchat = chats.at(currentChat).at(id).nextChatId;
         currentChat = nchat;
 
-        //counter = 0;
         for (auto const& x : chats.at(currentChat)) {
           counter++;
           outVec.push_back(std::to_string(counter) + ". " + x.second.title);
-          //os << i+1 << ". " << c.title << std::endl;
         }
-
       }
       }
       break;
-
     }
   }
-
   return outVec;
 }
 
 
 Game::~Game() {
-
 }

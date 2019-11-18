@@ -1,15 +1,24 @@
+/*
+*Copyright 2019 Fafnir
+*/
+
 #include "Player.h"
+#include <vector>
+#include <string>
 
 Player::Player() {
-
 }
-// Input format: {HP,Hunger,RoomID{ItemID0;ItemID1;...;ItemIDn},{CompletedRiddleIds}}
-Player::Player(std::string inParam) {
-  inParam.erase(std::remove(inParam.begin(), inParam.end(), '{'), inParam.end());
-  inParam.erase(std::remove(inParam.begin(), inParam.end(), '}'), inParam.end());
-  std::vector<std::string> params = StringManipulations::Split(inParam,
-                                    ATTRIBDELIM);
 
+// Input format:
+// {HP,Hunger,RoomID{ItemID0;ItemID1;...;ItemIDn},{CompletedRiddleIds}}
+Player::Player(std::string inParam) {
+  inParam.erase(std::remove(inParam.begin(),
+                            inParam.end(), '{'), inParam.end());
+  inParam.erase(std::remove(inParam.begin(),
+                            inParam.end(), '}'), inParam.end());
+  std::vector<std::string> params =
+                  StringManipulations::Split(inParam,
+                                        ATTRIBDELIM);
   health = std::stoi(params[0]);
   hunger = std::stoi(params[1]);
   currentRoom = std::stoi(params[2]);
@@ -29,7 +38,6 @@ Player::Player(std::string inParam) {
       completedRiddles.push_back(std::stoi(s));
     }
   }
-
   dead = false;
 }
 
@@ -52,13 +60,13 @@ void Player::updateValues() {
     hunger += HUNGERGAIN;
   } else {
     health -= HEALTHLOSS;
-    ActionRecord::addRecord("You are hungry. You need to find food or you will die!");
+    ActionRecord::addRecord("You are hungry. "
+                            "You need to find food or you will die!");
   }
 
   if (health < 1) {
     dead = true;
   }
-
 }
 
 bool Player::removeItem(Item it) {
@@ -120,16 +128,17 @@ bool Player::consumeItem(int i) {
       health += it.value;
       if (it.value < 0) {
         ActionRecord::addRecord("You drink the " + it.name +
-                                ". It tastes like garbage and it hurts you! " + valStr + " health.");
+                                ". It tastes like garbage "
+                                "and it hurts you! " + valStr + " health.");
       } else {
-
-        ActionRecord::addRecord("You drink the " + it.name + ". It refills " + valStr +
+        ActionRecord::addRecord("You drink the "
+                                + it.name + ". It refills " + valStr +
                                 " health.");
       }
-
     } else {
       health = MAXHEALTH;
-      ActionRecord::addRecord("You drink the " + it.name + ". You are fully healed.");
+      ActionRecord::addRecord("You drink the "
+                               + it.name + ". You are fully healed.");
     }
 
     return true;
@@ -154,9 +163,7 @@ bool Player::consumeItem(int i) {
 
 std::string Player::getStatsString() {
   std::stringstream ss;
-
   ss << "HP: " << health << std::endl << "Hunger: " << hunger << std::endl;
-
   return ss.str();
 }
 
@@ -166,7 +173,6 @@ std::string Player::showInventory() {
   for (int i = 0; i < inventory.size(); i++) {
     ss << i+1 << ". " << inventory[i].name << std::endl;
   }
-
   return ss.str();
 }
 
@@ -191,12 +197,8 @@ bool Player::checkRiddle(int id) {
       return true;
     }
   }
-
   return false;
 }
-
-
-
 
 std::vector<Item> Player::getInventory() {
   return inventory;
@@ -224,5 +226,4 @@ std::vector<int> Player::getCompletedRiddles() {
 
 
 Player::~Player() {
-  //dtor
 }

@@ -1,4 +1,9 @@
+/*
+*Copyright 2019 Fafnir
+*/
+
 #include "NPC.h"
+#include <string>
 
 NPC::NPC(std::string n, std::string exm, int cid) {
   name = n;
@@ -6,19 +11,9 @@ NPC::NPC(std::string n, std::string exm, int cid) {
   chatid = cid;
 }
 
-
-
-
-
-
-//std::string NPC::getName() {
-//  return name;
-//}
-
 bool NPC::operator==(const NPC& n) const {
   return name == n.name && hostile == n.hostile;
 }
 
 NPC::~NPC() {
-  //dtor
 }

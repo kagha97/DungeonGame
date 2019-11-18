@@ -1,5 +1,9 @@
-#ifndef CHATOPTION_H
-#define CHATOPTION_H
+/*
+*Copyright 2019 Fafnir
+*/
+
+#ifndef INCLUDE_CHATOPTION_H_
+#define INCLUDE_CHATOPTION_H_
 #include "ChatType.h"
 #include <string>
 
@@ -13,11 +17,8 @@ class ChatOption {
   int nextChatId;
   ChatType type;
 
-
- protected:
-
  private:
-
 };
 
-#endif // CHATOPTION_H
+#endif  // INCLUDE_CHATOPTION_H_
+

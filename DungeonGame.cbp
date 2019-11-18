@@ -35,10 +35,7 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="include/ActionRecord.h" />
-		<Unit filename="include/ChatGroup.h" />
 		<Unit filename="include/ChatOption.h" />
-		<Unit filename="include/ChatPuzzle.h" />
-		<Unit filename="include/ChatReply.h" />
 		<Unit filename="include/ChatType.h" />
 		<Unit filename="include/Exceptions.h" />
 		<Unit filename="include/Game.h" />

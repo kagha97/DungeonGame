@@ -1,7 +1,11 @@
-#ifndef ITEM_H
-#define ITEM_H
-#include <string>
+/*
+*Copyright 2019 Fafnir
+*/
+#ifndef INCLUDE_ITEM_H_
+#define INCLUDE_ITEM_H_
 #include "ItemType.h"
+#include <string>
+
 
 class Item {
  public:
@@ -14,10 +18,7 @@ class Item {
 
   bool operator==(const Item& it) const;
 
- protected:
-
  private:
-
 };
 
-#endif // ITEM_H
+#endif  // INCLUDE_ITEM_H_
