@@ -8,7 +8,7 @@ build:
 test:
    stage: test
    script:
-      - testDungeonGame
+      - make tests
 
 
 pages:
