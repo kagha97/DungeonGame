@@ -47,6 +47,7 @@
 		<Unit filename="include/Item.h" />
 		<Unit filename="include/ItemType.h" />
 		<Unit filename="include/NPC.h" />
+		<Unit filename="include/Player.h" />
 		<Unit filename="include/Room.h" />
 		<Unit filename="include/StringManipulations.h" />
 		<Unit filename="include/TextBox.h" />
@@ -62,8 +63,17 @@
 		<Unit filename="src/TextBox.cpp" />
 		<Unit filename="src/WindowManager.cpp" />
 		<Unit filename="src/game/main.cpp" />
+		<Unit filename="test/TestActionRecord.cpp">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="test/TestPlayer.cpp">
 			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="test/TestRoom.cpp">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="test/TestStringManipulations.cpp">
+			<Option target="Debug" />
 		</Unit>
 		<Unit filename="test/main.cpp">
 			<Option target="&lt;{~None~}&gt;" />

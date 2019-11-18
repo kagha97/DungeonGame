@@ -266,11 +266,6 @@ std::vector<std::string> WindowManager::getOptionsVector(Game& game,
   return outVec;
 }
 
-void WindowManager::generateNPCMenu(Game& game, std::vector<TextBox>& contents,
-                                    int width, int height) {
-
-}
-
 std::vector<std::string> WindowManager::getNpcOrItemVector(Game& game) {
   std::vector<std::string> outVec;
   switch (game.state) {

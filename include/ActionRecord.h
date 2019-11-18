@@ -13,7 +13,7 @@ class ActionRecord {
   static std::string getRecords();
   static std::vector<std::string> getFullRecord();
   static std::string getLatest();
- protected:
+
  private:
   static std::vector<std::string> record;
 };
