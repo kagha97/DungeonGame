@@ -35,7 +35,6 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="include/ActionRecord.h" />
-		<Unit filename="include/Chat.h" />
 		<Unit filename="include/ChatGroup.h" />
 		<Unit filename="include/ChatOption.h" />
 		<Unit filename="include/ChatPuzzle.h" />
@@ -53,10 +52,7 @@
 		<Unit filename="include/TextBox.h" />
 		<Unit filename="include/WindowManager.h" />
 		<Unit filename="src/ActionRecord.cpp" />
-		<Unit filename="src/ChatGroup.cpp" />
 		<Unit filename="src/ChatOption.cpp" />
-		<Unit filename="src/ChatPuzzle.cpp" />
-		<Unit filename="src/ChatReply.cpp" />
 		<Unit filename="src/Game.cpp" />
 		<Unit filename="src/Item.cpp" />
 		<Unit filename="src/NPC.cpp" />
