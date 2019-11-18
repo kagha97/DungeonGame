@@ -17,6 +17,7 @@ Game::Game(std::string filePath) {
 
 void Game::save(std::string filePath) {
   std::vector<Item> pInv = player.getInventory();
+  std::vector<int> compRid = player.getCompletedRiddles();
   std::ofstream out;
   out.open(filePath);
 
@@ -36,6 +37,17 @@ void Game::save(std::string filePath) {
       }
     }
   }
+  out << "},{";
+  if (compRid.size() < 1) {
+    out << EMPTY;
+  }
+  for (int i = 0; i < compRid.size(); i++) {
+    out << compRid[i];
+    if (i < compRid.size() - 1) {
+      out << OBJDELIM;
+    }
+  }
+
   out << "}}" << std::endl;
   for (Room r : rooms) {
     out << "{" << r.getId() << ATTRIBDELIM << (int)r.locked << ATTRIBDELIM << "{";

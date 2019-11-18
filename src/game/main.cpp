@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "WindowManager.h"
 #include "ActionRecord.h"
+#include "StringManipulations.h"
 
 void printRecord(struct winsize w,std::vector<std::string> lines) {
   for (int i = 0; i < w.winsize::ws_row; i++) {
@@ -49,6 +50,11 @@ int main() {
       std::string fileName;
       std::cout << "Please enter the file to load." << std::endl;
       std::cin >> fileName;
+
+      if(!(StringManipulations::hasEnding(fileName, FILEEXT))) {
+        fileName += FILEEXT;
+      }
+
       if(fileAccessible(fileName)) {
         game = new Game(fileName);
         getStart = false;

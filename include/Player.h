@@ -35,6 +35,7 @@ class Player
     std::string showInventory();
     std::vector<Item> getInventory();
     std::vector<std::string> getInventoryList();
+    std::vector<int> getCompletedRiddles();
     int getHP();
     int getHunger();
   protected:

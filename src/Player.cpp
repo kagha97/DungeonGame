@@ -3,7 +3,7 @@
 Player::Player() {
 
 }
-// Input format: {HP,Hunger,RoomID{ItemID0;ItemID1;...;ItemIDn}}
+// Input format: {HP,Hunger,RoomID{ItemID0;ItemID1;...;ItemIDn},{CompletedRiddleIds}}
 Player::Player(std::string inParam)
 {
   inParam.erase(std::remove(inParam.begin(), inParam.end(), '{'), inParam.end());
@@ -20,6 +20,14 @@ Player::Player(std::string inParam)
       inventory.push_back(ITEMS.at(std::stoi(s)));
     }
   }
+
+  if(params[4] != EMPTY) {
+    std::vector<std::string> compRids = StringManipulations::Split(params[4], OBJDELIM);
+    for(std::string s : compRids) {
+      completedRiddles.push_back(std::stoi(s));
+    }
+  }
+
   dead = false;
 }
 
@@ -211,6 +219,12 @@ std::vector<std::string> Player::getInventoryList() {
   }
   return outVec;
 }
+
+std::vector<int> Player::getCompletedRiddles()
+{
+  return completedRiddles;
+}
+
 
 Player::~Player() {
   //dtor

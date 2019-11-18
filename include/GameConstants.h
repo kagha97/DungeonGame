@@ -53,7 +53,7 @@ const int WINDOWHEIGHT = 35;
 const char ATTRIBDELIM = ',';
 const char OBJDELIM = ';';
 const std::string EMPTY = "NULL";
-const std::string FILEEXT = ".save";
+const std::string FILEEXT = ".fafnir";
 const std::string AUTOSAVEFILE = "auto" + FILEEXT;
 
 const std::string ROOMDESC[ROOMCOUNT] = {
