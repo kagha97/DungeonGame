@@ -21,7 +21,6 @@
 
 class Game {
  public:
-
     /**
    * A new game object
    * @param roomCount Number of rooms in game.

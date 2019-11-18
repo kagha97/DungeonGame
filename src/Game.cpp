@@ -376,6 +376,9 @@ void Game::movePlayer(char dir) {
       ActionRecord::addRecord("That room is locked");
     }
   }
+  if(player.getCurrentRoom() == WINRAR) {
+    state = Win;
+  }
 }
 
 // NPC STUFF

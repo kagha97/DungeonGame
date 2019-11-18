@@ -23,7 +23,6 @@ class TextBox {
   void fillBottomUp(std::string text);
   void fillTopDown(std::vector<std::string> lines);
   void fillBottomUp(std::vector<std::string> lines);
-  void shrink();
 
  private:
   std::vector<std::string> content;

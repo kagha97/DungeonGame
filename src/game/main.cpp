@@ -11,6 +11,7 @@
 #include "WindowManager.h"
 #include "ActionRecord.h"
 #include "StringManipulations.h"
+#include "Item.h"
 
 void printRecord(struct winsize w,std::vector<std::string> lines) {
   for (int i = 0; i < w.winsize::ws_row; i++) {
@@ -31,6 +32,19 @@ void clearScreen() {
   std::cout << std::string( 100, '\n' );
 }
 
+void win(Player p) {
+  std::cout << "You escape the dungeon and win the game!" << std::endl;
+  int score = 0;
+  for(Item i : p.getInventory()) {
+    score += i.value;
+    score += p.getHP();
+    score -= p.getHunger();
+  }
+  std::cout << "Your final score is " << score << std::endl;
+  std::cout << "Thanks for playing!" << std::endl;
+  char c;
+  std::cin >> c;
+}
 
 int main() {
   std::cout << "\e[8;" << WINDOWHEIGHT << ";"<< WINDOWWIDTH <<"t";
@@ -95,6 +109,11 @@ int main() {
 
     if(game->player.dead) {
       gameOver(game->player);
+      break;
+    }
+
+    if(game->state == Win) {
+      win(game->player);
       break;
     }
 

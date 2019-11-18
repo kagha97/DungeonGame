@@ -19,6 +19,8 @@ const char NEWGAME = 'N';
 const char LOADGAME = 'L';
 const char INVENTORY = 'I';
 
+const int WINRAR = 12;
+
 // Inventory Commands
 const char USE = 'U';
 const char DROP = 'D';

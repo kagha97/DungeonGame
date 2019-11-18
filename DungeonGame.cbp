@@ -75,6 +75,9 @@
 		<Unit filename="test/TestStringManipulations.cpp">
 			<Option target="Debug" />
 		</Unit>
+		<Unit filename="test/TestTextBox.cpp">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="test/main.cpp">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
