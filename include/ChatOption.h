@@ -10,7 +10,6 @@
 
 class ChatOption {
  public:
-
     /**
    * A chat option
    * @param titl The option.
@@ -44,7 +43,6 @@ class ChatOption {
   * Whether chat is a riddle or just chat.
   */
   ChatType type;
-
 };
 
 #endif  // INCLUDE_CHATOPTION_H_

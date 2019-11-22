@@ -10,11 +10,16 @@
 
 class StringManipulations {
  public:
+    /**
+   * Splitting string so it fits
+   */
   static std::vector<std::string> Split(std::string inStr, char delim);
+
+   /**
+   * string has Ending
+   */
   static bool hasEnding(std::string const &fullString,
                          std::string const &ending);
-
- private:
 };
 
 #endif  // INCLUDE_STRINGMANIPULATIONS_H_

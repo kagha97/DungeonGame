@@ -376,7 +376,7 @@ void Game::movePlayer(char dir) {
       ActionRecord::addRecord("That room is locked");
     }
   }
-  if(player.getCurrentRoom() == WINRAR) {
+  if (player.getCurrentRoom() == WINRAR) {
     state = Win;
   }
 }
@@ -475,7 +475,7 @@ std::vector<std::string> Game::getNpcOptions(int id, int width) {
   int currentRoom = player.getCurrentRoom();
 
   std::vector<std::string> outVec;
-  int counter = 0;
+
 
   std::cout << "current chat: " << currentChat << " Next chat: " << nextChat<<
             ". Entered id: " << id << ". State is: " << state << std::endl;
@@ -483,6 +483,7 @@ std::vector<std::string> Game::getNpcOptions(int id, int width) {
   if (id == 0) {
     state = Play;
   } else {
+    int counter = 0;
     std::string npc = rooms[currentRoom].getNPCS()[currentChatNpc - 1].name;
     outVec.push_back("You are speaking with: " + npc);
     int cid = 0;

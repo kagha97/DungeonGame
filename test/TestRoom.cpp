@@ -17,11 +17,6 @@ TEST(Room, MakeDesc) {
   EXPECT_EQ(r.getDescriptionOnly(), "TEST");
 }
 
-TEST(Room, MakeInParamID) {
-  Room r("{2,0,{NULL},{NULL}}");
-  EXPECT_EQ(r.getId(), 2);
-}
-
 TEST(Room, MakeInParamLock) {
   Room r("{2,1,{NULL},{NULL}}");
   EXPECT_TRUE(r.locked);
@@ -31,19 +26,6 @@ TEST(Room, MakeInParamItem) {
   Room r("{2,1,{200},{NULL}}");
   Item i = ITEMS.at(200);
   EXPECT_EQ(r.getItems()[0], i);
-}
-
-TEST(Room, MakeInParamNPC) {
-  Room r("{2,1,{200},{100}}");
-  NPC i = NPCS.at(100);
-  EXPECT_EQ(r.getNPCS()[0], i);
-}
-
-TEST(Room, AddNPC) {
-  Room r(0);
-  NPC i = NPCS.at(100);
-  r.addNPC(i);
-  EXPECT_EQ(r.getNPCS()[0], i);
 }
 
 TEST(Room, SetDesc) {
