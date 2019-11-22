@@ -84,6 +84,7 @@ bool Player::removeItem(Item it) {
 
 bool Player::removeItem(int it) {
   inventory.erase(inventory.begin() + it);
+  return true;
 }
 
 bool Player::consumeItem(Item it) {

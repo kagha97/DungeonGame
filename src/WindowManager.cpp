@@ -42,7 +42,9 @@ void WindowManager::draw(std::ostream& os, Game* game) {
   for (TextBox t : contents) {
     for (int y = 0; y < t.height; y++) {
       for (int x = 0; x < t.width; x++) {
-        output[y + t.posY][x + t.posX] = t.getAt(x, y);
+        if(y + t.posY < height && x + t.posX < width) {
+          output[y + t.posY][x + t.posX] = t.getAt(x, y);
+        }
       }
     }
   }
@@ -138,11 +140,11 @@ void WindowManager::generatePlayContents(Game* game,
   contents->push_back(rDesc);
   contents->push_back(minimap);
   contents->push_back(stats);
-  contents->push_back(ar);
   contents->push_back(border);
   contents->push_back(border2);
   contents->push_back(opt);
   contents->push_back(rItem);
+  contents->push_back(ar);
 }
 
 void WindowManager::generatePauseMenu(Game* game,
