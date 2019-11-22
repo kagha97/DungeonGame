@@ -89,6 +89,7 @@ void Game::save(std::string filePath) {
         }
       }
     }
+    out << "}" << ATTRIBDELIM << r.visited;
     out << "}}" << std::endl;
   }
   out.close();
@@ -371,8 +372,10 @@ void Game::movePlayer(char dir) {
     }
     if (!rooms[roomIndex].locked) {
       player.moveTo(roomIndex);
+      rooms[roomIndex].visited = true;
       ActionRecord::addRecord("You move " + dirString + ".");
     } else {
+      rooms[roomIndex].visited = true;
       ActionRecord::addRecord("That room is locked");
     }
   }
@@ -448,6 +451,8 @@ std::vector<std::string> Game::miniMap() {
     for (int w = 0; w < s; w++) {
       if (currentRoom == tempCounter) {
         ss << "[*]";
+      } else if (rooms[tempCounter].locked && rooms[tempCounter].visited) {
+        ss << "[#]";
       } else {
         ss << "[ ]";
       }

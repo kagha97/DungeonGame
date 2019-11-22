@@ -10,6 +10,7 @@ Room::Room(int roomId, std::string desc) {
   description = desc;
   id = roomId;
   locked = false;
+  visited = false;
 }
 
 Room::Room(std::string inParam) {
@@ -37,6 +38,7 @@ Room::Room(std::string inParam) {
       npcs.push_back(NPCS.at(std::stoi(s)));
     }
   }
+  visited = static_cast<bool>(std::stoi(params[4]));
 }
 
 

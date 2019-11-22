@@ -74,7 +74,7 @@ const std::vector<std::string> ROOMDESC = {
   "",
   "",
   "",
-  "",
+  "From the room to your south you feel a slight breeze. Could that be the way out?",
   "",
   "",
   "",

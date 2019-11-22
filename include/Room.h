@@ -110,6 +110,11 @@ class Room {
    */
   bool locked;
 
+  /**
+   * Set to true if you've attempted to enter the room
+   */
+  bool visited;
+
    /**
    * room id
    */

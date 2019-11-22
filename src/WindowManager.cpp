@@ -59,18 +59,21 @@ void WindowManager::draw(std::ostream& os, Game* game) {
 
 void WindowManager::generatePlayContents(Game* game,
     std::vector<TextBox>* contents, int width, int height) {
+  
   // Set up Minimap
   std::vector<std::string> mMap = game->miniMap();
   int mMapW = mMap[0].length();
-  int mMapX = width - mMapW - 6;
+
+  int splitx = width - mMapW - 6;
+
+  int mMapX = width - mMapW - 3;
   int mMapY = 0;
   int mMapH =  mMap.size();
   TextBox minimap(mMapX, mMapY, mMapW, mMapH);
   minimap.fillTopDown(mMap);
-
   // Set up stats + inventory
   std::vector<std::string> invList = game->player.getInventoryList();
-  int statsX = mMapX;
+  int statsX = splitx;
   int statsY = mMapY + mMapH + 1;
   int statsW = width - statsX;
   int statsH = 4 + invList.size() + 1;
@@ -90,7 +93,7 @@ void WindowManager::generatePlayContents(Game* game,
   // Set up room description
   int rDescX = 0;
   int rDescY = 0;
-  int rDescW = mMapX - 1;
+  int rDescW = splitx - 1;
   int rDescH = 4;
   int pos = game->player.getCurrentRoom();
   TextBox rDesc(rDescX, rDescY, rDescW, rDescH);
@@ -131,9 +134,9 @@ void WindowManager::generatePlayContents(Game* game,
   ar.fillBottomUp(ActionRecord::getFullRecord());
 
   // Set up border things
-  TextBox border(mMapX - 1, 0, 1, height);
+  TextBox border(splitx - 1, 0, 1, height);
   border.fillChar('|');
-  TextBox border2(0, rDescH - 1, mMapX - 1, 1);
+  TextBox border2(0, rDescH - 1, splitx - 1, 1);
   border2.fillChar('-');
 
   // Add textboxes to vector

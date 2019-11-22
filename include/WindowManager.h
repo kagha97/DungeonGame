@@ -4,9 +4,13 @@
 
 #ifndef INCLUDE_WINDOWMANAGER_H_
 #define INCLUDE_WINDOWMANAGER_H_
+#ifdef __unix__
 #include <sys/ioctl.h>
-#include <stdio.h>
 #include <unistd.h>
+#elif _WIN32
+#include <Windows.h>
+#endif
+#include <stdio.h>
 #include <iostream>
 #include <sstream>
 #include <string>
