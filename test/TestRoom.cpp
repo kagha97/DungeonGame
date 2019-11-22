@@ -18,12 +18,12 @@ TEST(Room, MakeDesc) {
 }
 
 TEST(Room, MakeInParamLock) {
-  Room r("{2,1,{NULL},{NULL}}");
+  Room r("{2,1,{NULL},{NULL}, 0}");
   EXPECT_TRUE(r.locked);
 }
 
 TEST(Room, MakeInParamItem) {
-  Room r("{2,1,{200},{NULL}}");
+  Room r("{2,1,{200},{NULL}, 0}");
   Item i = ITEMS.at(200);
   EXPECT_EQ(r.getItems()[0], i);
 }
@@ -35,7 +35,7 @@ TEST(Room, SetDesc) {
 }
 
 TEST(Room, RemAll) {
-  Room r("{2,1,{200;200;200;200;200},{NULL}}");
+  Room r("{2,1,{200;200;200;200;200},{NULL}, 0}");
   r.removeAllItems();
   EXPECT_EQ(r.getItems().size(), 0);
 }
