@@ -103,16 +103,11 @@ int main() {
 
   }
 
-  // game->draw(std::cout);
-
   while (true) {
     std::cout << game->state;
     //game->save(AUTOSAVEFILE);
     wm.draw(std::cout, game);
     game->getInput(std::cin);
-
-    //clearScreen();
-
     if(game->player.dead) {
       gameOver(game->player);
       break;
@@ -122,8 +117,6 @@ int main() {
       win(game->player);
       break;
     }
-
-    //game->draw(std::cout);
   }
   delete game;
 

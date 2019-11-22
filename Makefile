@@ -4,6 +4,8 @@ PROGRAM_GAME = DungeonGame
 
 CXX=g++
 CXXFLAGS= -std=c++11 -g -fprofile-arcs -ftest-coverage
+CMOB=clang++
+CMOBFLAGS= -std=c++11 -g
 
 LINKFLAGS= -lgtest
 
@@ -82,3 +84,6 @@ docs: $(SRC_INCLUDE)
 play: $(PROGRAM_GAME)
 	./$(PROGRAM_GAME)
 
+mobile: $(GAME_SRC_DIR) $(SRC_DIR)
+	$(CMOB) $(CMOBFLAGS) -o $(PROGRAM_GAME) $(INCLUDE) \
+	$(GAME_SRC_DIR)/*.cpp $(SRC_DIR)/*.cpp

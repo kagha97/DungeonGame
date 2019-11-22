@@ -267,7 +267,6 @@ std::vector<std::string> WindowManager::getOptionsVector(Game* game,
 
   return outVec;
 }
-
 std::vector<std::string> WindowManager::getNpcOrItemVector(Game* game) {
   std::vector<std::string> outVec;
   switch (game->state) {
@@ -299,8 +298,8 @@ std::vector<std::string> WindowManager::getNpcOrItemVector(Game* game) {
     }
     break;
   }
-  return outVec;
   }
+  return outVec;
 }
 
 WindowManager::~WindowManager() {
