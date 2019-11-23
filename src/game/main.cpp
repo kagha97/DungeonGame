@@ -99,7 +99,6 @@ int main() {
   }
 
   while (true) {
-    std::cout << game->state;
     //game->save(AUTOSAVEFILE);
     wm.draw(std::cout, game);
     game->getInput(std::cin);
