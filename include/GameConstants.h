@@ -94,13 +94,17 @@ const std::vector<std::string> ROOMDESC = {
   ""
 };
 
+//  Vector with locked room ids
+const std::vector<int> LOCKEDROOMS = {5,9,12,20,24};
+
 // Map containing game items with ID
 const std::map<int, Item> ITEMS = {
   // Keys
-  {100, Item("Rusty Key", "I wonder if this will unlock a door.", Key, 5)},
+  {100, Item("Rusty Key", "I wonder if this will unlock a door.", Key, 12)},
   {101, Item("Iron Key", "I should try eating this.", Key, 24)},
   {102, Item("Shiny Key", "I wonder if this will unlock a door.", Key, 20)},
-  {103, Item("Gold Key", "I wonder what this tastes like.", Key, 12)},
+  {103, Item("Gold Key", "I wonder what this tastes like.", Key, 9)},
+  {104, Item("Brass Key", "Unlocks a room.", Key, 5)},
 
   // Potions
   {200, Item("Red Potion", "heals health.", Potion, 15)},
@@ -118,15 +122,15 @@ const std::map<int, Item> ITEMS = {
   {301, Item("Spider", "Looks tasty.", Food, 3)},
   {302, Item("Shark Fin Pizza", "Pizza with Shark Fin", Food, 50)},
   {303, Item("Rotten Apple", "Smells gross. I should eat it.", Food, -10)},
-  {304, Item("Duck", "This is duck.", Food, 100)}
+  {304, Item("Duck", "This is duck.", Food, 100)},
+
+  //  Collectables
+  {400, Item("Gold bar", "It's a bar of gold.", Loot, 100)},
+  {401, Item("Gold necklace", "I wonder if this is valuable.", Loot, 100)},
 };
 
 // Map containing item locations
 const std::map<int, std::vector<int>> ITEMLOCATIONS = {
-  {100, {23}},
-  {101, {5}},
-  {102, {24}},
-  {103, {20}},
 
   {200, {2}},
   {201, {2}},
@@ -135,20 +139,30 @@ const std::map<int, std::vector<int>> ITEMLOCATIONS = {
   {301, {2}},
   {302, {2}},
   {303, {2}},
-  {304, {2}}
+  {304, {2}},
+
+  {401, {0,17,24}}
 };
 
 
 // Map containing NPCs with ID
 const std::map<int, NPC> NPCS = {
   {100, NPC("Wise Old Man", "A venerable sage.", 1)},
-  {200, NPC("Maggie", "A young witch.", 4)}
+  {200, NPC("Maggie", "A young witch.", 4)},
+  {300, NPC("Gertrude", "A busy housewife.", 7)},
+  {400, NPC("Fluffs", "A friendly feline?", 10)},
+  {500, NPC("Mysterious Old Man", "A very strange old man.", 12)},
+  {600, NPC{"Sherlock", "Master of all clues.", 14}}
 };
 
 // Map containing NPC locations
 const std::map<int, std::vector<int>> NPCLOCATIONS = {
   {100, {0}},
-  {200, {3}},
+  {200, {24}},
+  {300, {20}},
+  {400, {14}},
+  {500, {9}},
+  {600, {5}}
 };
 
 
@@ -166,7 +180,23 @@ const std::map <int, std::string> CHATOPTIONS = {
   {20000, "Hi."},
   {20001, "Bye."},
   {20002, "Give me a random fact."},
-  {20003, "Do you have anything for me?"}
+  {20003, "Do you have anything for me?"},
+
+  // Gertrude
+  {30000, "Hello."},
+  {30001, "You don't look so happy."},
+
+  // Fluffs
+  {40000, "Hello kitty."},
+
+  // Mystrious Old Man
+  {50000, "Hello."},
+
+  //  Sherlock
+  {60000, "Greetings."}
+
+
+
 };
 
 
@@ -205,22 +235,50 @@ const std::map <int, std::string> CHATREPLIES = {
     " go, a relief for some; At least until "
     "tomorrow morning comes. What is 2000 - 3?"
   },
+
+    //  Gertrude
+  {30000, "Good day."},
+  {30001, "I've lost my beloved cat, can you help me find her please?"},
+  {30002, "Thank you! Her name is Fluffs and she ran off to one of the rooms in the dungeon. Would you be a dear and tell me the number of the room she is in? Hint: You are in room 21."},
+
+  //  Fluffs
+  {40000, "Meow."},
+
+  //  Mysterious Old Man
+  {50000, "Hey, would you like to solve this riddle for me? I'll reward you with a key to one of the rooms."},
+  {50001, "People buy me to eat, but never eat me. What am I?"},
+  {50002, "Your loss."},
+
+      //  Sherlock
+  {60000, "I've got a puzzle, if you solve it I'll reward you."},
+  {60001, "3 rooms in this dungeon contain Gold necklaces, what is the sum of the room numbers of these rooms?"},
+  {60002, "Come back to me if you want to try again."}
+
 };
 
-
+//  Riddle chat id, and riddle answer (RANS) id
 const std::map <int, int> RIDDLEANSWERS = {
   {3, 1},
   {6, 2},
+  {9, 3},
+  {13, 4},
+  {16, 5}
 };
 
 const std::map <int, std::string> RANS = {
   {1, "20"},
-  {2, "1997"}
+  {2, "1997"},
+  {3, "15"},
+  {4, "plate"},
+  {5, "42"}
 };
 
 const std::map <int, std::vector<int>> REWARDS = {
-  {3, {100, 200}},
-  {6, {101, 200}},
+  {3, {101, 200}},
+  {6, {102, 200}},
+  {9, {103, 400}},
+  {13, {104}},
+  {16, {100}}
 };
 
 const std::map <int, std::map <int, ChatOption>> chats = {
@@ -266,7 +324,7 @@ const std::map <int, std::map <int, ChatOption>> chats = {
       },
       {
         2,
-        ChatOption(CHATOPTIONS.at(20001), CHATREPLIES.at(20001), Chat, 4)
+        ChatOption(CHATOPTIONS.at(20001), CHATREPLIES.at(20001), Chat, 0)
       },
       {
         3,
@@ -295,7 +353,97 @@ const std::map <int, std::map <int, ChatOption>> chats = {
         ChatOption(CHATOPTIONS.at(10004), CHATREPLIES.at(10004), Chat, 4)
       }
     }
+  },
+  //Gertrude chat
+   {
+    7, {{
+        1,
+        ChatOption(CHATOPTIONS.at(30000), CHATREPLIES.at(30000), Chat, 7)
+      },
+      {
+        2,
+        ChatOption(CHATOPTIONS.at(30001), CHATREPLIES.at(30001), Chat, 8)
+      },
+    }
+  },
+   {
+    8, {{
+        1,
+        ChatOption(CHATOPTIONS.at(10003), CHATREPLIES.at(30002), Riddle, 9)
+      },
+      {
+        2,
+        ChatOption(CHATOPTIONS.at(10005), CHATREPLIES.at(30001), Chat, 0)
+      },
+    }
+  },
+   {
+    9, {{
+        1,
+        ChatOption(CHATOPTIONS.at(10004), CHATREPLIES.at(10004), Chat, 7)
+      }
+    }
+  },
+   {
+    10, {{
+        1,
+        ChatOption(CHATOPTIONS.at(40000), CHATREPLIES.at(40000), Chat, 10)
+      }
+    }
+  },
+  //  Mysterious Old Man
+  {
+    11, {{
+        1,
+        ChatOption(CHATOPTIONS.at(50000), CHATREPLIES.at(50000), Chat, 12)
+      }
+    }
+  },
+  {
+    12, {{
+        1,
+        ChatOption(CHATOPTIONS.at(10003), CHATREPLIES.at(50001), Riddle, 13)
+      },
+      {
+        2,
+        ChatOption(CHATOPTIONS.at(10005), CHATREPLIES.at(50002), Chat, 11)
+      },
+    }
+  },
+  {
+    13, {{
+        1,
+        ChatOption(CHATOPTIONS.at(10004), CHATREPLIES.at(10004), Chat, 11)
+      }
+    }
+  },
+    //  Sherlock
+  {
+    14, {{
+        1,
+        ChatOption(CHATOPTIONS.at(60000), CHATREPLIES.at(60000), Chat, 15)
+      }
+    }
+  },
+  {
+    15, {{
+        1,
+        ChatOption(CHATOPTIONS.at(10003), CHATREPLIES.at(60001), Riddle, 16)
+      },
+      {
+        2,
+        ChatOption(CHATOPTIONS.at(10005), CHATREPLIES.at(60002), Chat, 14)
+      },
+    }
+  },
+  {
+    16, {{
+        1,
+        ChatOption(CHATOPTIONS.at(10004), CHATREPLIES.at(10004), Chat, 14)
+      }
+    }
   }
+
 };
 
 #endif  // INCLUDE_GAMECONSTANTS_H_

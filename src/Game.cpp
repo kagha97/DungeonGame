@@ -120,12 +120,22 @@ Game::Game(int roomCount) {
         rooms[i].addItem(ITEMS.at(x.first));
       }
     }
-    if (ITEMS.find(x.first)->second.type == Key) {
+    /*if (ITEMS.find(x.first)->second.type == Key) {
       // If the item is a key, lock the room corresponding to its value
       int roomIndex = ITEMS.find(x.first)->second.value;
+      std::cout << "locked: " << roomIndex << std::endl;
       if (roomIndex < rooms.size()) {
         rooms[roomIndex].locked = true;
       }
+    } */
+  }
+
+  //  lock rooms
+  for (int id : LOCKEDROOMS) {
+    for (int i = 0; i < rooms.size(); i++) {
+        if (id == i) {
+            rooms[id].locked = true;
+        }
     }
   }
 
@@ -477,12 +487,21 @@ std::vector<std::string> Game::getNpcOptions(int id, int width) {
   std::vector<std::string> outVec;
 
 
-  std::cout << "current chat: " << currentChat << " Next chat: " << nextChat<<
-            ". Entered id: " << id << ". State is: " << state << std::endl;
+  //std::cout << "current chat: " << currentChat << " Next chat: " << nextChat<<
+         //   ". Entered id: " << id << ". State is: " << state << std::endl;
 
   if (id == 0) {
     state = Play;
   } else {
+
+  //input validation
+   /* if (id <= rooms[currentRoom].getNPCS()[id - 1].chatid) {
+        std::cout << "no" << std::endl;
+    }
+    else if (id > id <= rooms[currentRoom].getNPCS()[id - 1].chatid){
+        std::cout << "yes" << std::endl;
+    } */
+
     int counter = 0;
     std::string npc = rooms[currentRoom].getNPCS()[currentChatNpc - 1].name;
     outVec.push_back("You are speaking with: " + npc);
@@ -516,6 +535,7 @@ std::vector<std::string> Game::getNpcOptions(int id, int width) {
       break;
 
       case Chat: {
+
         int tStart = 0;
         int tLen = width;
         std::string reply = npc +
@@ -526,12 +546,21 @@ std::vector<std::string> Game::getNpcOptions(int id, int width) {
         }
         outVec.push_back(reply.substr(tStart, reply.length() - tStart));
         int nchat = chats.at(currentChat).at(id).nextChatId;
+
+        //end chat
+        if (nchat == 0) {
+            state = Play;
+            outVec.push_back("Press any key to continue...");
+        }
+        else {
         currentChat = nchat;
 
         for (auto const& x : chats.at(currentChat)) {
           counter++;
           outVec.push_back(std::to_string(counter) + ". " + x.second.title);
         }
+        }
+
       }
       }
       break;
