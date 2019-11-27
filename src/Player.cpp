@@ -114,7 +114,7 @@ bool Player::consumeItem(int i) {
   case Food:
     inventory.erase(inventory.begin() + i);
     if (hunger - it.value >= 0) {
-      hunger -= inventory[i].value;
+      hunger = hunger - inventory[i].value;
       ActionRecord::addRecord("You eat the " + it.name +
                               ". It reduces your hunger by " + valStr + ".");
     } else {
@@ -154,6 +154,12 @@ bool Player::consumeItem(int i) {
     dead = true;
     return false;
   case Key:
+    ActionRecord::addRecord("You attempt to eat the " + it.name +
+                            ". You choke and die.");
+    dead = true;
+    return false;
+
+  case Loot:
     ActionRecord::addRecord("You attempt to eat the " + it.name +
                             ". You choke and die.");
     dead = true;
