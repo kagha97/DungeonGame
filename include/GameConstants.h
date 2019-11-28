@@ -65,16 +65,17 @@ const char FILEEXT[] = ".fafnir";
 const std::vector<std::string> ROOMDESC = {
   "You are at the dungeon's entrance. The exit has been closed behind you.",
   "This room is completely blank and devoid of detail. "
-  " only things you can see are the doors along its walls.",
+  "The only things you can see are the doors along its walls.",
   "As you look around the room you see that the "
   "walls are painted with pictures of ducks. "
-  "You feel a strange urge to tell the walls all of your"
+  "You feel a strange urge to tell the walls all of your "
   "problems, but you manage to restrain yourself.",
   "",
   "",
   "",
   "",
-  "From the room to your south you feel a slight breeze. Could that be the way out?",
+  "From the room to your south you feel a slight breeze. "
+  "Could that be the way out?",
   "",
   "",
   "",
@@ -110,14 +111,14 @@ const std::map<int, Item> ITEMS = {
   {200, Item("Red Potion", "heals health.", Potion, 15)},
   {
     201, Item("Suspicious Potion",
-              "hmm I should try drinking this.", Potion, -10)
+    "hmm I should try drinking this.", Potion, -10)
   },
 
   // Food
   {
     300, Item("Burger",
-              "A yummy burger I just found in a dungeon."
-              "Sounds good.", Food, 25)
+    "A yummy burger I just found in a dungeon."
+    "Sounds good.", Food, 25)
   },
   {301, Item("Spider", "Looks tasty.", Food, 3)},
   {302, Item("Shark Fin Pizza", "Pizza with Shark Fin", Food, 50)},
@@ -203,10 +204,14 @@ const std::map <int, std::string> CHATOPTIONS = {
 const std::map <int, std::string> CHATREPLIES = {
   // wise old man//
   {10000, "I am good, thank you for asking."},
-  {10001, "It's a dungeon full of rooms, you must find keys "
-  "to unlock these rooms. One of the rooms contains the exit. Good luck!"},
-  {10002, "If you solve this riddle for me, "
-  "I will give you a key to one of the rooms."},
+  {
+    10001, "It's a dungeon full of rooms, you must find keys "
+    "to unlock these rooms. One of the rooms contains the exit. Good luck!"
+  },
+  {
+    10002, "If you solve this riddle for me, "
+    "I will give you a key to one of the rooms."
+  },
   // riddle
   {10003, "What is 10 + 10?"},
   {10004, "Coward."},
@@ -214,10 +219,14 @@ const std::map <int, std::string> CHATREPLIES = {
   // Maggie
   {20000, "Hello, what can I do for you, this fine day, cha?"},
   {20001, "Goodbye, and good luck!"},
-  {20002, "Banging your head against a wall for "
-  "one hour burns 150 calories, Don'tcha know."},
-  {20003, "If you solve this riddle for me cha, "
-  "I will give a key to one of the rooms."},
+  {
+    20002, "Banging your head against a wall for "
+    "one hour burns 150 calories, Don'tcha know."
+  },
+  {
+    20003, "If you solve this riddle for me cha, "
+    "I will give a key to one of the rooms."
+  },
   {20004, "Aww."},
   {
     20005, "I am the part of the bird that is not in the sky, "
@@ -236,7 +245,7 @@ const std::map <int, std::string> CHATREPLIES = {
     "tomorrow morning comes. What is 2000 - 3?"
   },
 
-    //  Gertrude
+  //  Gertrude
   {30000, "Good day."},
   {30001, "I've lost my beloved cat, can you help me find her please?"},
   {30002, "Thank you! Her name is Fluffs and she ran off to one of the rooms in the dungeon. Would you be a dear and tell me the number of the room she is in? Hint: You are in room 21."},
@@ -249,7 +258,7 @@ const std::map <int, std::string> CHATREPLIES = {
   {50001, "People buy me to eat, but never eat me. What am I?"},
   {50002, "Your loss."},
 
-      //  Sherlock
+  //  Sherlock
   {60000, "I've got a puzzle, if you solve it I'll reward you."},
   {60001, "3 rooms in this dungeon contain Gold necklaces, what is the sum of the room numbers of these rooms?"},
   {60002, "Come back to me if you want to try again."}
@@ -355,7 +364,7 @@ const std::map <int, std::map <int, ChatOption>> chats = {
     }
   },
   //Gertrude chat
-   {
+  {
     7, {{
         1,
         ChatOption(CHATOPTIONS.at(30000), CHATREPLIES.at(30000), Chat, 7)
@@ -366,7 +375,7 @@ const std::map <int, std::map <int, ChatOption>> chats = {
       },
     }
   },
-   {
+  {
     8, {{
         1,
         ChatOption(CHATOPTIONS.at(10003), CHATREPLIES.at(30002), Riddle, 9)
@@ -377,14 +386,14 @@ const std::map <int, std::map <int, ChatOption>> chats = {
       },
     }
   },
-   {
+  {
     9, {{
         1,
         ChatOption(CHATOPTIONS.at(10004), CHATREPLIES.at(10004), Chat, 7)
       }
     }
   },
-   {
+  {
     10, {{
         1,
         ChatOption(CHATOPTIONS.at(40000), CHATREPLIES.at(40000), Chat, 10)
@@ -417,7 +426,7 @@ const std::map <int, std::map <int, ChatOption>> chats = {
       }
     }
   },
-    //  Sherlock
+  //  Sherlock
   {
     14, {{
         1,

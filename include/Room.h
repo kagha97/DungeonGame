@@ -15,99 +15,99 @@
 
 class Room {
  public:
-    /**
-   * Room with id
-   * @param roomID Id of room.
-   */
+  /**
+  * Room with id
+  * @param roomID Id of room.
+  */
   explicit Room(int roomId);
 
-   /**
-   * Room with id and desc
-   * @param id of room
-   * @param room description
-   */
+  /**
+  * Room with id and desc
+  * @param id of room
+  * @param room description
+  */
 
   explicit Room(int roomId, std::string desc);
 
-   /**
-   * Room from save file data
-   * @param inParam info from save file
-   */
+  /**
+  * Room from save file data
+  * @param inParam info from save file
+  */
   explicit Room(std::string inParam);
 
-   /**
-   * Room details
-   * @return room details
-   */
+  /**
+  * Room details
+  * @return room details
+  */
   std::string getDescription();
 
- /**
-   * Room description
-   * @return description of room
-   */
+  /**
+    * Room description
+    * @return description of room
+    */
   std::string getDescriptionOnly();
 
- /**
-   * Items in room
-   * @return list of items in room
-   */
+  /**
+    * Items in room
+    * @return list of items in room
+    */
   std::vector<std::string> getItemList();
 
-   /**
-   * NPCs in room
-   * @return list of npcs in room
-   */
+  /**
+  * NPCs in room
+  * @return list of npcs in room
+  */
   std::vector<std::string> getNPCList();
 
-   /**
-   * Set description of room
-   * @param desc Description
-   */
+  /**
+  * Set description of room
+  * @param desc Description
+  */
   void setDescription(std::string desc);
 
-   /**
-   * Add npc to room
-   * @param npc NPC to add
-   */
+  /**
+  * Add npc to room
+  * @param npc NPC to add
+  */
   void addNPC(NPC npc);
 
- /**
-   * Add item to room
-   * @param item Item to add
-   */
+  /**
+    * Add item to room
+    * @param item Item to add
+    */
   void addItem(Item item);
 
-   /**
-   * Items in room
-   * @return items in room
-   */
+  /**
+  * Items in room
+  * @return items in room
+  */
   std::vector<Item> getItems();
 
-   /**
-   * NPCs in room
-   * @return npcs in room
-   */
+  /**
+  * NPCs in room
+  * @return npcs in room
+  */
   std::vector<NPC> getNPCS();
 
-   /**
-   * List of npcs in room
-   * @param List of npcs in room
-   */
+  /**
+  * List of npcs in room
+  * @param List of npcs in room
+  */
   std::string showNPCS();
 
-   /**
-   * Remove all items from room
-   */
+  /**
+  * Remove all items from room
+  */
   void removeAllItems();
 
-   /**
-   * Try key
-   * @return true of correct key
-   */
+  /**
+  * Try key
+  * @return true of correct key
+  */
   bool tryKey(Item i);
-   /**
-   * room lock status
-   */
+  /**
+  * room lock status
+  */
   bool locked;
 
   /**
@@ -115,35 +115,35 @@ class Room {
    */
   bool visited;
 
-   /**
-   * room id
-   */
+  /**
+  * room id
+  */
   int getId();
 
-   /**
-   * Room deconstructor
-   */
+  /**
+  * Room deconstructor
+  */
   virtual ~Room();
 
  private:
-    /**
-   * items in room
-   */
+  /**
+  * items in room
+  */
   std::vector<Item> items;
 
-   /**
-   * NPCs in room
-   */
+  /**
+  * NPCs in room
+  */
   std::vector<NPC> npcs;
 
-   /**
-   * Room description
-   */
+  /**
+  * Room description
+  */
   std::string description;
 
-   /**
-   * room id
-   */
+  /**
+  * room id
+  */
   int id;
 };
 

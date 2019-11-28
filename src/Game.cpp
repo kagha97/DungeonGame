@@ -134,9 +134,9 @@ Game::Game(int roomCount) {
   //  lock rooms
   for (int id : LOCKEDROOMS) {
     for (int i = 0; i < rooms.size(); i++) {
-        if (id == i) {
-            rooms[id].locked = true;
-        }
+      if (id == i) {
+        rooms[id].locked = true;
+      }
     }
   }
 
@@ -493,19 +493,19 @@ std::vector<std::string> Game::getNpcOptions(int id, int width) {
 
 
   //std::cout << "current chat: " << currentChat << " Next chat: " << nextChat<<
-         //   ". Entered id: " << id << ". State is: " << state << std::endl;
+  //   ". Entered id: " << id << ". State is: " << state << std::endl;
 
   if (id == 0) {
     state = Play;
   } else {
 
-  //input validation
-   /* if (id <= rooms[currentRoom].getNPCS()[id - 1].chatid) {
-        std::cout << "no" << std::endl;
-    }
-    else if (id > id <= rooms[currentRoom].getNPCS()[id - 1].chatid){
-        std::cout << "yes" << std::endl;
-    } */
+    //input validation
+    /* if (id <= rooms[currentRoom].getNPCS()[id - 1].chatid) {
+         std::cout << "no" << std::endl;
+     }
+     else if (id > id <= rooms[currentRoom].getNPCS()[id - 1].chatid){
+         std::cout << "yes" << std::endl;
+     } */
 
     int counter = 0;
     std::string npc = rooms[currentRoom].getNPCS()[currentChatNpc - 1].name;
@@ -554,16 +554,15 @@ std::vector<std::string> Game::getNpcOptions(int id, int width) {
 
         //end chat
         if (nchat == 0) {
-            state = Play;
-            outVec.push_back("Press any key to continue...");
-        }
-        else {
-        currentChat = nchat;
+          state = Play;
+          outVec.push_back("Press any key to continue...");
+        } else {
+          currentChat = nchat;
 
-        for (auto const& x : chats.at(currentChat)) {
-          counter++;
-          outVec.push_back(std::to_string(counter) + ". " + x.second.title);
-        }
+          for (auto const& x : chats.at(currentChat)) {
+            counter++;
+            outVec.push_back(std::to_string(counter) + ". " + x.second.title);
+          }
         }
 
       }

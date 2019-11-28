@@ -21,103 +21,103 @@
 
 class Game {
  public:
-    /**
-   * A new game object
-   * @param roomCount Number of rooms in game.
-   * @throw room_count_not_square_error if \a roomCount is not square.
-   * @throw room_count_too_large_error if \a roomCount is > 25.
-   */
+  /**
+  * A new game object
+  * @param roomCount Number of rooms in game.
+  * @throw room_count_not_square_error if \a roomCount is not square.
+  * @throw room_count_too_large_error if \a roomCount is > 25.
+  */
   explicit Game(int roomCount);
 
-   /**
-   * Game object with loaded data
-   * @param filePath The path to save file.
-   * @exception
-   */
+  /**
+  * Game object with loaded data
+  * @param filePath The path to save file.
+  * @exception
+  */
   explicit Game(std::string filePath);
 
-   /**
-   * Saves game
-   * @param filePath Path to save game.
-   */
+  /**
+  * Saves game
+  * @param filePath Path to save game.
+  */
   void save(std::string filePath);
 
- /**
-   * Get input from user
-   * @param inStr input stream from user.
-   */
+  /**
+    * Get input from user
+    * @param inStr input stream from user.
+    */
   void getInput(std::istream& inStr);
 
-   /**
-   * Displays ascii from textfile
-   * @param loc Path to ascii file
-   */
+  /**
+  * Displays ascii from textfile
+  * @param loc Path to ascii file
+  */
   void show_ascii(std::string loc);
 
-   /**
-   * Checks if riddle answer from user is correct
-   * @param inp User input.
-   */
+  /**
+  * Checks if riddle answer from user is correct
+  * @param inp User input.
+  */
   void solveRiddle(std::string inp);
 
-   /**
-   * Player object
-   */
+  /**
+  * Player object
+  */
   Player player;
 
-   /**
-   * Room description
-   * @param r Index of room.
-   * @return Room description
-   */
+  /**
+  * Room description
+  * @param r Index of room.
+  * @return Room description
+  */
   std::string getRoomDescription(int r);
 
- /**
-   * Examines npc
-   * @param id Npc id
-   * @return npc examine
-   */
+  /**
+    * Examines npc
+    * @param id Npc id
+    * @return npc examine
+    */
   std::string examineNPC(int id);
 
-   /**
-   * Game state
-   */
+  /**
+  * Game state
+  */
   State state;
 
- /**
-   * Deconstructor for game
-   */
+  /**
+    * Deconstructor for game
+    */
   virtual ~Game();
 
- /**
-   * The minimap in game
-   * @return the minimap
-   */
+  /**
+    * The minimap in game
+    * @return the minimap
+    */
   std::vector<std::string> miniMap();
 
-   /**
-   * List of all items in room
-   * @return list of all items in room
-   */
+  /**
+  * List of all items in room
+  * @return list of all items in room
+  */
   std::vector<std::string> getRoomItemNames();
 
- /**
-   * Get the chat options of npc
-   * @param id The id of chat in map
-   * @param Used to make sure text that is displayed is not too wide, and is wrapped
-   * @return list of chat options
-   */
+  /**
+    * Get the chat options of npc
+    * @param id The id of chat in map
+    * @param Used to make sure text that is displayed is not too wide, and is wrapped
+    * @return list of chat options
+    */
   std::vector<std::string> getNpcOptions(int id, int width);
 
-   /**
-   * List of NPC's in room
-   * @return list of NPC's in room
-   */
+  /**
+  * List of NPC's in room
+  * @return list of NPC's in room
+  */
   std::vector<std::string> getRoomNPCNames();
 
-   /**
-   * Id of current chat
-   */
+  /**
+  * Id of current chat
+  */
   int currentChat;
 
   /**
@@ -126,9 +126,9 @@ class Game {
   int nextChat;
 
  private:
-   /**
-   * Current npc player is speaking to
-   */
+  /**
+  * Current npc player is speaking to
+  */
   int currentChatNpc;
 
   /**

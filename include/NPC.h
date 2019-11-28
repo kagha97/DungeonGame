@@ -52,9 +52,9 @@ class NPC {
   std::string name;
 
  private:
-   /**
-   * Not implemented
-   */
+  /**
+  * Not implemented
+  */
   int health = 100;
 };
 

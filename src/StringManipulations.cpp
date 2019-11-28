@@ -20,7 +20,7 @@ std::vector<std::string> StringManipulations::Split(std::string inStr,
 }
 
 bool StringManipulations::hasEnding(std::string const &fullString,
-                                     std::string const &ending) {
+                                    std::string const &ending) {
   if (fullString.length() >= ending.length()) {
     return (0 == fullString.compare (fullString.length() - ending.length(),
                                      ending.length(), ending));

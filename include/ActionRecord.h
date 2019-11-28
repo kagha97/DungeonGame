@@ -13,10 +13,10 @@
 
 class ActionRecord {
  public:
-   /**
-   * Adds record to output in game
-   * @param text The string to output.
-   */
+  /**
+  * Adds record to output in game
+  * @param text The string to output.
+  */
   static void addRecord(std::string text);
 
   /**
@@ -32,9 +32,9 @@ class ActionRecord {
   static std::string getLatest();
 
  private:
-   /**
-   * All of the records
-   */
+  /**
+  * All of the records
+  */
   static std::vector<std::string> record;
 };
 

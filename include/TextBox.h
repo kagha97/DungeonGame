@@ -10,45 +10,45 @@
 
 class TextBox {
  public:
-    /**
-   * Textbox
-   * @param x position of tb
-   * @param y positon
-   * @param w width
-   * @param h height
-   */
+  /**
+  * Textbox
+  * @param x position of tb
+  * @param y positon
+  * @param w width
+  * @param h height
+  */
   TextBox(int x, int y, int w, int h);
 
-   /**
-   * Deconstructor
-   */
+  /**
+  * Deconstructor
+  */
   virtual ~TextBox();
 
-   /**
-   * position x
-   */
+  /**
+  * position x
+  */
   int posX;
 
-   /**
-   * position y
-   */
+  /**
+  * position y
+  */
   int posY;
 
-   /**
-   * width
-   */
+  /**
+  * width
+  */
   int width;
 
-   /**
-   * height
-   */
+  /**
+  * height
+  */
   int height;
 
-   /**
-   * text at postion
-   * @param x of text
-   * @param y of text
-   */
+  /**
+  * text at postion
+  * @param x of text
+  * @param y of text
+  */
   char getAt(int x, int y);
 
   void fillChar(char c);

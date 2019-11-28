@@ -10,13 +10,13 @@
 
 class ChatOption {
  public:
-    /**
-   * A chat option
-   * @param titl The option.
-   * @param rep The reply to that option.
-   * @param tp The chat type, riddle or regular chat.
-   * @param id The id of the next chat option, reply to this option.
-   */
+  /**
+  * A chat option
+  * @param titl The option.
+  * @param rep The reply to that option.
+  * @param tp The chat type, riddle or regular chat.
+  * @param id The id of the next chat option, reply to this option.
+  */
   ChatOption(std::string titl, std::string rep, ChatType tp, int id);
 
   /**

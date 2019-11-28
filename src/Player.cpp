@@ -17,8 +17,8 @@ Player::Player(std::string inParam) {
   inParam.erase(std::remove(inParam.begin(),
                             inParam.end(), '}'), inParam.end());
   std::vector<std::string> params =
-                  StringManipulations::Split(inParam,
-                                        ATTRIBDELIM);
+    StringManipulations::Split(inParam,
+                               ATTRIBDELIM);
   health = std::stoi(params[0]);
   hunger = std::stoi(params[1]);
   currentRoom = std::stoi(params[2]);
@@ -139,7 +139,7 @@ bool Player::consumeItem(int i) {
     } else {
       health = MAXHEALTH;
       ActionRecord::addRecord("You drink the "
-                               + it.name + ". You are fully healed.");
+                              + it.name + ". You are fully healed.");
     }
 
     return true;

@@ -9,9 +9,9 @@
 
 class Item {
  public:
-   /**
-   * Type of item enum
-   */
+  /**
+  * Type of item enum
+  */
   ItemType type;
 
   /**
