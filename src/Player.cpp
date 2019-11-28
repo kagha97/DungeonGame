@@ -201,7 +201,7 @@ bool Player::dropItem(int it, Room *room) {
 }
 
 std::string Player::examineItem(int it) {
-  if (itemInInventory(it)) {
+  if (inventory.size() > it && it >= 0) {
       ActionRecord::addRecord(inventory[it].examine);
   return inventory[it].examine;
   }
