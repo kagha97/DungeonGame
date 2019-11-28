@@ -492,14 +492,13 @@ std::vector<std::string> Game::getNpcOptions(int id, int width) {
   std::vector<std::string> outVec;
 
 
-  //std::cout << "current chat: " << currentChat << " Next chat: " << nextChat<<
+  // std::cout << "current chat: " << currentChat << " Next chat: " << nextChat<<
   //   ". Entered id: " << id << ". State is: " << state << std::endl;
 
   if (id == 0) {
     state = Play;
   } else {
-
-    //input validation
+    // input validation
     /* if (id <= rooms[currentRoom].getNPCS()[id - 1].chatid) {
          std::cout << "no" << std::endl;
      }
@@ -540,7 +539,6 @@ std::vector<std::string> Game::getNpcOptions(int id, int width) {
       break;
 
       case Chat: {
-
         int tStart = 0;
         int tLen = width;
         std::string reply = npc +
@@ -551,8 +549,7 @@ std::vector<std::string> Game::getNpcOptions(int id, int width) {
         }
         outVec.push_back(reply.substr(tStart, reply.length() - tStart));
         int nchat = chats.at(currentChat).at(id).nextChatId;
-
-        //end chat
+        // end chat
         if (nchat == 0) {
           state = Play;
           outVec.push_back("Press any key to continue...");
@@ -564,7 +561,6 @@ std::vector<std::string> Game::getNpcOptions(int id, int width) {
             outVec.push_back(std::to_string(counter) + ". " + x.second.title);
           }
         }
-
       }
       }
       break;
@@ -572,7 +568,6 @@ std::vector<std::string> Game::getNpcOptions(int id, int width) {
   }
   return outVec;
 }
-
 
 Game::~Game() {
 }

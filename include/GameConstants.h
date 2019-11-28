@@ -96,7 +96,7 @@ const std::vector<std::string> ROOMDESC = {
 };
 
 //  Vector with locked room ids
-const std::vector<int> LOCKEDROOMS = {5,9,12,20,24};
+const std::vector<int> LOCKEDROOMS = {5, 9, 12, 20, 24};
 
 // Map containing game items with ID
 const std::map<int, Item> ITEMS = {
@@ -132,16 +132,13 @@ const std::map<int, Item> ITEMS = {
 
 // Map containing item locations
 const std::map<int, std::vector<int>> ITEMLOCATIONS = {
-
   {200, {2}},
   {201, {2}},
-
   {300, {2}},
   {301, {2}},
   {302, {2}},
   {303, {2}},
   {304, {2}},
-
   {401, {0,17,24}}
 };
 
@@ -196,13 +193,11 @@ const std::map <int, std::string> CHATOPTIONS = {
   //  Sherlock
   {60000, "Greetings."}
 
-
-
 };
 
 
 const std::map <int, std::string> CHATREPLIES = {
-  // wise old man//
+  // wise old man //
   {10000, "I am good, thank you for asking."},
   {
     10001, "It's a dungeon full of rooms, you must find keys "
@@ -248,21 +243,24 @@ const std::map <int, std::string> CHATREPLIES = {
   //  Gertrude
   {30000, "Good day."},
   {30001, "I've lost my beloved cat, can you help me find her please?"},
-  {30002, "Thank you! Her name is Fluffs and she ran off to one of the rooms in the dungeon. Would you be a dear and tell me the number of the room she is in? Hint: You are in room 21."},
+  {30002, "Thank you! Her name is Fluffs and she ran off to one of the rooms "
+  "in the dungeon. Would you be a dear and tell me the number of the room she "
+  " is in? Hint: You are in room 21."},
 
   //  Fluffs
   {40000, "Meow."},
 
   //  Mysterious Old Man
-  {50000, "Hey, would you like to solve this riddle for me? I'll reward you with a key to one of the rooms."},
+  {50000, "Hey, would you like to solve this riddle for me? I'll reward you"
+  " with a key to one of the rooms."},
   {50001, "People buy me to eat, but never eat me. What am I?"},
   {50002, "Your loss."},
 
   //  Sherlock
   {60000, "I've got a puzzle, if you solve it I'll reward you."},
-  {60001, "3 rooms in this dungeon contain Gold necklaces, what is the sum of the room numbers of these rooms?"},
+  {60001, "3 rooms in this dungeon contain Gold necklaces, what is the sum"
+  " of the room numbers of these rooms?"},
   {60002, "Come back to me if you want to try again."}
-
 };
 
 //  Riddle chat id, and riddle answer (RANS) id
