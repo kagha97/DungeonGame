@@ -491,8 +491,8 @@ std::vector<std::string> Game::getNpcOptions(int id, int width) {
 
   std::vector<std::string> outVec;
 
-
-  // std::cout << "current chat: " << currentChat << " Next chat: " << nextChat<<
+  // std::cout << "current chat: " << currentChat <<
+  //  " Next chat: " << nextChat<<
   //   ". Entered id: " << id << ". State is: " << state << std::endl;
 
   if (id == 0) {

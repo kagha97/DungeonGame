@@ -42,7 +42,7 @@ void WindowManager::draw(std::ostream& os, Game* game) {
   for (TextBox t : contents) {
     for (int y = 0; y < t.height; y++) {
       for (int x = 0; x < t.width; x++) {
-        if(y + t.posY < height && x + t.posX < width) {
+        if (y + t.posY < height && x + t.posX < width) {
           output[y + t.posY][x + t.posX] = t.getAt(x, y);
         }
       }
@@ -57,9 +57,9 @@ void WindowManager::draw(std::ostream& os, Game* game) {
   os << "Enter Option: ";
 }
 
+// Style gods demand stupid things. But the green checkmark in GitLab is all th
 void WindowManager::generatePlayContents(Game* game,
     std::vector<TextBox>* contents, int width, int height) {
-  
   // Set up Minimap
   std::vector<std::string> mMap = game->miniMap();
   int mMapW = mMap[0].length();

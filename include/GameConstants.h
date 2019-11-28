@@ -139,9 +139,8 @@ const std::map<int, std::vector<int>> ITEMLOCATIONS = {
   {302, {2}},
   {303, {2}},
   {304, {2}},
-  {401, {0,17,24}}
+  {401, {0, 17, 24}}
 };
-
 
 // Map containing NPCs with ID
 const std::map<int, NPC> NPCS = {
@@ -190,14 +189,12 @@ const std::map <int, std::string> CHATOPTIONS = {
   // Mystrious Old Man
   {50000, "Hello."},
 
-  //  Sherlock
+  // Sherlock
   {60000, "Greetings."}
-
 };
 
-
 const std::map <int, std::string> CHATREPLIES = {
-  // wise old man //
+  // wise old man
   {10000, "I am good, thank you for asking."},
   {
     10001, "It's a dungeon full of rooms, you must find keys "
@@ -240,7 +237,7 @@ const std::map <int, std::string> CHATREPLIES = {
     "tomorrow morning comes. What is 2000 - 3?"
   },
 
-  //  Gertrude
+  // Gertrude
   {30000, "Good day."},
   {30001, "I've lost my beloved cat, can you help me find her please?"},
   {30002, "Thank you! Her name is Fluffs and she ran off to one of the rooms "
@@ -361,7 +358,7 @@ const std::map <int, std::map <int, ChatOption>> chats = {
       }
     }
   },
-  //Gertrude chat
+  // Gertrude chat
   {
     7, {{
         1,
@@ -450,7 +447,6 @@ const std::map <int, std::map <int, ChatOption>> chats = {
       }
     }
   }
-
 };
 
 #endif  // INCLUDE_GAMECONSTANTS_H_
