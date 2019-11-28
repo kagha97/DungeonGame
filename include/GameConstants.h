@@ -51,7 +51,7 @@ const int HEALTHLOSS = 10;
 const int MAXRECORDS = 10;
 
 // Window Constants
-const int WINDOWWIDTH = 100;
+const int WINDOWWIDTH = 120;
 const int WINDOWHEIGHT = 35;
 
 

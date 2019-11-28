@@ -19,6 +19,8 @@ bool fileAccessible(std::string fileName) {
 }
 
 void gameOver(Player p) {
+  std::string s('\n', 100);
+  std::cout << s;
   std::cout << "YOU DIED" << std::endl;
 }
 

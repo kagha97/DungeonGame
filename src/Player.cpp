@@ -64,6 +64,10 @@ void Player::updateValues() {
                             "You need to find food or you will die!");
   }
 
+  if (hunger > MAXHUNGER) {
+    hunger = MAXHUNGER;
+  }
+
   if (health < 1) {
     dead = true;
   }
@@ -74,17 +78,23 @@ bool Player::removeItem(Item it) {
     return false;
   }
 
-  for (int i = 0; i < inventory.size(); i++) {
-    if (inventory[i] == it) {
-      return removeItem(i);
-    }
+  std::vector<Item>::iterator itr;
+  itr = std::find(inventory.begin(), inventory.end(), it);
+
+  if (itr != inventory.end()) {
+    inventory.erase(itr);
+    return true;
   }
+
   return false;
 }
 
 bool Player::removeItem(int it) {
-  inventory.erase(inventory.begin() + it);
-  return true;
+  if (inventory.size() > it && it >= 0) {
+    inventory.erase(inventory.begin() + it);
+    return true;
+  }
+  return false;
 }
 
 bool Player::consumeItem(Item it) {
@@ -100,10 +110,7 @@ bool Player::consumeItem(Item it) {
   return false;
 }
 bool Player::consumeItem(int i) {
-  if (inventory.size() < 1) {
-    return false;
-  }
-  if (i < 0) {
+  if (i < 0 || inventory.size() < i) {
     ActionRecord::addRecord("Please enter a number corresponding to the item.");
     return false;
   }
@@ -112,19 +119,33 @@ bool Player::consumeItem(int i) {
   std::string valStr = std::to_string(it.value);
   switch (it.type) {
   case Food:
-    inventory.erase(inventory.begin() + i);
-    if (hunger - it.value >= 0) {
-      hunger = hunger - inventory[i].value;
-      ActionRecord::addRecord("You eat the " + it.name +
-                              ". It reduces your hunger by " + valStr + ".");
+    // check if food value is positive or negative
+    if (it.value >= 0) {
+      if (hunger - it.value >= 0) {
+        hunger = hunger - inventory[i].value;
+        ActionRecord::addRecord("You eat the " + it.name +
+                                ". It reduces your hunger by " + valStr + ".");
+      } else {
+        hunger = 0;
+        ActionRecord::addRecord("You eat the " + it.name + ". You are full.");
+      }
     } else {
-      hunger = 0;
-      ActionRecord::addRecord("You eat the " + it.name + ". You are full.");
+      // if negative, reduce hunger but also hurt player.
+      if (hunger + it.value >= 0) {
+        hunger = hunger + inventory[i].value;
+        health = health + inventory[i].value;
+        ActionRecord::addRecord("You eat the " + it.name +
+                                ". It reduces your hunger by " + valStr +
+                                ", but it also damages you! " + valStr);
+      } else {
+        hunger = 0;
+        ActionRecord::addRecord("You eat the " + it.name + ". You are full, "
+                                + ", but it also damages you! " + valStr);
+      }
     }
+    inventory.erase(inventory.begin() + i);
     return true;
   case Potion:
-    inventory.erase(inventory.begin() + i);
-
     if (health + it.value <= MAXHEALTH) {
       health += it.value;
       if (it.value < 0) {
@@ -141,7 +162,7 @@ bool Player::consumeItem(int i) {
       ActionRecord::addRecord("You drink the "
                               + it.name + ". You are fully healed.");
     }
-
+    inventory.erase(inventory.begin() + i);
     return true;
   case Treasure:
     ActionRecord::addRecord("You attempt to eat the " + it.name +
@@ -169,9 +190,14 @@ bool Player::consumeItem(int i) {
 }
 
 bool Player::dropItem(int it, Room *room) {
-  room->addItem(inventory[it]);
-  ActionRecord::addRecord("You drop the " + inventory[it].name +".");
-  return removeItem(it);
+  if (inventory.size() > it && it >= 0) {
+    Item item = inventory[it];
+    inventory.erase(inventory.begin() + it);
+    room->addItem(item);
+    ActionRecord::addRecord("You drop the " + item.name +".");
+    return true;
+  }
+  return false;
 }
 
 std::string Player::examineItem(int it) {
@@ -216,6 +242,14 @@ std::vector<int> Player::getCompletedRiddles() {
   return completedRiddles;
 }
 
+bool Player::itemInInventory(Item it) {
+  std::vector<Item>::iterator itr;
+  itr = std::find(inventory.begin(), inventory.end(), it);
+  if (itr != inventory.end()) {
+    return true;
+  }
+  return false;
+}
 
 Player::~Player() {
 }

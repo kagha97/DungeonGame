@@ -54,6 +54,13 @@ class Player {
   bool consumeItem(int it);
 
   /**
+   * Check if item is in your inventory
+   * @param i Item to check
+   * @return Whether item is in inventory
+   */
+  bool itemInInventory(Item it);
+
+  /**
   * Remove item from inventory with object
   * @param it Item object
   * @return Whether item was removed
