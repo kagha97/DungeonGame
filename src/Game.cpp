@@ -203,9 +203,14 @@ void Game::getInput(std::istream& inStr) {
     case EXIT:
       state = Pause;
       break;
-    case NPCVIEW:
-      state = NPCList;
-      ActionRecord::addRecord("The NPCS in this room.");
+    case NPCVIEW: {
+      if (rooms[player.getCurrentRoom()].getNPCS().size() > 0) {
+        state = NPCList;
+        ActionRecord::addRecord("The NPCS in this room.");
+      } else {
+        ActionRecord::addRecord("There are no NPCS in this room.");
+      }
+    }
       break;
     default:
       ActionRecord::addRecord("Unrecognized command.");
