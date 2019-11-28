@@ -201,8 +201,11 @@ bool Player::dropItem(int it, Room *room) {
 }
 
 std::string Player::examineItem(int it) {
-  ActionRecord::addRecord(inventory[it].examine);
+  if (itemInInventory(it)) {
+      ActionRecord::addRecord(inventory[it].examine);
   return inventory[it].examine;
+  }
+  return "That item is not in your inventory.";
 }
 
 void Player::finishRiddle(int id) {
