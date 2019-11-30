@@ -105,6 +105,7 @@ int main() {
     //game->save(AUTOSAVEFILE);
     wm.draw(std::cout, game);
     game->getInput(std::cin);
+
     if(game->player.dead) {
       gameOver(game->player);
       break;
@@ -114,6 +115,7 @@ int main() {
       win(game->player);
       break;
     }
+
   }
   delete game;
 

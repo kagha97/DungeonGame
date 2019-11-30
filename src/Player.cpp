@@ -69,6 +69,7 @@ void Player::updateValues() {
   }
 
   if (health < 1) {
+    ActionRecord::addRecord("You have starved to death.");
     dead = true;
   }
 }

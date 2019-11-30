@@ -411,9 +411,9 @@ void Game::movePlayer(char dir) {
       }
     }
     if (!rooms[roomIndex].locked) {
+      ActionRecord::addRecord("You move " + dirString + ".");
       player.moveTo(roomIndex);
       rooms[roomIndex].visited = true;
-      ActionRecord::addRecord("You move " + dirString + ".");
     } else {
       rooms[roomIndex].visited = true;
       ActionRecord::addRecord("That room is locked");
