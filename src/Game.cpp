@@ -222,13 +222,25 @@ void Game::getInput(std::istream& inStr) {
     handleInputNPCMenu(inChar);
     break;
   case TalkNPC:
-    currentChatNpc = inInt;
-    currentChat = inInt;
-    state = Talk;
+    {
+      if (rooms[player.getCurrentRoom()].getNPCS().size() >= inInt) {
+        currentChatNpc = inInt;
+        currentChat = inInt;
+        state = Talk;
+      } else {
+        ActionRecord::addRecord("That is not an option.");
+      }
+    }
     break;
   case ExamineNPC:
-    state = NPCList;
-    ActionRecord::addRecord(examineNPC(inInt));
+    {
+      if (rooms[player.getCurrentRoom()].getNPCS().size() >= inInt) {
+        state = NPCList;
+        ActionRecord::addRecord(examineNPC(inInt));
+      } else {
+        ActionRecord::addRecord("That is not an option.");
+      }
+    }
     break;
   case Talk:
     nextChat = inInt;
@@ -236,7 +248,6 @@ void Game::getInput(std::istream& inStr) {
     break;
   case TalkSecond:
     nextChat = inInt;
-
     state = TalkSecond;
     break;
   case RiddleTalk:
