@@ -274,7 +274,7 @@ const std::map <int, std::string> RANS = {
   {2, "1997"},
   {3, "15"},
   {4, "plate"},
-  {5, "42"}
+  {5, "44"}
 };
 
 const std::map <int, std::vector<int>> REWARDS = {
