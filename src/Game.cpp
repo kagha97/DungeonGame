@@ -242,13 +242,29 @@ void Game::getInput(std::istream& inStr) {
       }
     }
     break;
-  case Talk:
-    nextChat = inInt;
-    state = TalkSecond;
+  case Talk: {
+    std::map <int, ChatOption> tmp = chats.at(currentChat);
+    auto it = tmp.find(inInt);
+      if (it != tmp.end()) {
+        nextChat = inInt;
+        state = TalkSecond;
+      } else {
+        ActionRecord::addRecord("That is not an option.");
+        state = Talk;
+      }
+    }
     break;
-  case TalkSecond:
-    nextChat = inInt;
-    state = TalkSecond;
+  case TalkSecond: {
+    std::map <int, ChatOption> tmp = chats.at(currentChat);
+    auto it = tmp.find(inInt);
+      if (it != tmp.end()) {
+        nextChat = inInt;
+        state = TalkSecond;
+      } else {
+        ActionRecord::addRecord("That is not an option.");
+        state = Talk;
+      }
+    }
     break;
   case RiddleTalk:
     std::cout << inString;
@@ -521,9 +537,9 @@ std::vector<std::string> Game::getNpcOptions(int id, int width) {
 
   std::vector<std::string> outVec;
 
-  // std::cout << "current chat: " << currentChat <<
-  //  " Next chat: " << nextChat<<
-  //   ". Entered id: " << id << ". State is: " << state << std::endl;
+   std::cout << "current chat: " << currentChat <<
+    " Next chat: " << nextChat<<
+     ". Entered id: " << id << ". State is: " << state << std::endl;
 
   if (id == 0) {
     state = Play;

@@ -100,12 +100,10 @@ int main() {
     }
 
   }
-
+  wm.draw(std::cout, game);
   while (true) {
-    //game->save(AUTOSAVEFILE);
-    wm.draw(std::cout, game);
     game->getInput(std::cin);
-
+    wm.draw(std::cout, game);
     if(game->player.dead) {
       gameOver(game->player);
       break;

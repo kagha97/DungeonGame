@@ -18,6 +18,7 @@
 #include "GameState.h"
 #include "ActionRecord.h"
 #include "StringManipulations.h"
+#include "ChatOption.h"
 
 class Game {
  public:
