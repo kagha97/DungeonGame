@@ -49,6 +49,30 @@ class Game {
   void getInput(std::istream& inStr);
 
   /**
+  * Handle input from user while game state is Play
+  * @param inChar input char from user.
+  */
+  void handleInputPlay(char inChar);
+
+  /**
+  * Handle input from user while game state is Inventory
+  * @param inChar input char from user.
+  */
+  void handleInputInventory(char inChar);
+
+  /**
+  * Handle input from user while game state is Pause
+  * @param inChar input char from user.
+  */
+  void handleInputPause(char inChar);
+
+  /**
+  * Handle input from user while game state is NPCMenu
+  * @param inChar input char from user.
+  */
+  void handleInputNPCMenu(char inChar);
+
+  /**
   * Displays ascii from textfile
   * @param loc Path to ascii file
   */

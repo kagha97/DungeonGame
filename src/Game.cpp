@@ -182,62 +182,11 @@ void Game::getInput(std::istream& inStr) {
   case MainMenu:
   case Play:
     // Handle inputs while playing
-    switch (inChar) {
-    case INVENTORY:
-      if (player.getInventory().size() > 0) {
-        state = Inventory;
-        ActionRecord::addRecord("You open your inventory.");
-      } else {
-        ActionRecord::addRecord("Your inventory is empty.");
-      }
-      break;
-    case UP:
-    case DOWN:
-    case LEFT:
-    case RIGHT:
-      movePlayer(inChar);
-      break;
-    case PICK:
-      lootRoom();
-      break;
-    case EXIT:
-      state = Pause;
-      break;
-    case NPCVIEW: {
-      if (rooms[player.getCurrentRoom()].getNPCS().size() > 0) {
-        state = NPCList;
-        ActionRecord::addRecord("The NPCS in this room.");
-      } else {
-        ActionRecord::addRecord("There are no NPCS in this room.");
-      }
-    }
-      break;
-    default:
-      ActionRecord::addRecord("Unrecognized command.");
-      break;
-    }
-    // end
+    handleInputPlay(inChar);
     break;
   case Inventory:
     // Handle inputs while in inventory
-    switch (inChar) {
-    case USE:
-      state = ItemUse;
-      break;
-    case DROP:
-      state = ItemDrop;
-      break;
-    case EXAMINE:
-      state = ItemExamine;
-      break;
-    case EXIT:
-      state = Play;
-      ActionRecord::addRecord("You close your inventory.");
-      break;
-    default:
-      ActionRecord::addRecord("Unrecognized command.");
-      break;
-    }
+    handleInputInventory(inChar);
     // end
     break;
   case ItemUse:
@@ -254,19 +203,7 @@ void Game::getInput(std::istream& inStr) {
     break;
   case Pause:
     // Handle inputs while in "Pause" menu
-    switch (inChar) {
-    case EXIT:
-      state = Play;
-      break;
-    case QUIT:
-      std::cout << std::endl;
-      exit(0);
-      break;
-    case SAVE:
-      state = Save;
-      break;
-    }
-    // end
+    handleInputPause(inChar);
     break;
   case Save: {
     char s = std::toupper(inString[0]);
@@ -282,19 +219,7 @@ void Game::getInput(std::istream& inStr) {
 
   case NPCList:
     // Handle inputs while in NPCList menu
-    switch (inChar) {
-    case TALK:
-      state = TalkNPC;
-      break;
-    case EXMNPC:
-      state = ExamineNPC;
-      break;
-    case EXIT:
-      state = Play;
-      ActionRecord::addRecord("You are out of the NPC screen.");
-      break;
-    }
-    //
+    handleInputNPCMenu(inChar);
     break;
   case TalkNPC:
     currentChatNpc = inInt;
@@ -325,6 +250,95 @@ void Game::getInput(std::istream& inStr) {
   }
   inStr.clear();
 }
+
+void Game::handleInputPlay(char inChar) {
+  switch (inChar) {
+  case INVENTORY:
+    if (player.getInventory().size() > 0) {
+      state = Inventory;
+      ActionRecord::addRecord("You open your inventory.");
+    } else {
+      ActionRecord::addRecord("Your inventory is empty.");
+    }
+    break;
+  case UP:
+  case DOWN:
+  case LEFT:
+  case RIGHT:
+    movePlayer(inChar);
+    break;
+  case PICK:
+    lootRoom();
+    break;
+  case EXIT:
+    state = Pause;
+    break;
+  case NPCVIEW: {
+    if (rooms[player.getCurrentRoom()].getNPCS().size() > 0) {
+      state = NPCList;
+      ActionRecord::addRecord("The NPCS in this room.");
+    } else {
+      ActionRecord::addRecord("There are no NPCS in this room.");
+    }
+  }
+  break;
+  default:
+    ActionRecord::addRecord("Unrecognized command.");
+    break;
+  }
+}
+
+void Game::handleInputInventory(char inChar) {
+  switch (inChar) {
+  case USE:
+    state = ItemUse;
+    break;
+  case DROP:
+    state = ItemDrop;
+    break;
+  case EXAMINE:
+    state = ItemExamine;
+    break;
+  case EXIT:
+    state = Play;
+    ActionRecord::addRecord("You close your inventory.");
+    break;
+  default:
+    ActionRecord::addRecord("Unrecognized command.");
+    break;
+  }
+}
+
+void Game::handleInputPause(char inChar) {
+  switch (inChar) {
+  case EXIT:
+    state = Play;
+    break;
+  case QUIT:
+    std::cout << std::endl;
+    exit(0);
+    break;
+  case SAVE:
+    state = Save;
+    break;
+  }
+}
+
+void Game::handleInputNPCMenu(char inChar) {
+  switch (inChar) {
+  case TALK:
+    state = TalkNPC;
+    break;
+  case EXMNPC:
+    state = ExamineNPC;
+    break;
+  case EXIT:
+    state = Play;
+    ActionRecord::addRecord("You are out of the NPC screen.");
+    break;
+  }
+}
+
 
 void Game::movePlayer(char dir) {
   int moveInt = 0;
