@@ -5,6 +5,7 @@
 #include "Game.h"
 #include <vector>
 #include <string>
+#include <map>
 
 Game::Game(std::string filePath) {
   std::ifstream in(filePath);
@@ -221,51 +222,49 @@ void Game::getInput(std::istream& inStr) {
     // Handle inputs while in NPCList menu
     handleInputNPCMenu(inChar);
     break;
-  case TalkNPC:
-    {
-      if (rooms[player.getCurrentRoom()].getNPCS().size() >= inInt) {
-        currentChatNpc = inInt;
-        currentChat = inInt;
-        state = Talk;
-      } else {
-        ActionRecord::addRecord("That is not an option.");
-      }
+  case TalkNPC: {
+    if (rooms[player.getCurrentRoom()].getNPCS().size() >= inInt) {
+      currentChatNpc = inInt;
+      currentChat = inInt;
+      state = Talk;
+    } else {
+      ActionRecord::addRecord("That is not an option.");
     }
-    break;
-  case ExamineNPC:
-    {
-      if (rooms[player.getCurrentRoom()].getNPCS().size() >= inInt) {
-        state = NPCList;
-        ActionRecord::addRecord(examineNPC(inInt));
-      } else {
-        ActionRecord::addRecord("That is not an option.");
-      }
+  }
+  break;
+  case ExamineNPC: {
+    if (rooms[player.getCurrentRoom()].getNPCS().size() >= inInt) {
+      state = NPCList;
+      ActionRecord::addRecord(examineNPC(inInt));
+    } else {
+      ActionRecord::addRecord("That is not an option.");
     }
-    break;
+  }
+  break;
   case Talk: {
     std::map <int, ChatOption> tmp = chats.at(currentChat);
     auto it = tmp.find(inInt);
-      if (it != tmp.end()) {
-        nextChat = inInt;
-        state = TalkSecond;
-      } else {
-        ActionRecord::addRecord("That is not an option.");
-        state = Talk;
-      }
+    if (it != tmp.end()) {
+      nextChat = inInt;
+      state = TalkSecond;
+    } else {
+      ActionRecord::addRecord("That is not an option.");
+      state = Talk;
     }
-    break;
+  }
+  break;
   case TalkSecond: {
     std::map <int, ChatOption> tmp = chats.at(currentChat);
     auto it = tmp.find(inInt);
-      if (it != tmp.end()) {
-        nextChat = inInt;
-        state = TalkSecond;
-      } else {
-        ActionRecord::addRecord("That is not an option.");
-        state = Talk;
-      }
+    if (it != tmp.end()) {
+      nextChat = inInt;
+      state = TalkSecond;
+    } else {
+      ActionRecord::addRecord("That is not an option.");
+      state = Talk;
     }
-    break;
+  }
+  break;
   case RiddleTalk:
     std::cout << inString;
     solveRiddle(inString);
@@ -537,9 +536,9 @@ std::vector<std::string> Game::getNpcOptions(int id, int width) {
 
   std::vector<std::string> outVec;
 
-   std::cout << "current chat: " << currentChat <<
-    " Next chat: " << nextChat<<
-     ". Entered id: " << id << ". State is: " << state << std::endl;
+  std::cout << "current chat: " << currentChat <<
+            " Next chat: " << nextChat<<
+            ". Entered id: " << id << ". State is: " << state << std::endl;
 
   if (id == 0) {
     state = Play;
