@@ -1,12 +1,21 @@
 ![lol who uses these](docs/assets/logo.png "THE GREATEST LOGO EVER MADE. THE BACKBONE OF THIS PROJECT.")
 
-# Overview
+# DungeonGame
 
-This is the repo for DungeonGame project.
-
-[Fafnir Team Report](http://gitlab.cs.uleth.ca/cpsc2720/CourseProject/Fall2019/Fafnir/blob/master/docs/team/maintenance/Fafnir%20Team%20Report.pdf)
+This is the repo for our C++ Text based adventure game. 
 
 
-[Testing and Maintenance Report](http://gitlab.cs.uleth.ca/cpsc2720/CourseProject/Fall2019/Fafnir/blob/master/docs/testing/Testing%20and%20Maintenance%20Report.pdf)
+<img align="center" src="https://i.gyazo.com/5015433959baa1ea5fb8fb2a26a92deb.png" alt="Game Window">
 
 
+
+
+
+Features include:
+
+- Walking to different rooms
+- Chat with NPCs
+- Quest system
+- Mini map with game stats
+- Inventory with useable items 
+- Picking up and dropping items
