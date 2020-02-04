@@ -8,6 +8,8 @@ This is the repo for our C++ Text based adventure game.
 <img align="center" src="https://i.gyazo.com/5015433959baa1ea5fb8fb2a26a92deb.png" alt="Game Window">
 
 
+<b/>
+
 
 
 
